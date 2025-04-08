@@ -10,6 +10,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { useEffect } from "react";
+import Search from "./pages/Search";
 
 function App() {
   const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -43,7 +44,11 @@ function App() {
         <Route
           path="/search"
           element={
-            accessToken ? <div>You shall Pass!</div> : <Navigate to="/" />
+            accessToken ? (
+              <Search accessToken={accessToken} />
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
       </Routes>
