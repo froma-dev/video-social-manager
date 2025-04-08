@@ -10,7 +10,7 @@ export const debounce = <T extends DebouncedFunction>(fn: T, ms: number) => {
         timer = setTimeout(() => fn(...args), ms)
     }
 }
-export const debounceAsync = <T extends (...args: any[]) => Promise<any>>(fn: T, ms: number) => {
+export const debounceAsync = <T extends DebouncedAsyncFunction>(fn: T, ms: number) => {
     let timer: ReturnType<typeof setTimeout>
 
     return (...args: Parameters<T>): Promise<T> => {
