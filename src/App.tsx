@@ -10,7 +10,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { useEffect } from "react";
-import Search from "./pages/Search";
+import Search from "./pages/Search/Search";
 
 function App() {
   const [accessToken, setAccessToken] = useState<string | null>(null);

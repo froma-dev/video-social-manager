@@ -1,0 +1,26 @@
+.asset {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    height: 200px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+        transform: scale(1.05);
+
+        img {
+            transform: scale(1.03);
+        }
+    }
+
+    &.origin-left {
+        transform-origin: left;
+    }
+
+    img {
+        object-fit: cover;
+        aspect-ratio: 640/480;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+}

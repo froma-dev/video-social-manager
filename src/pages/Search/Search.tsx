@@ -1,11 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
-import { searchVideos } from "../services/youtube/youtube";
-import Carousel, {
-  type CarouselItemProps,
-} from "../components/Carousel/Carousel";
-import { debounceAsync } from "../utils/utils";
-import Grid from "../components/Grid/Grid";
-import CarouselItem from "../components/Carousel/CarouselItem";
+import { searchVideos } from "../../services/youtube/youtube";
+import { debounceAsync } from "../../utils/utils";
+import SearchResults from "../../components/Search/SearchResults";
+import { AssetProps } from "../../components/Asset/Asset";
 
 interface SearchProps {
   accessToken: string;
@@ -15,7 +12,7 @@ const MIN_QUERY_LENGTH = 3;
 const Search = ({ accessToken }: SearchProps) => {
   const [query, setQuery] = useState("");
   const [searching, setSearching] = useState(false);
-  const [searchResults, setSearchResults] = useState<CarouselItemProps[]>([]);
+  const [searchResults, setSearchResults] = useState<AssetProps[]>([]);
 
   const debouncedSearch = useMemo(() => {
     return debounceAsync(async (query: string) => {
@@ -25,7 +22,7 @@ const Search = ({ accessToken }: SearchProps) => {
           id: video.id,
           title: video.title,
           image: video.thumbnails.high.url,
-        } as CarouselItemProps;
+        } as AssetProps;
       });
 
       setSearchResults(carouselItems);
@@ -43,7 +40,7 @@ const Search = ({ accessToken }: SearchProps) => {
 
   return (
     <div>
-      <h1>Search</h1>
+      <h1>Search YouTube Videos</h1>
       <input
         type="text"
         value={query}
@@ -52,21 +49,10 @@ const Search = ({ accessToken }: SearchProps) => {
       />
       {searching ? (
         <p>Searching...</p>
-      ) : searchResults.length > 0 ? (
-        <>
-          <Grid>
-            {searchResults.map((searchResultsItem) => {
-              return (
-                <CarouselItem
-                  key={searchResultsItem.id}
-                  {...searchResultsItem}
-                ></CarouselItem>
-              );
-            })}
-          </Grid>
-        </>
       ) : (
-        <p>No results ☹️</p>
+        query.length >= MIN_QUERY_LENGTH && (
+          <SearchResults searchResults={searchResults} />
+        )
       )}
     </div>
   );
