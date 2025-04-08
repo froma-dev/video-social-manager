@@ -22,20 +22,20 @@ const BasicNavigator = ({ onClick, onKeyDown }: BasicNavigatorProps) => {
   return (
     <nav className="basic__navigator">
       <div className="basic__nav">
-        <button
+        <Button
           className="basic__nav__button"
           onKeyDown={handleKeyDown}
           onClick={() => onClick(PREVIOUS)}
         >
           <IconChevronLeft size={48} />
-        </button>
-        <button
+        </Button>
+        <Button
           className="basic__nav__button"
           onKeyDown={handleKeyDown}
           onClick={() => onClick(NEXT)}
         >
           <IconChevronRight size={48} />
-        </button>
+        </Button>
       </div>
     </nav>
   );
