@@ -7,7 +7,11 @@ import {
 } from "../../config";
 import { useState } from "react";
 
-const Auth = () => {
+interface AuthProps {
+  handleTokenChange: (token: string) => void;
+}
+
+const Auth = ({ handleTokenChange }: AuthProps) => {
   const [accessToken, setAccessToken] = useState(null);
   const oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
   const oauth2TokenEndpoint = "https://oauth2.googleapis.com/token";
@@ -64,12 +68,19 @@ const Auth = () => {
         const accessToken = data.access_token;
 
         setAccessToken(accessToken);
+        handleTokenChange(accessToken);
         console.log("TOKENEEEEEEEEE", data);
       } catch (error) {
         console.error("Error exchanging token:", error);
       }
     },
-    [clientId, clientSecret, redirectUri, oauth2TokenEndpoint]
+    [
+      clientId,
+      clientSecret,
+      redirectUri,
+      oauth2TokenEndpoint,
+      handleTokenChange,
+    ]
   );
 
   const handleTokenExtraction = useCallback(() => {
