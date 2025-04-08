@@ -60,13 +60,3 @@ const Search = ({ accessToken }: SearchProps) => {
 };
 
 export default Search;
-
-/* <ul>
-          {searchResults.map((video) => (
-            <li key={video.id}>
-              <img src={video.thumbnails.default.url} alt={video.title} />
-              <h2>{video.title}</h2>
-              <p>{video.description}</p>
-            </li>
-          ))}
-        </ul> */
