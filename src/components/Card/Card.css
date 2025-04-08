@@ -1,0 +1,37 @@
+.card {
+    padding: 2rem;
+    border-radius: 8px;
+    background-color: var(--surface-raised);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    border: 1px solid var(--border-subtle);
+    transition: border-color 0.2s ease;
+
+
+    &:hover {
+        border-color: var(--border-default);
+    }
+
+    .card__title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-default);
+        margin-bottom: 1rem;
+    }
+
+    .card__description {
+        font-size: 1rem;
+        color: var(--text-subdued);
+        margin-bottom: 1rem;
+    }
+
+    .card__footer {
+        font-size: 0.875rem;
+        color: var(--text-disabled);
+        border-top: 1px solid var(--border-subtle);
+        padding-top: 1rem;
+        width: 100%;
+    }
+}

@@ -1,0 +1,9 @@
+.grid {
+    &.dragging {
+        cursor: grabbing;
+
+        *:not(.dragging, .drop-target) {
+            opacity: 0.5;
+        }
+    }
+}

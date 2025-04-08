@@ -1,0 +1,20 @@
+.card.draggable {
+    cursor: grab;
+    transition:
+        transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+        border 0.2s ease;
+
+    &.dragging {
+        cursor: grabbing;
+        transform: scale(1.02);
+    }
+
+    &.drop-target {
+        transform: scale(1.02);
+        border: 1px dashed var(--border-interactive);
+    }
+
+    &.dropping {
+        transform: scale(1.02);
+    }
+}

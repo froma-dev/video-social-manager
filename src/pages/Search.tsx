@@ -4,6 +4,8 @@ import Carousel, {
   type CarouselItemProps,
 } from "../components/Carousel/Carousel";
 import { debounceAsync } from "../utils/utils";
+import Grid from "../components/Grid/Grid";
+import CarouselItem from "../components/Carousel/CarouselItem";
 
 interface SearchProps {
   accessToken: string;
@@ -51,7 +53,18 @@ const Search = ({ accessToken }: SearchProps) => {
       {searching ? (
         <p>Searching...</p>
       ) : searchResults.length > 0 ? (
-        <Carousel data={searchResults} />
+        <>
+          <Grid>
+            {searchResults.map((searchResultsItem) => {
+              return (
+                <CarouselItem
+                  key={searchResultsItem.id}
+                  {...searchResultsItem}
+                ></CarouselItem>
+              );
+            })}
+          </Grid>
+        </>
       ) : (
         <p>No results ☹️</p>
       )}
