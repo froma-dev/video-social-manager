@@ -6,3 +6,5 @@ export const YOUTUBE_DATA_API_CLIENT_SECRET: string = import.meta.env
   .VITE_YOUTUBE_DATA_API_CLIENT_SECRET;
 export const YOUTUBE_DATA_API_REDIRECT_URI: string = import.meta.env
   .VITE_YOUTUBE_DATA_API_REDIRECT_URI;
+export const VITE_YOUTUBE_DATA_API_SEARCH_BASE_URL: string = import.meta.env
+  .VITE_YOUTUBE_DATA_API_SEARCH_BASE_URL;
