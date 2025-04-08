@@ -1,0 +1,21 @@
+.basic__navigator {
+    display: flex;
+    align-self: flex-end;
+    z-index: 1;
+
+    .basic__nav {
+        display: flex;
+        align-items: center;
+        grid-row: 2;
+        grid-column: 1;
+
+        .basic__nav__button {
+            border-radius: 50%;
+            width: 64px;
+            height: 64px;
+            padding: 0.5rem;
+            box-shadow: var(--elevation-medium);
+            border: 1px solid transparent;
+        }
+    }
+}

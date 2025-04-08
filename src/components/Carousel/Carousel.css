@@ -1,0 +1,26 @@
+.carousel {
+    display: grid;
+    width: 100%;
+    overflow: hidden;
+    gap: 1rem;
+    mask-image: linear-gradient(to right, black 97%, transparent 100%);
+
+    .carousel__header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        .carousel__title {
+            display: inline-block;
+            text-align: left;
+        }
+    }
+
+    .carousel__content {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        padding: 0.5rem 0;
+    }
+}
