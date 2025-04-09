@@ -1,4 +1,5 @@
 import { classNamesBuilder } from "../../utils/utils";
+import { Link } from "react-router-dom";
 import "./Asset.css";
 
 interface AssetProps {
@@ -11,6 +12,7 @@ interface AssetProps {
 }
 
 const Asset = ({
+  id,
   title,
   description,
   image,
@@ -19,11 +21,13 @@ const Asset = ({
 }: AssetProps) => {
   const classNames = classNamesBuilder("asset", className);
   return (
-    <div className={classNames} style={style}>
-      <img src={image} alt={title} />
-      <h3>{title}</h3>
-      {description && <p>{description}</p>}
-    </div>
+    <Link to={`/details/${id}`}>
+      <div className={classNames} style={style}>
+        <img src={image} alt={title} />
+        <h3>{title}</h3>
+        {description && <p>{description}</p>}
+      </div>
+    </Link>
   );
 };
 

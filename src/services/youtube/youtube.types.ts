@@ -5,6 +5,17 @@ export interface SearchVideosParams {
 
 export type YoutubeSearchType = "video" | "channel" | "playlist";
 export type YoutubeSearchPart = "snippet" | "contentDetails" | "statistics";
+
+export interface GetVideoDetailsParams {
+    videoId: string;
+    accessToken: string;
+} 
+
+export interface SearchVideosParams {
+    query: string;
+    accessToken: string;
+} 
+
 export interface VideoAsset {
     id: string;
     title: string;
