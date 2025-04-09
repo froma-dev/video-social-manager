@@ -24,10 +24,8 @@ function App() {
     localStorage.setItem("access_token", token);
   };
 
-  const match = useMatch("/details/:videoId");
-  console.log("match", match);
-  const matchedVideoId = match?.params.videoId ?? "";
-  console.log("matchedVideoId", matchedVideoId);
+  //const match = useMatch("/details/:videoId");
+  //const matchedVideoId = match?.params.videoId ?? "";
 
   return (
     <Routes>

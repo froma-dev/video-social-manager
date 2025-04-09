@@ -39,14 +39,17 @@ const Search = ({ accessToken }: SearchProps) => {
   }, [query, debouncedSearch]);
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold">Search YouTube Videos</h1>
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Enter search query"
-      />
+    <section className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4">
+        <h1 className="text-4xl font-bold">Search YouTube Videos</h1>
+        <input
+          className="w-full rounded-md border-2 border-gray-700 outline-emerald-800 p-3 flex-2/3 text-2xl"
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Enter search query"
+        />
+      </div>
       {searching ? (
         <p>Searching...</p>
       ) : (
@@ -54,7 +57,7 @@ const Search = ({ accessToken }: SearchProps) => {
           <SearchResults searchResults={searchResults} />
         )
       )}
-    </div>
+    </section>
   );
 };
 

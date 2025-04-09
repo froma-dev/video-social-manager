@@ -24,10 +24,13 @@ const Grid = ({
   onDragLeave,
   dragging = false,
 }: GridProps) => {
-  const gridClassName = classNamesBuilder("grid", {
-    auto,
-    dragging,
-  });
+  const gridClassName = classNamesBuilder(
+    "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4",
+    {
+      auto,
+      dragging,
+    }
+  );
 
   return (
     <section
