@@ -2,6 +2,7 @@ export const delay = async (ms: number) => new Promise((resolve) => setTimeout(r
 
 type DebouncedFunction = (...args: any[]) => void
 type DebouncedAsyncFunction = (...args: any[]) => Promise<any>
+
 export const debounce = <T extends DebouncedFunction>(fn: T, ms: number) => {
     let timer: ReturnType<typeof setTimeout>;
 
@@ -39,4 +40,8 @@ export const classNamesBuilder = (...classNames: (string | Record<string, boolea
     }, classNamesArray)
 
     return classNamesArray.join(" ");
+}
+export const formatStringNumber = (num: string) => {
+    const commaFormatted = new Intl.NumberFormat('en-US')
+    return commaFormatted.format(parseInt(num));
 }

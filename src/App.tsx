@@ -55,7 +55,7 @@ function App() {
         path="/details/:videoId"
         element={
           accessToken ? (
-            <Details accessToken={accessToken} videoId={matchedVideoId} />
+            <Details accessToken={accessToken} />
           ) : (
             <Navigate to="/" />
           )

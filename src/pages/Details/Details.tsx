@@ -1,23 +1,26 @@
 import { useState, useEffect } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import LiteYouTubeEmbed from "react-lite-youtube-embed";
+import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import "./Details.css";
-import { getVideoDetails } from "../../services/youtube/youtube";
+import { getContentDetails } from "../../services/youtube/youtube";
+import { ContentDetails } from "../../services/youtube/youtube.types";
+import { formatStringNumber } from "../../utils/utils";
 
 const Details = ({ accessToken }: { accessToken: string }) => {
   const { videoId = "" } = useParams();
-  const [contentDetails, setContentDetails] = useState(null);
-  const [loading, setLoading] = useState(false)
-  console.log("videoID", videoId);
+  const [contentDetails, setContentDetails] = useState<ContentDetails | null>(
+    null
+  );
 
   useEffect(() => {
     const fetchContentDetails = async () => {
-      const videoContentDetails = await getVideoDetails({
+      const fetchedContentDetails = await getContentDetails({
         videoId,
         accessToken,
       });
 
-      console.log("videoContentDetails", videoContentDetails);
-      setContentDetails(videoContentDetails);
+      setContentDetails(fetchedContentDetails);
     };
 
     fetchContentDetails();
@@ -25,10 +28,34 @@ const Details = ({ accessToken }: { accessToken: string }) => {
 
   return (
     <section className="details">
-     <img src={contentDetails?.image} alt={contentDetails?.title}></img>
-      <h1>contentDetails.title</h1>
-      <p>contentDetails.description</p>
-      <a href={"url"}>Watch on YouTube</a>
+      {contentDetails !== null ? (
+        <LiteYouTubeEmbed
+          id={contentDetails?.id}
+          title={contentDetails?.title}
+        />
+      ) : null}
+      <h1>{contentDetails?.title ?? "none"}</h1>
+      <p>{contentDetails?.description ?? "none"}</p>
+      <div className="statistics">
+        <h2>{contentDetails?.channelTitle ?? "none"}</h2>
+        <p>
+          <span>Views: </span>
+          {formatStringNumber(contentDetails?.statistics?.viewCount ?? "") ??
+            "none"}
+        </p>
+        <p>
+          <span>Likes: </span>
+          {contentDetails?.statistics?.likeCount ?? "none"}
+        </p>
+        <p>
+          <span>Favorite: </span>
+          {contentDetails?.statistics?.favoriteCount ?? "none"}
+        </p>
+        <p>
+          <span>Comments: </span>
+          {contentDetails?.statistics?.commentCount ?? "none"}
+        </p>
+      </div>
     </section>
   );
 };

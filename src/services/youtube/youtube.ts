@@ -1,5 +1,5 @@
 import { YOUTUBE_DATA_API_KEY, YOUTUBE_DATA_API_SEARCH_BASE_URL, YOUTUBE_DATA_API_DETAILS } from "../../config";
-import { type VideoAsset, type YoutubeVideo, type YoutubeSearchType, type YoutubeSearchPart, type GetVideoDetailsParams, type SearchVideosParams } from "./youtube.types";
+import { type VideoAsset, type ContentDetails, type YoutubeVideo, type YoutubeSearchType, type YoutubeSearchPart, type GetContentDetailsParams, type SearchVideosParams } from "./youtube.types";
 
 const YOUTUBE_SEARCH_MAX_RESULTS = "25";
 const YOUTUBE_SEARCH_TYPE: YoutubeSearchType = "video";
@@ -46,7 +46,7 @@ const transformSearchVideos = (data: any) => {
     return videos as VideoAsset[];
 }
 
-export const getVideoDetails = async ({ videoId, accessToken }: GetVideoDetailsParams) => {
+export const getContentDetails = async ({ videoId, accessToken }: GetContentDetailsParams) => {
     if (!videoId) throw new Error("Video ID is required");
 
     const url = buildRequestUrl(YOUTUBE_DATA_API_DETAILS, accessToken)
@@ -57,17 +57,24 @@ export const getVideoDetails = async ({ videoId, accessToken }: GetVideoDetailsP
     if (!response.ok) throw new Error("Failed to get video details");
 
     const data = await response.json();
-    const transformedData = transformSearchVideos(data);
+    const transformedData = transformContentDetails(data);
 
     return transformedData;
 }
 
-const transformVideos = (data: any) => {
-    console.log('------->', data)
+const transformContentDetails = (data: any) => {
+    const contentDetails = data.items.map((item: YoutubeVideo) => ({
+        id: item.id,
+        channelTitle: item.snippet.channelTitle,
+        title: item.snippet.title,
+        description: item.snippet.description,
+        thumbnails: item.snippet.thumbnails,
+        statistics: item.statistics
+    }));
 
+    const transformContentDetails = contentDetails[0]
 
-
-    return data;
+    return transformContentDetails as ContentDetails;
 }
 
 export const getComments = () => {

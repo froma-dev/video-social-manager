@@ -16,7 +16,7 @@ const Search = ({ accessToken }: SearchProps) => {
 
   const debouncedSearch = useMemo(() => {
     return debounceAsync(async (query: string) => {
-      const videos = await searchVideos({query, accessToken});
+      const videos = await searchVideos({ query, accessToken });
       const carouselItems = videos.map((video) => {
         return {
           id: video.id,
@@ -40,7 +40,7 @@ const Search = ({ accessToken }: SearchProps) => {
 
   return (
     <div>
-      <h1>Search YouTube Videos</h1>
+      <h1 className="text-3xl font-bold">Search YouTube Videos</h1>
       <input
         type="text"
         value={query}

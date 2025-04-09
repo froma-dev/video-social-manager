@@ -6,29 +6,34 @@ export interface SearchVideosParams {
 export type YoutubeSearchType = "video" | "channel" | "playlist";
 export type YoutubeSearchPart = "snippet" | "contentDetails" | "statistics";
 
-export interface GetVideoDetailsParams {
+export interface GetContentDetailsParams {
     videoId: string;
     accessToken: string;
-} 
+}
 
 export interface SearchVideosParams {
     query: string;
     accessToken: string;
-} 
+}
 
 export interface VideoAsset {
     id: string;
     title: string;
+    channelTitle: string;
     description: string;
     thumbnails: Thumbnails;
 }
 
+export interface ContentDetails extends VideoAsset {
+    statistics: Statistics;
+}
 
 export interface YoutubeVideo {
     kind: string
     etag: string
     id: Id
     snippet: Snippet
+    statistics?: Statistics
 }
 
 export interface Id {
@@ -36,6 +41,7 @@ export interface Id {
     videoId: string
 }
 
+/* --> PARTS */
 export interface Snippet {
     publishedAt: string
     channelId: string
@@ -46,6 +52,15 @@ export interface Snippet {
     liveBroadcastContent: string
     publishTime: string
 }
+
+export interface Statistics {
+    viewCount: string
+    likeCount: string
+    favoriteCount: string
+    commentCount: string
+}
+
+/* <-- PARTS */
 
 export interface Thumbnails {
     default: DefaultThumbnail
