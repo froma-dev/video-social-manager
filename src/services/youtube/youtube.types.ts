@@ -36,6 +36,13 @@ export interface YoutubeVideo {
     statistics?: Statistics
 }
 
+export interface YoutubeComment {
+    kind: string
+    etag: string
+    id: string
+    snippet: YoutubeCommentSnippet
+}
+
 export interface Id {
     kind: string
     videoId: string
@@ -51,6 +58,27 @@ export interface Snippet {
     channelTitle: string
     liveBroadcastContent: string
     publishTime: string
+}
+
+export interface YoutubeCommentSnippet {
+    authorDisplayName: string
+    authorProfileImageUrl: string
+    authorChannelUrl: string
+    authorChannelId: AuthorChannelId
+    channelId: string
+    textDisplay: string
+    textOriginal: string
+    parentId: string
+    canRate: string
+    viewerRating: string
+    likeCount: string
+    moderationStatus: string
+    publishedAt: number
+    updatedAt: number
+}
+
+export interface AuthorChannelId {
+    value: string
 }
 
 export interface Statistics {

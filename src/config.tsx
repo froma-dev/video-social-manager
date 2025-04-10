@@ -10,3 +10,5 @@ export const YOUTUBE_DATA_API_SEARCH_BASE_URL =
   "https://www.googleapis.com/youtube/v3/search";
 export const YOUTUBE_DATA_API_DETAILS =
   "https://www.googleapis.com/youtube/v3/videos";
+export const YOUTUBE_DATA_API_COMMENTS =
+  "https://www.googleapis.com/youtube/v3/comments";

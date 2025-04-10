@@ -1,5 +1,5 @@
-import { YOUTUBE_DATA_API_KEY, YOUTUBE_DATA_API_SEARCH_BASE_URL, YOUTUBE_DATA_API_DETAILS } from "../../config";
-import { type VideoAsset, type ContentDetails, type YoutubeVideo, type YoutubeSearchType, type YoutubeSearchPart, type GetContentDetailsParams, type SearchVideosParams } from "./youtube.types";
+import { YOUTUBE_DATA_API_KEY, YOUTUBE_DATA_API_SEARCH_BASE_URL, YOUTUBE_DATA_API_DETAILS, YOUTUBE_DATA_API_COMMENTS } from "../../config";
+import { type VideoAsset, type ContentDetails, type YoutubeVideo, type YoutubeSearchType, type YoutubeSearchPart, type GetContentDetailsParams, type SearchVideosParams, YoutubeComment } from "./youtube.types";
 
 const YOUTUBE_SEARCH_MAX_RESULTS = "25";
 const YOUTUBE_SEARCH_TYPE: YoutubeSearchType = "video";
@@ -77,8 +77,35 @@ const transformContentDetails = (data: any) => {
     return transformContentDetails as ContentDetails;
 }
 
-export const getComments = () => {
+export const getComments = async ({videoId, accessToken }) => {
+    if (!videoId) throw new Error("Video ID is required");
 
+    const url = buildRequestUrl(YOUTUBE_DATA_API_COMMENTS, accessToken)
+    url.searchParams.append("part", defaultVideoDetailsParts.join(","))
+    url.searchParams.append("id", videoId)
+
+    const data = await fetch(url)
+    if (!data.ok) throw new Error("Failed to get comments");
+
+    const comments = await data.json();
+    const transformedData = transformComments(comments);
+
+    return transformedData;
+}
+
+const transformComments = (data: any) => {
+    const comments = data.items.map((item: YoutubeComment) => ({
+        id: item.id,
+        author: item.snippet.authorDisplayName,
+        authorImageUrl: item.snippet.authorProfileImageUrl,
+        publishedAt: item.snippet.publishedAt,
+        comment: item.snippet.textDisplay,
+        likes: item.snippet.likeCount,
+        replies: item.snippet.replyCount
+        
+    }));
+
+    return comments as Comment[];
 }
 
 export const editComment = () => {
