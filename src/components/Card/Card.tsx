@@ -1,10 +1,10 @@
-import Button from "../Button/Button";
 import "./Card.css";
 import { classNamesBuilder } from "../../utils/utils";
 
 interface CardProps {
   id: string;
   title: string;
+  subtitle?: string;
   description: string;
   draggable?: boolean;
   isDragging?: boolean;
@@ -16,10 +16,12 @@ interface CardProps {
   dragLeave?: (event: React.DragEvent) => void;
   dragStart?: (event: React.DragEvent) => void;
   drop?: (event: React.DragEvent) => void;
+  children?: React.ReactNode;
 }
 
 const Card = ({
   title,
+  subtitle,
   description,
   draggable = false,
   dragEnd,
@@ -32,6 +34,7 @@ const Card = ({
   isDropTarget = false,
   isDropping = false,
   id,
+  children,
 }: CardProps) => {
   const cardClassName = classNamesBuilder(
     "card",
@@ -42,7 +45,7 @@ const Card = ({
   );
   return (
     <article
-      className={cardClassName}
+      className="card rounded-2xl bg-gray-950 flex flex-col justify-items-start"
       draggable={draggable}
       onDragEnd={dragEnd}
       onDragOver={dragOver}
@@ -52,9 +55,12 @@ const Card = ({
       onDrop={drop}
       data-id={id}
     >
-      <h2 className="card__title">{title}</h2>
-      <p className="card__description">{description}</p>
-      <Button>Button</Button>
+      <section className="card__header flex flex-col gap-2">
+        <h2 className="text-2xl text-left font-extrabold">{title}</h2>
+        {subtitle ? <h3 className="text-base text-left">{subtitle}</h3> : null}
+      </section>
+      {description ? <p className="card__description">{description}</p> : null}
+      {children ? children : null}
     </article>
   );
 };

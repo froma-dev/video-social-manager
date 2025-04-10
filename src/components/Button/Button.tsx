@@ -14,7 +14,10 @@ const Button = ({
   onKeyDown,
   className = "",
 }: ButtonProps) => {
-  const classNames = classNamesBuilder("button", className);
+  const classNames = classNamesBuilder(
+    "button rounded-4xl flex items-center gap-2 bg-gray-100 px-[16px] py-[12px] active:scale-102 transition-transform",
+    className
+  );
 
   return (
     <button className={classNames} onClick={onClick} onKeyDown={onKeyDown}>

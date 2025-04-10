@@ -42,6 +42,8 @@ export const classNamesBuilder = (...classNames: (string | Record<string, boolea
     return classNamesArray.join(" ");
 }
 export const formatStringNumber = (num: string) => {
+    if (!num) return "0";
+
     const commaFormatted = new Intl.NumberFormat('en-US')
     return commaFormatted.format(parseInt(num));
 }
