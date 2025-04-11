@@ -1,10 +1,31 @@
-import { YOUTUBE_DATA_API_KEY, YOUTUBE_DATA_API_SEARCH_BASE_URL, YOUTUBE_DATA_API_DETAILS, YOUTUBE_DATA_API_COMMENTS } from "../../config";
-import { type VideoAsset, type ContentDetails, type YoutubeVideo, type YoutubeSearchType, type YoutubeSearchPart, type GetContentDetailsParams, type SearchVideosParams, YoutubeComment } from "./youtube.types";
+import {
+    YOUTUBE_DATA_API_KEY,
+    YOUTUBE_DATA_API_SEARCH_BASE_URL,
+    YOUTUBE_DATA_API_DETAILS,
+    YOUTUBE_DATA_API_COMMENTS,
+    YOUTUBE_DATA_API_COMMENT_THREADS
+} from "../../config";
+
+import {
+    type VideoAsset,
+    type ContentDetails,
+    type YoutubeVideo,
+    type YoutubeSearchType,
+    type YoutubeSearchPart,
+    type GetContentDetailsParams,
+    type SearchVideosParams,
+    type GetCommentParams,
+    type CommentData,
+    type GetCommentThreadsParams,
+    type YoutubeCommentThread,
+    type YoutubeComment
+} from "./youtube.types";
 
 const YOUTUBE_SEARCH_MAX_RESULTS = "25";
 const YOUTUBE_SEARCH_TYPE: YoutubeSearchType = "video";
 const defaultSearchParts: YoutubeSearchPart[] = ["snippet"];
 const defaultVideoDetailsParts: YoutubeSearchPart[] = ["snippet", "contentDetails", "statistics"];
+const defaultVideoCommentsParts: YoutubeSearchPart[] = ["snippet"];
 
 const buildRequestUrl = (baseUrl: string, accessToken: string) => {
     const url = new URL(baseUrl);
@@ -77,36 +98,79 @@ const transformContentDetails = (data: any) => {
     return transformContentDetails as ContentDetails;
 }
 
-export const getComments = async ({videoId, accessToken }) => {
-    if (!videoId) throw new Error("Video ID is required");
+export const getComment = async ({ parentId, accessToken }: GetCommentParams) => {
+    if (!parentId) throw new Error("Comment parent ID is required");
 
     const url = buildRequestUrl(YOUTUBE_DATA_API_COMMENTS, accessToken)
-    url.searchParams.append("part", defaultVideoDetailsParts.join(","))
-    url.searchParams.append("id", videoId)
+    url.searchParams.append("part", defaultVideoCommentsParts.join(","))
+    url.searchParams.append("parentId", parentId)
 
     const data = await fetch(url)
     if (!data.ok) throw new Error("Failed to get comments");
 
     const comments = await data.json();
-    const transformedData = transformComments(comments);
+    const transformedData = transformComment(comments);
 
     return transformedData;
 }
 
-const transformComments = (data: any) => {
-    const comments = data.items.map((item: YoutubeComment) => ({
-        id: item.id,
-        author: item.snippet.authorDisplayName,
-        authorImageUrl: item.snippet.authorProfileImageUrl,
-        publishedAt: item.snippet.publishedAt,
-        comment: item.snippet.textDisplay,
-        likes: item.snippet.likeCount,
-        replies: item.snippet.replyCount
-        
-    }));
-
-    return comments as Comment[];
+const transformComment = ({ snippet, id }: YoutubeComment): CommentData => {
+    return {
+        id: id,
+        author: snippet.authorDisplayName,
+        authorImageUrl: snippet.authorProfileImageUrl,
+        publishedAt: snippet.publishedAt,
+        comment: snippet.textDisplay,
+        likes: snippet.likeCount,
+    } as CommentData;
 }
+
+export const getCommentThreads = async ({ videoId, accessToken }: GetCommentThreadsParams) => {
+    if (!videoId) throw new Error("videoId ID is required");
+
+    const url = buildRequestUrl(YOUTUBE_DATA_API_COMMENT_THREADS, accessToken)
+    url.searchParams.append("part", "snippet")
+    url.searchParams.append("videoId", videoId)
+
+    const data = await fetch(url)
+    if (!data.ok) throw new Error("Failed to get comments");
+
+    const commentsData = await data.json();
+    const transformedData = transformCommentThreads(commentsData);
+
+    return transformedData;
+}
+
+const transformCommentThreads = (data: any) => {
+    const comments = data.items.map((item: YoutubeCommentThread) => {
+        const topLevelComment = item.snippet.topLevelComment;
+        const transformedTopLevelComment = transformComment(topLevelComment, item.id);
+
+        return transformedTopLevelComment;
+    });
+
+    return comments;
+}
+
+/**
+ * 
+ * 
+ * {
+  "snippet": {
+    "channelId": string,
+    "videoId": string,
+    "topLevelComment": comments Resource,
+    "canReply": boolean,
+    "totalReplyCount": unsigned integer,
+    "isPublic": boolean
+  },
+  "replies": {
+    "comments": [
+      comments Resource
+    ]
+  }
+}
+ */
 
 export const editComment = () => {
 

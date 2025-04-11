@@ -12,3 +12,5 @@ export const YOUTUBE_DATA_API_DETAILS =
   "https://www.googleapis.com/youtube/v3/videos";
 export const YOUTUBE_DATA_API_COMMENTS =
   "https://www.googleapis.com/youtube/v3/comments";
+export const YOUTUBE_DATA_API_COMMENT_THREADS =
+  "https://www.googleapis.com/youtube/v3/commentThreads";

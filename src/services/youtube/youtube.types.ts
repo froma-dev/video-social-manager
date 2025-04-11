@@ -16,6 +16,34 @@ export interface SearchVideosParams {
     accessToken: string;
 }
 
+export interface GetCommentParams {
+    parentId: string;
+    accessToken: string;
+}
+
+export interface GetCommentThreadsParams {
+    videoId: string;
+    accessToken: string;
+}
+
+export interface CommentProps {
+    id: string;
+    author: string;
+    authorImageUrl: string;
+    publishedAt: string;
+    comment: string;
+    likes: number;
+}
+
+export interface CommentData {
+    id: string;
+    author: string;
+    authorImageUrl: string;
+    publishedAt: string;
+    comment: string;
+    likes: number;
+}
+
 export interface VideoAsset {
     id: string;
     title: string;
@@ -41,6 +69,25 @@ export interface YoutubeComment {
     etag: string
     id: string
     snippet: YoutubeCommentSnippet
+}
+
+export interface YoutubeCommentThread {
+    kind: string
+    etag: string
+    id: string
+    snippet: YoutubeCommentThreadSnippet
+    replies?: {
+        comments: YoutubeComment[]
+    }
+}
+
+export interface YoutubeCommentThreadSnippet {
+    channelId: string
+    videoId: string
+    topLevelComment: YoutubeComment
+    canReply: boolean
+    totalReplyCount: number
+    isPublic: boolean
 }
 
 export interface Id {
@@ -71,10 +118,10 @@ export interface YoutubeCommentSnippet {
     parentId: string
     canRate: string
     viewerRating: string
-    likeCount: string
+    likeCount: number
     moderationStatus: string
-    publishedAt: number
-    updatedAt: number
+    publishedAt: string
+    updatedAt: string
 }
 
 export interface AuthorChannelId {
@@ -83,7 +130,7 @@ export interface AuthorChannelId {
 
 export interface Statistics {
     viewCount: string
-    likeCount: string
+    likeCount: number
     favoriteCount: string
     commentCount: string
 }
