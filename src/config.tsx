@@ -14,3 +14,9 @@ export const YOUTUBE_DATA_API_COMMENTS =
   "https://www.googleapis.com/youtube/v3/comments";
 export const YOUTUBE_DATA_API_COMMENT_THREADS =
   "https://www.googleapis.com/youtube/v3/commentThreads";
+export const YOUTUBE_DATA_API_RATE_VIDEO =
+  "https://www.googleapis.com/youtube/v3/videos/rate";
+export const YOUTUBE_DATA_API_GET_RATING =
+  "https://www.googleapis.com/youtube/v3/videos/getRating";
+export const YOUTUBE_DATA_API_GET_CHANNEL =
+  "https://www.googleapis.com/youtube/v3/channels";

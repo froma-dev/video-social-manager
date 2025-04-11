@@ -2,6 +2,7 @@ import { IconThumbDown, IconThumbUp } from "@tabler/icons-react";
 import DOMPurify from "dompurify";
 import { formatLongDate } from "../../utils/dateTime";
 import Button from "../Button/Button";
+import RateButton from "./RateButton";
 
 const { sanitize } = DOMPurify;
 interface CommentProps {
@@ -20,6 +21,11 @@ const Comment = ({
   likes,
 }: CommentProps) => {
   const sanitizedHtmlComment = sanitize(comment);
+
+  const handleLike = (type: 'like' | 'dislike') => {
+    
+  }
+  
 
   return (
     <section className="flex gap-[10px] items-start p-6 rounded-2xl bg-gray-900">
@@ -44,15 +50,15 @@ const Comment = ({
         ></p>
         <div className="comment__footer flex gap-2 mt-1">
           <span className="flex gap-1 items-center text-gray-200">
-            <Button type="rate">
+            <RateButton onClick={() => handleLike('like')}>
               <IconThumbUp size={28} stroke={1} />
-            </Button>
+            </RateButton>
             <span className="text-sm">{likes}</span>
           </span>
           <span className="flex gap-1 items-center text-gray-200">
-            <Button type="rate">
+            <RateButton onClick={() => handleLike('dislike')}>
               <IconThumbDown size={28} stroke={1} />
-            </Button>
+            </RateButton>
           </span>
         </div>
       </div>

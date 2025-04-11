@@ -5,49 +5,61 @@ import { IconMessage } from "@tabler/icons-react";
 import { IconHeart } from "@tabler/icons-react";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import Pill from "../Pill/Pill";
-import Button from "../Button/Button";
 import {
+  YoutubeRating,
   type ContentDetails,
-  type CommentData,
 } from "../../services/youtube/youtube.types";
 import { formatStringNumber } from "../../utils/utils";
-import { useState, useEffect } from "react";
-import { getCommentThreads } from "../../services/youtube/youtube";
-import Comment from "../Comment/Comment";
+import { getContentDetails, rateVideo } from "../../services/youtube/youtube";
+import { useState } from "react";
+import { shortNumber } from "../../utils/utils";
+
+interface VideoStatisticsInlineProps {
+  contentDetails: ContentDetails;
+  setContentDetails: (contentDetails: ContentDetails | null) => void;
+  accessToken: string;
+}
+
+type Ratings = YoutubeRating;
 
 const VideoStatisticsInline = ({
   contentDetails,
-}: {
-  contentDetails: ContentDetails;
-}) => {
+  setContentDetails,
+  accessToken,
+}: VideoStatisticsInlineProps) => {
   const { id, title, statistics } = contentDetails;
   const { viewCount, likeCount, commentCount, favoriteCount } = statistics;
-  const [comments, setComments] = useState<CommentData[]>([]);
-  const [showComments, setShowComments] = useState(true);
   const formattedViewCount = formatStringNumber(viewCount);
-  const formattedLikeCount = formatStringNumber(likeCount.toString());
-  const formattedCommentCount = formatStringNumber(commentCount);
-  const formattedFavoriteCount = formatStringNumber(favoriteCount);
+  const formattedLikeCount = shortNumber(likeCount);
+  const formattedCommentCount = shortNumber(Number(commentCount));
+  const formattedFavoriteCount = shortNumber(Number(favoriteCount));
+  const [rating, setRating] = useState<Ratings>("none");
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const fetchedComments = await getCommentThreads({
-          videoId: id,
-          accessToken: "",
-        });
-        setComments(fetchedComments);
-      } catch (error) {
-        console.error("Failed to fetch comments:", error);
+  const handleRateClick = async (rating: Ratings) => {
+    try {
+      const isVideoRated = await rateVideo({
+        videoId: id,
+        accessToken,
+        rating,
+      });
+      if (!isVideoRated) {
+        return;
       }
-    };
-    fetchComments();
-  }, [id]);
+      setRating(rating);
+      const updatedContentDetails = await getContentDetails({
+        videoId: id,
+        accessToken,
+      });
+      setContentDetails(updatedContentDetails);
+    } catch (error) {
+      console.error("Failed to rate video:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-[10px]">
       <LiteYouTubeEmbed id={id} title={title} />
-      <div className="flex flex-row justify-center gap-2">
+      <div className="statistics flex flex-row justify-center gap-2">
         <Pill>
           <IconEye />
           <span>Views </span>
@@ -69,27 +81,6 @@ const VideoStatisticsInline = ({
           <span>{formattedFavoriteCount}</span>
         </Pill>
       </div>
-      <Button
-        className="self-start font-medium text-gray-900 hover:bg-gray-200 hover:scale-102 transition-transform"
-        onClick={() => setShowComments(!showComments)}
-      >
-        <IconMessage />
-        {showComments ? "Hide comments" : "Show comments"}
-      </Button>
-      {comments.length > 0 ? (
-        <div
-          className={`flex flex-col gap-[10px] px-[24px] ${
-            showComments ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <h2 className="text-2xl font-bold text-left">
-            {`${formattedCommentCount} comments`}
-          </h2>
-          {comments.map((comment) => (
-            <Comment key={comment.id} {...comment} />
-          ))}
-        </div>
-      ) : null}
     </div>
   );
 };

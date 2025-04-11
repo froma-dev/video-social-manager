@@ -1,9 +1,13 @@
+import { Rating } from "../../components/Comment/RateButton";
 import {
     YOUTUBE_DATA_API_KEY,
     YOUTUBE_DATA_API_SEARCH_BASE_URL,
     YOUTUBE_DATA_API_DETAILS,
     YOUTUBE_DATA_API_COMMENTS,
-    YOUTUBE_DATA_API_COMMENT_THREADS
+    YOUTUBE_DATA_API_COMMENT_THREADS,
+    YOUTUBE_DATA_API_RATE_VIDEO,
+    YOUTUBE_DATA_API_GET_RATING,
+    YOUTUBE_DATA_API_GET_CHANNEL
 } from "../../config";
 
 import {
@@ -18,7 +22,10 @@ import {
     type CommentData,
     type GetCommentThreadsParams,
     type YoutubeCommentThread,
-    type YoutubeComment
+    type YoutubeComment,
+    RateVideoParams,
+    GetVideoRatingParams,
+    YoutubeRating
 } from "./youtube.types";
 
 const YOUTUBE_SEARCH_MAX_RESULTS = "25";
@@ -152,25 +159,83 @@ const transformCommentThreads = (data: any) => {
     return comments;
 }
 
-/**
- * 
- * 
- * {
-  "snippet": {
-    "channelId": string,
-    "videoId": string,
-    "topLevelComment": comments Resource,
-    "canReply": boolean,
-    "totalReplyCount": unsigned integer,
-    "isPublic": boolean
-  },
-  "replies": {
-    "comments": [
-      comments Resource
-    ]
-  }
+export const rateComment = async ({
+    parentId,
+    accessToken
+}: GetCommentParams) => {
+    if (!parentId) throw new Error("Comment parent ID is required");
+
+    const url = buildRequestUrl(YOUTUBE_DATA_API_COMMENTS, accessToken)
+    url.searchParams.append("parentId", parentId)
+
+    const data = await fetch(url)
+    if (!data.ok) throw new Error("Failed to get comments");
+
+    const comments = await data.json();
+    const transformedData = transformComment(comments);
+
+    return transformedData;
 }
- */
+
+export const rateVideo = async ({
+    videoId,
+    accessToken,
+    rating
+}: RateVideoParams) => {
+    if (!videoId) throw new Error("Video ID is required");
+
+    const url = buildRequestUrl(YOUTUBE_DATA_API_RATE_VIDEO, accessToken)
+    url.searchParams.append("id", videoId)
+    url.searchParams.append("rating", rating)
+
+    const data = await fetch(url, {
+        method: "POST",
+    })
+
+    return data.ok;
+}
+
+export const getVideoRating = async ({
+    videoId,
+    accessToken
+}: GetVideoRatingParams) => {
+    if (!videoId) throw new Error("Video ID is required");
+
+    const url = buildRequestUrl(YOUTUBE_DATA_API_GET_RATING, accessToken)
+    url.searchParams.append("id", videoId)
+
+    const data = await fetch(url)
+    if (!data.ok) throw new Error("Failed to get video rating");
+
+    const ratingData = await data.json();
+    const transformedData = transformVideoRating(ratingData);
+
+    return transformedData;
+}
+
+const transformVideoRating = (data: any) => {
+    const rating = data.items[0].rating;
+    return rating as YoutubeRating;
+}
+
+export const getChannel = async ({
+    channelId,
+    accessToken
+}: GetChannelParams) => {
+    if (!channelId) throw new Error("Channel ID is required");
+
+    const url = buildRequestUrl(YOUTUBE_DATA_API_GET_CHANNEL, accessToken)
+    url.searchParams.append("part", ["snippet", "statistics"].join(","))
+    url.searchParams.append("id", channelId)
+
+    const data = await fetch(url)
+    if (!data.ok) throw new Error("Failed to get channel");
+
+    const channelData = await data.json();
+    const transformedData = transformChannel(channelData);
+
+    return transformedData;
+}
 
 export const editComment = () => {
 

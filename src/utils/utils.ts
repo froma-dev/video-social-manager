@@ -47,3 +47,9 @@ export const formatStringNumber = (num: string) => {
     const commaFormatted = new Intl.NumberFormat('en-US')
     return commaFormatted.format(parseInt(num));
 }
+
+export const shortNumber = (num: number) => {
+    if (num < 1000) return num;
+    if (num < 1000000) return `${Math.floor(num / 1000)}K`;
+    return `${Math.floor(num / 1000000)}M`;
+}
