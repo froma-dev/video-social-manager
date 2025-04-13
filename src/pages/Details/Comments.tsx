@@ -37,7 +37,7 @@ const Comments = ({
   return (
     <section>
       <Button
-        className="self-start font-medium text-gray-900 hover:bg-gray-200 hover:scale-102 transition-transform"
+        className="self-start font-medium text-zinc-900 hover:bg-zinc-200 hover:scale-102 transition-transform"
         onClick={() => setShowComments(!showComments)}
       >
         <IconMessage />

@@ -23,13 +23,16 @@ const Comment = ({
   const sanitizedHtmlComment = sanitize(comment);
 
   const handleLike = (type: 'like' | 'dislike') => {
-    
+/*     if (type === 'like') {
+      
+    } else if (type === 'dislike') {
+      
+    } */
   }
   
-
   return (
-    <section className="flex gap-[10px] items-start p-6 rounded-2xl bg-gray-900">
-      <div className="user w-[52px] h-[52px] border-2 border-gray-300 color rounded-full overflow-hidden shrink-0">
+    <section className="flex gap-[10px] items-start p-6 rounded-2xl bg-zinc-900">
+      <div className="user w-[52px] h-[52px] border-2 border-zinc-300 color rounded-full overflow-hidden shrink-0">
         <img
           className="w-full h-full object-cover"
           src={authorImageUrl}
@@ -39,8 +42,8 @@ const Comment = ({
       </div>
       <div className="comment flex flex-col px-[10px] gap-1.5">
         <div className="comment__header flex gap-2 text-sm">
-          <h3 className="font-bold text-gray-300">{author}</h3>
-          <p className="text-gray-400 italic">
+          <h3 className="font-bold text-zinc-300">{author}</h3>
+          <p className="text-zinc-400 italic">
             {formatLongDate(publishedAt).formattedDate}
           </p>
         </div>
@@ -49,13 +52,13 @@ const Comment = ({
           dangerouslySetInnerHTML={{ __html: sanitizedHtmlComment }}
         ></p>
         <div className="comment__footer flex gap-2 mt-1">
-          <span className="flex gap-1 items-center text-gray-200">
+          <span className="flex gap-1 items-center text-zinc-200">
             <RateButton onClick={() => handleLike('like')}>
               <IconThumbUp size={28} stroke={1} />
             </RateButton>
             <span className="text-sm">{likes}</span>
           </span>
-          <span className="flex gap-1 items-center text-gray-200">
+          <span className="flex gap-1 items-center text-zinc-200">
             <RateButton onClick={() => handleLike('dislike')}>
               <IconThumbDown size={28} stroke={1} />
             </RateButton>

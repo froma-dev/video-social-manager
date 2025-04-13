@@ -21,8 +21,8 @@ const Asset = ({
 }: AssetProps) => {
   const classNames = classNamesBuilder(
     `asset flex flex-col gap-4 rounded-md overflow-hidden h-full
-    border-1 border-gray-800
-    hover:scale-105 transition-all hover:bg-gray-700`,
+    border-1 border-zinc-800
+    hover:scale-105 transition-all hover:bg-zinc-700`,
     className
   );
   return (

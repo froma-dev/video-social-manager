@@ -11,8 +11,8 @@ interface ButtonProps {
 }
 const ButtonClassNames = {
   primary:
-    "rounded-4xl flex items-center gap-2 bg-gray-100 px-4 py-3 active:scale-102 transition-transform",
-  rate: "rounded-4xl flex items-center gap-2bg-transparent px-1 py-1 active:scale-102 py-1hover:scale-102 hover:bg-gray-500 transition-all",
+    "rounded-4xl flex items-center gap-2 bg-zinc-100 px-4 py-3 active:scale-102 transition-transform",
+  rate: "rounded-4xl flex items-center gap-2bg-transparent px-1 py-1 active:scale-102 py-1hover:scale-102 hover:bg-zinc-500 transition-all",
 };
 
 const Button = ({

@@ -45,7 +45,7 @@ const Card = ({
   );
   return (
     <article
-      className="card rounded-2xl bg-gray-950 flex flex-col justify-items-start"
+      className="card rounded-2xl bg-zinc-950 flex flex-col justify-items-start"
       draggable={draggable}
       onDragEnd={dragEnd}
       onDragOver={dragOver}

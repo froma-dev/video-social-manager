@@ -59,7 +59,7 @@ const VideoStatisticsInline = ({
   return (
     <div className="flex flex-col gap-[10px]">
       <LiteYouTubeEmbed id={id} title={title} />
-      <div className="statistics flex flex-row justify-center gap-2">
+      <div className="statistics flex flex-row justify-center gap-2 m-4">
         <Pill>
           <IconEye />
           <span>Views </span>
