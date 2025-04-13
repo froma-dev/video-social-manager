@@ -3,6 +3,7 @@ import { searchVideos } from "../../services/youtube/youtube";
 import { debounceAsync } from "../../utils/utils";
 import SearchResults from "../../components/Search/SearchResults";
 import { AssetProps } from "../../components/Asset/Asset";
+import { useSelector } from "react-redux";
 
 interface SearchProps {
   accessToken: string;
@@ -13,6 +14,8 @@ const Search = ({ accessToken }: SearchProps) => {
   const [query, setQuery] = useState("");
   const [searching, setSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<AssetProps[]>([]);
+  //
+  const query = useSelector<string>((state) => state.search.query)
 
   const debouncedSearch = useMemo(() => {
     return debounceAsync(async (query: string) => {
