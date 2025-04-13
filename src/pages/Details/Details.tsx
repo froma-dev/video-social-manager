@@ -30,31 +30,33 @@ const Details = ({ accessToken }: { accessToken: string }) => {
   }, [accessToken, videoId]);
 
   return contentDetails !== null ? (
-    <Card
-      id={videoId}
-      title={contentDetails?.title}
-      subtitle={contentDetails?.channelTitle}
-      description={""}
-    >
+    <section>
       <VideoStatisticsInline
         contentDetails={contentDetails}
         setContentDetails={setContentDetails}
         accessToken={accessToken}
       />
-      <div className="header flex flex-col gap-0">
+      <Card
+        id={videoId}
+        title={contentDetails?.title}
+        subtitle={contentDetails?.channelTitle}
+        description={""}
+      >
+        <Comments
+          id={videoId}
+          accessToken={accessToken}
+          commentCount={contentDetails?.statistics.commentCount || "0"}
+        />
+      </Card>
+      {/*       <div className="header flex flex-col gap-0">
         <h1 className="text-2xl text-left font-extrabold">
           {contentDetails?.title}
         </h1>
         <h2 className="text-xl text-left font-bold">
           {contentDetails?.channelTitle}
         </h2>
-      </div>
-      <Comments
-        id={videoId}
-        accessToken={accessToken}
-        commentCount={contentDetails?.statistics.commentCount || "0"}
-      />
-    </Card>
+      </div> */}
+    </section>
   ) : (
     <p>Loading...</p>
   );
