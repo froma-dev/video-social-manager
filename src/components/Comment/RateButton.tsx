@@ -1,4 +1,4 @@
-import { type ButtonProps } from "../Button/Button";
+import { type ButtonProps } from "@components/Button/Button";
 
 const RateButton = ({
   children,

@@ -1,8 +1,10 @@
-import { classNamesBuilder } from "../../utils/utils";
+import { classNamesBuilder } from "@utils/utils";
 import CarouselItem, { type CarouselItemProps } from "./CarouselItem";
 import "./Carousel.css";
 import { useEffect, useRef, useState } from "react";
-import BasicNavigator, { Direction } from "../Navigator/BasicNavigator";
+import BasicNavigator, {
+  Direction,
+} from "@components/Navigator/BasicNavigator";
 
 interface CarouselConfig {
   interactiveItems?: number; // Number of items to be interacted with (doesn't take into account the next partial item seen)

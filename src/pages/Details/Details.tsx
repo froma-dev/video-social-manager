@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import "./Details.css";
-import { getContentDetails } from "../../services/youtube/youtube";
-import { ContentDetails } from "../../services/youtube/youtube.types";
-import VideoStatisticsInline from "../../components/VideoStatistics/VideoStatisticsInline";
-import Card from "../../components/Card/Card";
+import { getContentDetails } from "@services/youtube/youtube";
+import { ContentDetails } from "@services/youtube/youtube.types";
+import VideoStatisticsInline from "@components/VideoStatistics/VideoStatisticsInline";
+import Card from "@components/Card/Card";
 import Comments from "./Comments";
-import { YoutubeRating } from "../../services/youtube/youtube.types";
+import { YoutubeRating } from "@services/youtube/youtube.types";
 
 const Details = ({ accessToken }: { accessToken: string }) => {
   const { videoId = "" } = useParams();

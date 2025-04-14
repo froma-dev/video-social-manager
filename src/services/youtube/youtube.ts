@@ -1,4 +1,3 @@
-import { Rating } from "../../components/Comment/RateButton";
 import {
     YOUTUBE_DATA_API_KEY,
     YOUTUBE_DATA_API_SEARCH_BASE_URL,

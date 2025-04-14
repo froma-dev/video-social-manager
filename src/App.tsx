@@ -1,9 +1,7 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import Auth from "./components/Auth/Auth";
-import { Route, Routes, Navigate, useMatch } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import Search from "./pages/Search/Search";
 import Details from "./pages/Details/Details";

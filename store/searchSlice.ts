@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { searchYoutube } from "../services/youtube/youtube.types";
-import { AssetProps } from "../components/Asset/Asset";
+import { searchYoutube } from "@services/youtube/youtube";
+import { AssetProps } from "@components/Asset/Asset";
+import { type SearchYoutubeParams } from "@services/youtube/youtube.types";
 
 type provider = "youtube" | "tiktok";
 

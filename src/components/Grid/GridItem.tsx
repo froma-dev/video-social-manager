@@ -1,5 +1,7 @@
-import { classNamesBuilder } from "../../utils/utils";
-import CarouselItem, { CarouselItemProps } from "../Carousel/CarouselItem";
+import { classNamesBuilder } from "@utils/utils";
+import CarouselItem, {
+  CarouselItemProps,
+} from "@components/Carousel/CarouselItem";
 import "./GridItem.css";
 
 interface GridItem {
@@ -17,7 +19,6 @@ interface GridItemProps {
 }
 
 const GridItem = ({ data, type }: GridItemProps) => {
-
   const classNames = classNamesBuilder("grid__item", className);
   return (
     <div className={classNames} style={style}>

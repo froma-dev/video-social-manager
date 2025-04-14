@@ -1,10 +1,10 @@
 import { IconMessage } from "@tabler/icons-react";
-import Button from "../../components/Button/Button";
+import Button from "@components/Button/Button";
 import { useState, useEffect } from "react";
-import { CommentData } from "../../services/youtube/youtube.types";
-import { getCommentThreads } from "../../services/youtube/youtube";
-import Comment from "../../components/Comment/Comment";
-import { formatStringNumber } from "../../utils/utils";
+import { CommentData } from "@services/youtube/youtube.types";
+import { getCommentThreads } from "@services/youtube/youtube";
+import Comment from "@components/Comment/Comment";
+import { formatStringNumber } from "@utils/utils";
 
 const Comments = ({
   id,

@@ -1,4 +1,4 @@
-import { classNamesBuilder } from "../../utils/utils";
+import { classNamesBuilder } from "@utils/utils";
 import "./Button.css";
 
 type ButtonType = "primary" | "rate";

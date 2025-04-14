@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Grid, { type GridProps } from "./Grid";
 import "./DraggableGrid.css";
-import DraggableCard, { type DraggableCardProps } from "../Card/DraggableCard";
-import { delay } from "../../utils/utils";
+import DraggableCard, {
+  type DraggableCardProps,
+} from "@components/Card/DraggableCard";
+import { delay } from "@utils/utils";
 
 interface DraggableGridProps extends Omit<GridProps, "children"> {
   data: DraggableCardProps[];

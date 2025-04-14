@@ -4,7 +4,7 @@ import {
   YOUTUBE_DATA_API_CLIENT_ID,
   YOUTUBE_DATA_API_CLIENT_SECRET,
   YOUTUBE_DATA_API_REDIRECT_URI,
-} from "../../config";
+} from "@/config";
 import { useState } from "react";
 
 interface AuthProps {

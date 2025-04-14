@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
-import { searchYoutube } from "../../services/youtube/youtube";
-import { debounceAsync } from "../../utils/utils";
-import SearchResults from "../../components/Search/SearchResults";
-import { AssetProps } from "../../components/Asset/Asset";
+import { searchYoutube } from "@services/youtube/youtube";
+import { debounceAsync } from "@utils/utils";
+import SearchResults from "@components/Search/SearchResults";
+import { AssetProps } from "@components/Asset/Asset";
 import { useSelector } from "react-redux";
 
 interface SearchProps {

@@ -4,15 +4,15 @@ import { IconThumbUp } from "@tabler/icons-react";
 import { IconMessage } from "@tabler/icons-react";
 import { IconHeart } from "@tabler/icons-react";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
-import Pill from "../Pill/Pill";
+import Pill from "@components/Pill/Pill";
 import {
   YoutubeRating,
   type ContentDetails,
-} from "../../services/youtube/youtube.types";
-import { formatStringNumber } from "../../utils/utils";
-import { getContentDetails, rateVideo } from "../../services/youtube/youtube";
+} from "@services/youtube/youtube.types";
+import { formatStringNumber } from "@utils/utils";
+import { getContentDetails, rateVideo } from "@services/youtube/youtube";
 import { useState } from "react";
-import { shortNumber } from "../../utils/utils";
+import { shortNumber } from "@utils/utils";
 
 interface VideoStatisticsInlineProps {
   contentDetails: ContentDetails;

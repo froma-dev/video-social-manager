@@ -1,5 +1,5 @@
-import Asset, { type AssetProps } from "../Asset/Asset";
-import Grid from "../Grid/Grid";
+import Asset, { type AssetProps } from "@components/Asset/Asset";
+import Grid from "@components/Grid/Grid";
 
 interface SearchResultsProps {
   searchResults: AssetProps[];

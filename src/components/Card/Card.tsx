@@ -1,5 +1,5 @@
 import "./Card.css";
-import { classNamesBuilder } from "../../utils/utils";
+import { classNamesBuilder } from "@utils/utils";
 
 interface CardProps {
   id: string;

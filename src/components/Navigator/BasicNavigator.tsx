@@ -1,6 +1,6 @@
-import Button from "../Button/Button";
+import Button from "@components/Button/Button";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
-import "../Navigator/BasicNavigator.css";
+import "./BasicNavigator.css";
 
 type Direction = "previous" | "next";
 interface BasicNavigatorProps {

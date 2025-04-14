@@ -1,5 +1,5 @@
 import "./Grid.css";
-import { classNamesBuilder } from "../../utils/utils";
+import { classNamesBuilder } from "@utils/utils";
 
 interface GridProps {
   children: React.ReactNode;

@@ -1,4 +1,4 @@
-import { classNamesBuilder } from "../../utils/utils";
+import { classNamesBuilder } from "@utils/utils";
 import { Link } from "react-router-dom";
 import "./Asset.css";
 

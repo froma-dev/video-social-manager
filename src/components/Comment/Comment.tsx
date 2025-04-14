@@ -1,7 +1,6 @@
 import { IconThumbDown, IconThumbUp } from "@tabler/icons-react";
 import DOMPurify from "dompurify";
-import { formatLongDate } from "../../utils/dateTime";
-import Button from "../Button/Button";
+import { formatLongDate } from "@utils/dateTime";
 import RateButton from "./RateButton";
 
 const { sanitize } = DOMPurify;
@@ -22,14 +21,14 @@ const Comment = ({
 }: CommentProps) => {
   const sanitizedHtmlComment = sanitize(comment);
 
-  const handleLike = (type: 'like' | 'dislike') => {
-/*     if (type === 'like') {
+  const handleLike = (type: "like" | "dislike") => {
+    /*     if (type === 'like') {
       
     } else if (type === 'dislike') {
       
     } */
-  }
-  
+  };
+
   return (
     <section className="flex gap-[10px] items-start p-6 rounded-2xl bg-zinc-900">
       <div className="user w-[52px] h-[52px] border-2 border-zinc-300 color rounded-full overflow-hidden shrink-0">
@@ -53,13 +52,13 @@ const Comment = ({
         ></p>
         <div className="comment__footer flex gap-2 mt-1">
           <span className="flex gap-1 items-center text-zinc-200">
-            <RateButton onClick={() => handleLike('like')}>
+            <RateButton onClick={() => handleLike("like")}>
               <IconThumbUp size={28} stroke={1} />
             </RateButton>
             <span className="text-sm">{likes}</span>
           </span>
           <span className="flex gap-1 items-center text-zinc-200">
-            <RateButton onClick={() => handleLike('dislike')}>
+            <RateButton onClick={() => handleLike("dislike")}>
               <IconThumbDown size={28} stroke={1} />
             </RateButton>
           </span>
