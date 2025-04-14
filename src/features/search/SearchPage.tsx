@@ -10,12 +10,12 @@ interface SearchProps {
 }
 const MIN_QUERY_LENGTH = 3;
 
-const Search = ({ accessToken }: SearchProps) => {
+const SearchPage = ({ accessToken }: SearchProps) => {
   const [query, setQuery] = useState("");
   const [searching, setSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<AssetProps[]>([]);
   //
-  const query = useSelector<string>((state) => state.search.query)
+  const query = useSelector<string>((state) => state.search.query);
 
   const debouncedSearch = useMemo(() => {
     return debounceAsync(async (query: string) => {
@@ -64,4 +64,4 @@ const Search = ({ accessToken }: SearchProps) => {
   );
 };
 
-export default Search;
+export default SearchPage;
