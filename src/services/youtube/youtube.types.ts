@@ -23,7 +23,7 @@ export interface GetVideoRatingParams {
     accessToken: string;
 }
 
-export interface SearchVideosParams {
+export interface SearchYoutubeParams {
     query: string;
     accessToken: string;
 }

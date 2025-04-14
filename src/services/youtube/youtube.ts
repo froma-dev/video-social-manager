@@ -17,7 +17,7 @@ import {
     type YoutubeSearchType,
     type YoutubeSearchPart,
     type GetContentDetailsParams,
-    type SearchVideosParams,
+    type SearchYoutubeParams,
     type GetCommentParams,
     type CommentData,
     type GetCommentThreadsParams,
@@ -40,7 +40,7 @@ const buildRequestUrl = (baseUrl: string, accessToken: string) => {
     return url;
 }
 
-export const searchVideos = async ({ query, accessToken }: SearchVideosParams) => {
+export const searchYoutube = async ({ query, accessToken }: SearchYoutubeParams) => {
     if (!query) {
         throw new Error("Query is required");
     }
@@ -58,12 +58,12 @@ export const searchVideos = async ({ query, accessToken }: SearchVideosParams) =
     }
 
     const data = await response.json();
-    const transformedData = transformSearchVideos(data);
+    const transformedData = transformsearchYoutube(data);
 
     return transformedData;
 }
 
-const transformSearchVideos = (data: any) => {
+const transformsearchYoutube = (data: any) => {
     const videos = data.items.map((item: YoutubeVideo) => ({
         id: item.id.videoId,
         title: item.snippet.title,
@@ -232,7 +232,7 @@ export const getChannel = async ({
     if (!data.ok) throw new Error("Failed to get channel");
 
     const channelData = await data.json();
-    const transformedData = transformChannel(channelData);
+    //const transformedData = transformChannel(channelData);
 
     return transformedData;
 }
