@@ -3,7 +3,7 @@ import Grid from "@components/Grid/Grid";
 
 interface SearchResultsProps {
   searchResults: AssetProps[];
-  error?: string;
+  error?: string | null;
 }
 
 const SearchResults = ({ searchResults, error }: SearchResultsProps) => {

@@ -83,7 +83,12 @@ const SearchPage = ({ accessToken }: SearchProps) => {
         <p>Searching...</p>
       ) : (
         searchQuery.length >= MIN_QUERY_LENGTH &&
-        !searchTyping && <SearchResults searchResults={searchResultAssets} error={searchError} />
+        !searchTyping && (
+          <SearchResults
+            searchResults={searchResultAssets}
+            error={searchError}
+          />
+        )
       )}
     </section>
   );
