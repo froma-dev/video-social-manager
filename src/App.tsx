@@ -3,8 +3,10 @@ import "./App.css";
 import Auth from "./components/Auth/Auth";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useEffect } from "react";
-import Search from "./pages/Search/Search";
-import Details from "./pages/Details/Details";
+import SearchPage from "@features/search/SearchPage";
+import DetailsPage from "@/features/contentDetails/ContentDetailsPage";
+import { Provider } from "react-redux";
+import { store } from "@store/index";
 
 function App() {
   const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -26,38 +28,40 @@ function App() {
   //const matchedVideoId = match?.params.videoId ?? "";
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          accessToken ? (
-            <Navigate to="/search" />
-          ) : (
-            <Auth handleTokenChange={handleTokenChange} />
-          )
-        }
-      />
-      <Route
-        path="/search"
-        element={
-          accessToken ? (
-            <Search accessToken={accessToken} />
-          ) : (
-            <Navigate to="/" />
-          )
-        }
-      />
-      <Route
-        path="/details/:videoId"
-        element={
-          accessToken ? (
-            <Details accessToken={accessToken} />
-          ) : (
-            <Navigate to="/" />
-          )
-        }
-      />
-    </Routes>
+    <Provider store={store}>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            accessToken ? (
+              <Navigate to="/search" />
+            ) : (
+              <Auth handleTokenChange={handleTokenChange} />
+            )
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            accessToken ? (
+              <SearchPage accessToken={accessToken} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/details/:videoId"
+          element={
+            accessToken ? (
+              <DetailsPage accessToken={accessToken} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+      </Routes>
+    </Provider>
   );
 }
 

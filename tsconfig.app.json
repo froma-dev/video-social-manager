@@ -29,7 +29,7 @@
       "@services/*": ["src/services/*"],
       "@store/*": ["src/store/*"],
       "@utils/*": ["src/utils/*"],
-      "@pages/*": ["src/pages/*"]
+      "@features/*": ["src/features/*"]
     }
   },
   "include": ["src"]
