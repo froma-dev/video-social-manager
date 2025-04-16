@@ -3,9 +3,14 @@ import Grid from "@components/Grid/Grid";
 
 interface SearchResultsProps {
   searchResults: AssetProps[];
+  error?: string;
 }
 
-const SearchResults = ({ searchResults }: SearchResultsProps) => {
+const SearchResults = ({ searchResults, error }: SearchResultsProps) => {
+  if (error) {
+    return <p>{error}</p>;
+  }
+
   return (
     <div className="search-results">
       {searchResults.length > 0 ? (
