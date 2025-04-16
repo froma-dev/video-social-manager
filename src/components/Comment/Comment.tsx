@@ -2,6 +2,7 @@ import { IconThumbDown, IconThumbUp } from "@tabler/icons-react";
 import DOMPurify from "dompurify";
 import { formatLongDate } from "@utils/dateTime";
 import RateButton from "./RateButton";
+import ProfilePicture from "@components/ProfilePicture/ProfilePicture";
 
 const { sanitize } = DOMPurify;
 interface CommentProps {
@@ -31,14 +32,11 @@ const Comment = ({
 
   return (
     <section className="flex gap-[10px] items-start p-6 rounded-2xl bg-zinc-900">
-      <div className="user w-[52px] h-[52px] border-2 border-zinc-300 color rounded-full overflow-hidden shrink-0">
-        <img
-          className="w-full h-full object-cover"
-          src={authorImageUrl}
-          alt={author}
-          onError={(e) => (e.currentTarget.src = "/mood-smile.svg")}
-        />
-      </div>
+      <ProfilePicture
+        imageUrl={authorImageUrl}
+        alt={author}
+        className="w-[52px] h-[52px] shrink-0"
+      />
       <div className="comment flex flex-col px-[10px] gap-1.5">
         <div className="comment__header flex gap-2 text-sm">
           <h3 className="font-bold text-zinc-300">{author}</h3>

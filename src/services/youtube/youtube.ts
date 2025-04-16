@@ -25,6 +25,8 @@ import {
   RateVideoParams,
   GetVideoRatingParams,
   YoutubeRating,
+  GetChannelParams,
+  YoutubeChannel,
 } from "./youtube.types";
 
 const YOUTUBE_SEARCH_MAX_RESULTS = "25";
@@ -108,6 +110,7 @@ const transformContentDetails = (data: any) => {
     description: item.snippet.description,
     thumbnails: item.snippet.thumbnails,
     statistics: item.statistics,
+    snippet: item.snippet,
   }));
 
   const transformContentDetails = contentDetails[0];
@@ -247,13 +250,20 @@ export const getChannel = async ({
   url.searchParams.append("part", ["snippet", "statistics"].join(","));
   url.searchParams.append("id", channelId);
 
-  const data = await fetch(url);
-  if (!data.ok) throw new Error("Failed to get channel");
+  const response = await fetch(url);
+  if (!response.ok) throw new Error("Failed to get channel");
 
-  const channelData = await data.json();
-  //const transformedData = transformChannel(channelData);
+  const channelData = await response.json();
+  const transformedData = transformChannel(channelData);
 
   return transformedData;
+};
+
+const transformChannel = (data: any) => {
+  const channel = data.items[0];
+  console.log("YT CHANNEL = ", channel);
+
+  return channel as YoutubeChannel;
 };
 
 export const editComment = () => {};

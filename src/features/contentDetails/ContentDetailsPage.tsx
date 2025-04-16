@@ -1,19 +1,25 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
-import { getContentDetails } from "@services/youtube/youtube";
-import { ContentDetails } from "@services/youtube/youtube.types";
+import { getChannel, getContentDetails } from "@services/youtube/youtube";
+import {
+  ContentDetails,
+  YoutubeChannel,
+} from "@services/youtube/youtube.types";
 import VideoStatisticsInline from "@components/VideoStatistics/VideoStatisticsInline";
-import Card from "@components/Card/Card";
 import CommentsSection from "./CommentsSection";
-import { YoutubeRating } from "@services/youtube/youtube.types";
+import Channel from "@components/Channel/Channel";
+import LiteYouTubeEmbed from "react-lite-youtube-embed";
 
 const ContentDetailsPage = ({ accessToken }: { accessToken: string }) => {
   const { videoId = "" } = useParams();
   const [contentDetails, setContentDetails] = useState<ContentDetails | null>(
     null
   );
-  const [rate, setRate] = useState<YoutubeRating>("none");
+  const [channelDetails, setChannelDetails] = useState<YoutubeChannel | null>(
+    null
+  );
+  //const [rate, setRate] = useState<YoutubeRating>("none");
 
   useEffect(() => {
     const fetchContentDetails = async () => {
@@ -21,32 +27,50 @@ const ContentDetailsPage = ({ accessToken }: { accessToken: string }) => {
         videoId,
         accessToken,
       });
-
       setContentDetails(fetchedContentDetails);
+
+      console.log(fetchedContentDetails);
+      const fetchedChannelDetails = await getChannel({
+        channelId: fetchedContentDetails.snippet.channelId,
+        accessToken,
+      });
+      setChannelDetails(fetchedChannelDetails);
     };
 
     fetchContentDetails();
   }, [accessToken, videoId]);
 
   return contentDetails !== null ? (
-    <section>
-      <VideoStatisticsInline
-        contentDetails={contentDetails}
-        setContentDetails={setContentDetails}
-        accessToken={accessToken}
-      />
-      <Card
+    <section className="flex flex-col gap-4">
+      <div className="video-content flex flex-col gap-4">
+        <div className="video-player w-full grid">
+          <LiteYouTubeEmbed
+            id={contentDetails.id}
+            title={contentDetails.title}
+          />
+        </div>
+        <section className="video-info flex flex-col gap-4 p-8">
+          <h1 className="text-2xl font-bold text-left">
+            {contentDetails?.title}
+          </h1>
+          <Channel
+            author={contentDetails?.channelTitle || ""}
+            imageUrl={channelDetails?.snippet?.thumbnails?.high?.url || ""}
+            subscriberCount={channelDetails?.statistics?.subscriberCount || 0}
+            description={channelDetails?.snippet?.description || ""}
+          />
+          <VideoStatisticsInline
+            contentDetails={contentDetails}
+            setContentDetails={setContentDetails}
+            accessToken={accessToken}
+          />
+        </section>
+      </div>
+      <CommentsSection
         id={videoId}
-        title={contentDetails?.title}
-        subtitle={contentDetails?.channelTitle}
-        description={""}
-      >
-        <CommentsSection
-          id={videoId}
-          accessToken={accessToken}
-          commentCount={contentDetails?.statistics.commentCount || "0"}
-        />
-      </Card>
+        accessToken={accessToken}
+        commentCount={contentDetails?.statistics.commentCount || "0"}
+      />
     </section>
   ) : (
     <p>Loading...</p>

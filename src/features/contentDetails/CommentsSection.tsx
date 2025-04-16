@@ -37,7 +37,7 @@ const CommentsSection = ({
   }, [id]);
 
   return (
-    <section>
+    <section className="comments-section flex flex-col gap-[10px]">
       <Button
         className="self-start font-medium text-zinc-900 hover:bg-zinc-200 hover:scale-102 transition-transform"
         onClick={() => setShowComments(!showComments)}

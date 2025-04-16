@@ -1,4 +1,3 @@
-import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import { IconEye } from "@tabler/icons-react";
 import { IconThumbUp } from "@tabler/icons-react";
 import { IconMessage } from "@tabler/icons-react";
@@ -27,7 +26,7 @@ const VideoStatisticsInline = ({
   setContentDetails,
   accessToken,
 }: VideoStatisticsInlineProps) => {
-  const { id, title, statistics } = contentDetails;
+  const { id, statistics } = contentDetails;
   const { viewCount, likeCount, commentCount, favoriteCount } = statistics;
   const formattedViewCount = formatStringNumber(viewCount);
   const formattedLikeCount = shortNumber(likeCount);
@@ -58,8 +57,7 @@ const VideoStatisticsInline = ({
 
   return (
     <div className="flex flex-col gap-[10px]">
-      <LiteYouTubeEmbed id={id} title={title} />
-      <div className="statistics flex flex-row justify-center gap-2 m-4">
+      <div className="statistics flex flex-row justify-start gap-2">
         <Pill>
           <IconEye />
           <span>Views </span>
