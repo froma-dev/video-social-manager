@@ -9,6 +9,7 @@ interface AssetProps {
   image: string;
   style?: React.CSSProperties;
   className?: string;
+  subtitle?: string;
 }
 
 const Asset = ({
@@ -18,10 +19,10 @@ const Asset = ({
   image,
   style,
   className = "",
+  subtitle,
 }: AssetProps) => {
   const classNames = classNamesBuilder(
     `asset flex flex-col gap-4 rounded-md overflow-hidden h-full
-    border-1 border-zinc-800
     hover:scale-105 transition-all hover:bg-zinc-700`,
     className
   );
@@ -33,8 +34,12 @@ const Asset = ({
           alt={title}
           className="rounded-md aspect-[4/3] object-cover w-full h-full"
         />
-        <div className="h-full">
-          <h3 className="font-bold h-full">{title}</h3>
+        <div className="metadata flex flex-col gap-2 h-full">
+          <h3 className="font-bold text-md">{title}</h3>
+          {subtitle && (
+            <p className="text-zinc-400 font-semibold text-sm">{subtitle}</p>
+          )}
+          {description && <p className="text-zinc-400">{description}</p>}
         </div>
       </section>
     </Link>

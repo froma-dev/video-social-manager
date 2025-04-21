@@ -57,6 +57,7 @@ const SearchPage = ({ accessToken }: SearchProps) => {
         ({
           id: video.id,
           title: video.title,
+          subtitle: video.channelTitle,
           image: video.thumbnails.high.url,
         } as AssetProps)
     );

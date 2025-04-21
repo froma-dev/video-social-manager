@@ -69,7 +69,12 @@ export interface VideoAsset {
   thumbnails: Thumbnails;
 }
 
-export interface ContentDetails extends VideoAsset {
+export interface ContentDetails {
+  id: string;
+  title: string;
+  channelTitle: string;
+  description: string;
+  thumbnails: Thumbnails;
   statistics: Statistics;
   snippet: YoutubeContentDetailsSnippet;
 }

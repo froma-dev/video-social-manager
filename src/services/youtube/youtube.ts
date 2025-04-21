@@ -67,15 +67,16 @@ export const searchYoutube = async ({
   }
 
   const data = await response.json();
-  const transformedData = transformsearchYoutube(data);
+  const transformedData = transformSearchYoutube(data);
 
   return transformedData;
 };
 
-const transformsearchYoutube = (data: any) => {
+const transformSearchYoutube = (data: any) => {
   const videos = data.items.map((item: YoutubeVideo) => ({
     id: item.id.videoId,
     title: item.snippet.title,
+    channelTitle: item.snippet.channelTitle,
     description: item.snippet.description,
     thumbnails: item.snippet.thumbnails,
   }));
