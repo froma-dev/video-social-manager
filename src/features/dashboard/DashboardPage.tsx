@@ -24,21 +24,30 @@ const overviewCardsData: OverviewCardData[] = [
     trend: 100,
   },
 ];
+const recentVideosTitle = "Recent Videos";
 const DashboardPage = () => {
   return (
     <section className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold text-white">{dashboardTitle}</h1>
-      <div className="flex gap-4">
-        {overviewCardsData.map((card) => (
-          <OverviewCard
-            key={card.description}
-            title={card.title}
-            description={card.description}
-            trend={card.trend}
-            className={`basis-1/${overviewCardsData.length}`}
-          />
-        ))}
-      </div>
+      <section className="flex flex-col gap-4">
+        <h1 className="text-2xl font-bold text-white">{dashboardTitle}</h1>
+        <div className="flex gap-4">
+          {overviewCardsData.map((card) => (
+            <OverviewCard
+              key={card.description}
+              title={card.title}
+              description={card.description}
+              trend={card.trend}
+              className={`basis-1/${overviewCardsData.length}`}
+            />
+          ))}
+        </div>
+      </section>
+      <section>
+        <h1 className="text-2xl font-bold text-white">{recentVideosTitle}</h1>
+        <div className="flex gap-4">
+            
+        </div>
+      </section>
     </section>
   );
 };
