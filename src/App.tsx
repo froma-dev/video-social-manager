@@ -5,6 +5,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import SearchPage from "@features/search/SearchPage";
 import DetailsPage from "@/features/contentDetails/ContentDetailsPage";
+import DashboardPage from "@/features/dashboard/DashboardPage";
 import { Provider } from "react-redux";
 import { store } from "@store/index";
 
@@ -34,7 +35,7 @@ function App() {
           path="/"
           element={
             accessToken ? (
-              <Navigate to="/search" />
+              <Navigate to="/dashboard" />
             ) : (
               <Auth handleTokenChange={handleTokenChange} />
             )
@@ -49,6 +50,10 @@ function App() {
               <Navigate to="/" />
             )
           }
+        />
+        <Route
+          path="/dashboard"
+          element={accessToken ? <DashboardPage /> : <Navigate to="/" />}
         />
         <Route
           path="/details/:videoId"
