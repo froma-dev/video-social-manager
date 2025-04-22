@@ -53,7 +53,13 @@ function App() {
         />
         <Route
           path="/dashboard"
-          element={accessToken ? <DashboardPage /> : <Navigate to="/" />}
+          element={
+            accessToken ? (
+              <DashboardPage accessToken={accessToken} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
         />
         <Route
           path="/details/:videoId"

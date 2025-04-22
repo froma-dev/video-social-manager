@@ -46,7 +46,7 @@ const VideoStatisticsInline = ({
       }
       setRating(rating);
       const updatedContentDetails = await getContentDetails({
-        videoId: id,
+        videoIds: [id],
         accessToken,
       });
       setContentDetails(updatedContentDetails);

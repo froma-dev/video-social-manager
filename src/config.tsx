@@ -6,17 +6,15 @@ export const YOUTUBE_DATA_API_CLIENT_SECRET: string = import.meta.env
   .VITE_YOUTUBE_DATA_API_CLIENT_SECRET;
 export const YOUTUBE_DATA_API_REDIRECT_URI: string = import.meta.env
   .VITE_YOUTUBE_DATA_API_REDIRECT_URI;
-export const YOUTUBE_DATA_API_SEARCH_BASE_URL =
-  "https://www.googleapis.com/youtube/v3/search";
-export const YOUTUBE_DATA_API_DETAILS =
-  "https://www.googleapis.com/youtube/v3/videos";
-export const YOUTUBE_DATA_API_COMMENTS =
-  "https://www.googleapis.com/youtube/v3/comments";
-export const YOUTUBE_DATA_API_COMMENT_THREADS =
-  "https://www.googleapis.com/youtube/v3/commentThreads";
-export const YOUTUBE_DATA_API_RATE_VIDEO =
-  "https://www.googleapis.com/youtube/v3/videos/rate";
-export const YOUTUBE_DATA_API_GET_RATING =
-  "https://www.googleapis.com/youtube/v3/videos/getRating";
-export const YOUTUBE_DATA_API_GET_CHANNEL =
-  "https://www.googleapis.com/youtube/v3/channels";
+export const YOUTUBE_DATA_API_BASE_URL =
+  "https://www.googleapis.com/youtube/v3";
+export const YOUTUBE_ANALYTICS_BASE_URL =
+  "https://youtubeanalytics.googleapis.com/v2";
+export const YOUTUBE_DATA_API_SEARCH_BASE_URL = `${YOUTUBE_DATA_API_BASE_URL}/search`;
+export const YOUTUBE_DATA_API_DETAILS = `${YOUTUBE_DATA_API_BASE_URL}/videos`;
+export const YOUTUBE_DATA_API_COMMENTS = `${YOUTUBE_DATA_API_BASE_URL}/comments`;
+export const YOUTUBE_DATA_API_COMMENT_THREADS = `${YOUTUBE_DATA_API_BASE_URL}/commentThreads`;
+export const YOUTUBE_DATA_API_RATE_VIDEO = `${YOUTUBE_DATA_API_BASE_URL}/videos/rate`;
+export const YOUTUBE_DATA_API_GET_RATING = `${YOUTUBE_DATA_API_BASE_URL}/videos/getRating`;
+export const YOUTUBE_DATA_API_GET_CHANNEL = `${YOUTUBE_DATA_API_BASE_URL}/channels`;
+export const YOUTUBE_ANALYTICS_REPORTS = `${YOUTUBE_ANALYTICS_BASE_URL}/reports`;

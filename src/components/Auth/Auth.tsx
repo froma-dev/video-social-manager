@@ -6,31 +6,34 @@ import {
   YOUTUBE_DATA_API_REDIRECT_URI,
 } from "@/config";
 import { useState } from "react";
+import Button from "../Button/Button";
 
 interface AuthProps {
   handleTokenChange: (token: string) => void;
 }
 
-const YoutubeScopes = [
+const youtubeScopes = [
   "https://www.googleapis.com/auth/youtube.force-ssl",
   "https://www.googleapis.com/auth/yt-analytics-monetary.readonly",
   "https://www.googleapis.com/auth/yt-analytics.readonly",
 ];
+const youtubeOAuth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
+const youtubeOAuth2TokenEndpoint = "https://oauth2.googleapis.com/token";
 
 const Auth = ({ handleTokenChange }: AuthProps) => {
   const [accessToken, setAccessToken] = useState(null);
-  const oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
-  const oauth2TokenEndpoint = "https://oauth2.googleapis.com/token";
   const clientId = YOUTUBE_DATA_API_CLIENT_ID;
   const clientSecret = YOUTUBE_DATA_API_CLIENT_SECRET;
   const redirectUri = YOUTUBE_DATA_API_REDIRECT_URI;
+  const oauth2Endpoint = youtubeOAuth2Endpoint;
+  const oauth2TokenEndpoint = youtubeOAuth2TokenEndpoint;
 
   // Parameters to pass to OAuth 2.0 endpoint.
   const params = {
     client_id: clientId,
     redirect_uri: redirectUri,
-    response_type: "token",
-    scope: YoutubeScopes.join(" "),
+    response_type: "code",
+    scope: youtubeScopes.join(" "),
     include_granted_scopes: "true",
     state: "pass-through value",
   };
@@ -72,10 +75,10 @@ const Auth = ({ handleTokenChange }: AuthProps) => {
 
         const data = await response.json();
         const accessToken = data.access_token;
+        console.log("--------_>", data);
 
         setAccessToken(accessToken);
         handleTokenChange(accessToken);
-        console.log("TOKENEEEEEEEEE", data);
       } catch (error) {
         console.error("Error exchanging token:", error);
       }
@@ -103,7 +106,7 @@ const Auth = ({ handleTokenChange }: AuthProps) => {
   }, [handleTokenExtraction]);
 
   return (
-    <div className="authentication">
+    <div className="authentication grid place-items-center h-vh">
       <div className="row align-items-center">
         <div className="col-md-6 col-12 red-section d-flex justify-content-center align-items-center">
           <h1 className="text-center" style={{ color: "white" }}>
@@ -119,9 +122,7 @@ const Auth = ({ handleTokenChange }: AuthProps) => {
         <div>
           {accessToken === null ? (
             <form onSubmit={handleOAuthSignIn} className="text-center">
-              <button className="btn btn-primary" type="submit">
-                Sign in with Google
-              </button>
+              <Button>Sign in with Google</Button>
             </form>
           ) : (
             <div className="text-center">

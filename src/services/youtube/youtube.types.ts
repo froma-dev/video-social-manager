@@ -8,7 +8,7 @@ export type YoutubeSearchPart = "snippet" | "contentDetails" | "statistics";
 export type YoutubeRating = "like" | "dislike" | "none" | "unspecified";
 
 export interface GetContentDetailsParams {
-  videoId: string;
+  videoIds: string[];
   accessToken: string;
 }
 

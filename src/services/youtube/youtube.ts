@@ -7,7 +7,7 @@ import {
   YOUTUBE_DATA_API_RATE_VIDEO,
   YOUTUBE_DATA_API_GET_RATING,
   YOUTUBE_DATA_API_GET_CHANNEL,
-} from "../../config";
+} from "@/config";
 
 import {
   type VideoAsset,
@@ -39,7 +39,7 @@ const defaultVideoDetailsParts: YoutubeSearchPart[] = [
 ];
 const defaultVideoCommentsParts: YoutubeSearchPart[] = ["snippet"];
 
-const buildRequestUrl = (baseUrl: string, accessToken: string) => {
+export const buildRequestUrl = (baseUrl: string, accessToken: string) => {
   const url = new URL(baseUrl);
   url.searchParams.append("key", YOUTUBE_DATA_API_KEY);
   return url;
@@ -60,7 +60,11 @@ export const searchYoutube = async ({
   url.searchParams.append("type", YOUTUBE_SEARCH_TYPE);
   url.searchParams.append("maxResults", YOUTUBE_SEARCH_MAX_RESULTS);
 
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 
   if (!response.ok) {
     throw new Error("Failed to search videos");
@@ -85,14 +89,14 @@ const transformSearchYoutube = (data: any) => {
 };
 
 export const getContentDetails = async ({
-  videoId,
+  videoIds,
   accessToken,
 }: GetContentDetailsParams) => {
-  if (!videoId) throw new Error("Video ID is required");
+  if (!videoIds) throw new Error("Video ID is required");
 
   const url = buildRequestUrl(YOUTUBE_DATA_API_DETAILS, accessToken);
   url.searchParams.append("part", defaultVideoDetailsParts.join(","));
-  url.searchParams.append("id", videoId);
+  url.searchParams.append("id", videoIds.join(","));
 
   const response = await fetch(url);
   if (!response.ok) throw new Error("Failed to get video details");
@@ -114,9 +118,7 @@ const transformContentDetails = (data: any) => {
     snippet: item.snippet,
   }));
 
-  const transformContentDetails = contentDetails[0];
-
-  return transformContentDetails as ContentDetails;
+  return contentDetails as ContentDetails[];
 };
 
 export const getComment = async ({

@@ -24,7 +24,7 @@ const ContentDetailsPage = ({ accessToken }: { accessToken: string }) => {
   useEffect(() => {
     const fetchContentDetails = async () => {
       const fetchedContentDetails = await getContentDetails({
-        videoId,
+        videoIds: [videoId],
         accessToken,
       });
       setContentDetails(fetchedContentDetails);

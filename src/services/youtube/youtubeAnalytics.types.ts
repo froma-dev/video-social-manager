@@ -1,0 +1,1 @@
+export type AnalyticsApiResponse = "youtubeAnalytics#resultTable" | "youtubeAnalytics#resultRow";
