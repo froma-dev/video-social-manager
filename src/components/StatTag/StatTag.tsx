@@ -19,6 +19,3 @@ const StatTag = ({ label, icon }: StatTagProps) => {
   );
 };
 export default StatTag;
-
-//iconClassName = "text-green-600"
-//labelClassName = "text-green-600 text-xl font-semibold"
