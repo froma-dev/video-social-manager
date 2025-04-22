@@ -11,6 +11,12 @@ interface AuthProps {
   handleTokenChange: (token: string) => void;
 }
 
+const YoutubeScopes = [
+  "https://www.googleapis.com/auth/youtube.force-ssl",
+  "https://www.googleapis.com/auth/yt-analytics-monetary.readonly",
+  "https://www.googleapis.com/auth/yt-analytics.readonly",
+];
+
 const Auth = ({ handleTokenChange }: AuthProps) => {
   const [accessToken, setAccessToken] = useState(null);
   const oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
@@ -23,8 +29,8 @@ const Auth = ({ handleTokenChange }: AuthProps) => {
   const params = {
     client_id: clientId,
     redirect_uri: redirectUri,
-    response_type: "code",
-    scope: "https://www.googleapis.com/auth/youtube.force-ssl",
+    response_type: "token",
+    scope: YoutubeScopes.join(" "),
     include_granted_scopes: "true",
     state: "pass-through value",
   };
