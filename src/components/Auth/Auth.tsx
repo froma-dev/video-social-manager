@@ -1,12 +1,11 @@
 import { useCallback, useEffect } from "react";
-import "./Auth.css";
 import {
   YOUTUBE_DATA_API_CLIENT_ID,
   YOUTUBE_DATA_API_CLIENT_SECRET,
   YOUTUBE_DATA_API_REDIRECT_URI,
 } from "@/config";
-import { useState } from "react";
-import Button from "../Button/Button";
+import Button from "@components/Button/Button";
+import { IconBrandGoogleFilled } from "@tabler/icons-react";
 
 interface AuthProps {
   handleTokenChange: (token: string) => void;
@@ -19,118 +18,49 @@ const youtubeScopes = [
 ];
 const youtubeOAuth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
 const youtubeOAuth2TokenEndpoint = "https://oauth2.googleapis.com/token";
+const clientId = YOUTUBE_DATA_API_CLIENT_ID;
+const clientSecret = YOUTUBE_DATA_API_CLIENT_SECRET;
+const redirectUri = YOUTUBE_DATA_API_REDIRECT_URI;
+const oauth2Endpoint = youtubeOAuth2Endpoint;
+const oauth2TokenEndpoint = youtubeOAuth2TokenEndpoint;
+const oAuth2SearchParams = {
+  client_id: clientId,
+  redirect_uri: redirectUri,
+  response_type: "code",
+  scope: youtubeScopes.join(" "),
+  include_granted_scopes: "true",
+  state: "pass-through value",
+};
 
 const Auth = ({ handleTokenChange }: AuthProps) => {
-  const [accessToken, setAccessToken] = useState(null);
-  const clientId = YOUTUBE_DATA_API_CLIENT_ID;
-  const clientSecret = YOUTUBE_DATA_API_CLIENT_SECRET;
-  const redirectUri = YOUTUBE_DATA_API_REDIRECT_URI;
-  const oauth2Endpoint = youtubeOAuth2Endpoint;
-  const oauth2TokenEndpoint = youtubeOAuth2TokenEndpoint;
-
-  // Parameters to pass to OAuth 2.0 endpoint.
-  const params = {
-    client_id: clientId,
-    redirect_uri: redirectUri,
-    response_type: "code",
-    scope: youtubeScopes.join(" "),
-    include_granted_scopes: "true",
-    state: "pass-through value",
-  };
-
   async function handleOAuthSignIn(event: React.FormEvent) {
     event.preventDefault();
-
     const oauth2AuthorizationUrl = new URL(oauth2Endpoint);
-    const oauth2AuthorizationParams = new URLSearchParams(params);
-
-    oauth2AuthorizationUrl.search = oauth2AuthorizationParams.toString();
-
-    // redirect
+    oauth2AuthorizationUrl.search = new URLSearchParams(
+      oAuth2SearchParams
+    ).toString();
     window.location.href = oauth2AuthorizationUrl.toString();
-  }
-
-  const handleTokenExchange = useCallback(
-    async (authorizationCode: string) => {
-      const requestBody = new URLSearchParams({
-        code: authorizationCode,
-        client_id: clientId,
-        client_secret: clientSecret,
-        redirect_uri: redirectUri,
-        grant_type: "authorization_code",
-      });
-
-      try {
-        const response = await fetch(oauth2TokenEndpoint, {
-          method: "POST",
-          headers: {
-            "Content-type": "application/x-www-form-urlencoded",
-          },
-          body: requestBody,
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to exchange token");
-        }
-
-        const data = await response.json();
-        const accessToken = data.access_token;
-        console.log("--------_>", data);
-
-        setAccessToken(accessToken);
-        handleTokenChange(accessToken);
-      } catch (error) {
-        console.error("Error exchanging token:", error);
-      }
-    },
-    [
-      clientId,
-      clientSecret,
-      redirectUri,
-      oauth2TokenEndpoint,
-      handleTokenChange,
-    ]
-  );
-
-  const handleTokenExtraction = useCallback(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const authorizationCode = searchParams.get("code");
-
-    if (authorizationCode) {
-      handleTokenExchange(authorizationCode);
-    }
-  }, [handleTokenExchange]);
-
-  useEffect(() => {
-    handleTokenExtraction();
-  }, [handleTokenExtraction]);
+  };
 
   return (
-    <div className="authentication grid place-items-center h-vh">
-      <div className="row align-items-center">
-        <div className="col-md-6 col-12 red-section d-flex justify-content-center align-items-center">
-          <h1 className="text-center" style={{ color: "white" }}>
-            YouTube Video Search
-          </h1>
-        </div>
+    <div className="authentication grid place-items-center h-dvh">
+      <section className="login flex flex-col items-center border border-slate-700 rounded-xl p-6">
         <div className="mb-4 text-center">
-          <p style={{ fontWeight: "600" }}>
+          <h1 className="text-4xl font-bold text-center">
+            Social Video Manager
+          </h1>
+          <p className="text-lg">
             Sign in using Google to authorize this application to access the
             YouTube Data API using your personal Google account.
           </p>
         </div>
-        <div>
-          {accessToken === null ? (
-            <form onSubmit={handleOAuthSignIn} className="text-center">
-              <Button>Sign in with Google</Button>
-            </form>
-          ) : (
-            <div className="text-center">
-              <p style={{ fontWeight: "600" }}>You are signed in</p>
-            </div>
-          )}
-        </div>
-      </div>
+        <form onSubmit={handleOAuthSignIn} className="text-center">
+          <Button>
+            <IconBrandGoogleFilled size={24} />
+            Sign in with Google
+          </Button>
+        </form>
+      </section>
     </div>
   );
 };
