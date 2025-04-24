@@ -1,12 +1,8 @@
 import "./App.css";
-import Auth from "@features/auth/Auth";
-import { Route, Routes, Navigate } from "react-router-dom";
-import SearchPage from "@features/search/SearchPage";
-import DetailsPage from "@/features/contentDetails/ContentDetailsPage";
-import DashboardPage from "@/features/dashboard/DashboardPage";
 import { Provider } from "react-redux";
 import { store } from "@store/index";
 import { useLocalStorageWithExpiration } from "@hooks/useLocalStorage";
+import AppRoutes from "@routes/index";
 
 function App() {
   const [accessToken, setAccessToken] = useLocalStorageWithExpiration<
@@ -22,48 +18,10 @@ function App() {
 
   return (
     <Provider store={store}>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            accessToken ? (
-              <Navigate to="/dashboard" />
-            ) : (
-              <Auth handleTokenChange={handleTokenChange} />
-            )
-          }
-        />
-        <Route
-          path="/search"
-          element={
-            accessToken ? (
-              <SearchPage accessToken={accessToken} />
-            ) : (
-              <Navigate to="/" />
-            )
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={
-            accessToken ? (
-              <DashboardPage accessToken={accessToken} />
-            ) : (
-              <Navigate to="/" />
-            )
-          }
-        />
-        <Route
-          path="/details/:videoId"
-          element={
-            accessToken ? (
-              <DetailsPage accessToken={accessToken} />
-            ) : (
-              <Navigate to="/" />
-            )
-          }
-        />
-      </Routes>
+      <AppRoutes
+        accessToken={accessToken}
+        handleTokenChange={handleTokenChange}
+      />
     </Provider>
   );
 }

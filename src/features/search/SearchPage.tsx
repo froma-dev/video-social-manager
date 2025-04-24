@@ -5,14 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/store";
 import SearchResults from "@components/Search/SearchResults";
 import { setQuery, fetchSearch, setSearchResults } from "./searchSlice";
+import useOAuth2Context from "../auth/hooks/useOAuth2Context";
 
-interface SearchProps {
-  accessToken: string;
-}
 const MIN_QUERY_LENGTH = 3;
 const DEFAULT_SEARCH_DEBOUNCE = 1000;
 
-const SearchPage = ({ accessToken }: SearchProps) => {
+const SearchPage = () => {
+  const { accessToken } = useOAuth2Context();
   const dispatch = useDispatch<AppDispatch>();
   const searchQuery = useSelector((state: RootState) => state.search.query);
   const searchProvider = useSelector(

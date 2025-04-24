@@ -10,8 +10,10 @@ import VideoStatisticsInline from "@components/VideoStatistics/VideoStatisticsIn
 import CommentsSection from "./CommentsSection";
 import Channel from "@components/Channel/Channel";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
+import useOAuth2Context from "@features/auth/hooks/useOAuth2Context";
 
-const ContentDetailsPage = ({ accessToken }: { accessToken: string }) => {
+const ContentDetailsPage = () => {
+  const { accessToken } = useOAuth2Context();
   const { videoId = "" } = useParams();
   const [contentDetails, setContentDetails] = useState<ContentDetails | null>(
     null
@@ -22,16 +24,17 @@ const ContentDetailsPage = ({ accessToken }: { accessToken: string }) => {
   //const [rate, setRate] = useState<YoutubeRating>("none");
 
   useEffect(() => {
+    if (!accessToken) return;
+
     const fetchContentDetails = async () => {
       const fetchedContentDetails = await getContentDetails({
         videoIds: [videoId],
         accessToken,
       });
-      setContentDetails(fetchedContentDetails);
-
-      console.log(fetchedContentDetails);
+      const contentDetails = fetchedContentDetails[0];
+      setContentDetails(contentDetails);
       const fetchedChannelDetails = await getChannel({
-        channelId: fetchedContentDetails.snippet.channelId,
+        channelId: contentDetails.snippet.channelId,
         accessToken,
       });
       setChannelDetails(fetchedChannelDetails);

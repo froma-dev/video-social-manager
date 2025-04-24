@@ -7,6 +7,7 @@ import VideoOverviewSection, {
 } from "./sections/VideoOverviewSection";
 import CardOverviewSection from "./sections/CardOverviewSection";
 import { OverviewCardData } from "@components/Overview/types";
+import useOAuth2Context from "@features/auth/hooks/useOAuth2Context";
 
 const dashboardTitle = "Channel Overview";
 const overviewCardsData: OverviewCardData[] = [
@@ -31,9 +32,12 @@ const overviewCardsData: OverviewCardData[] = [
 ];
 
 const recentVideosTitle = "Recent Videos";
-const DashboardPage = ({ accessToken }: { accessToken: string }) => {
+const DashboardPage = () => {
+  const { accessToken } = useOAuth2Context();
   const [videoReports, setVideoReports] = useState<VideoReport[] | null>(null);
   useEffect(() => {
+    if (!accessToken) return;
+
     getReports({ accessToken, days: 7 }).then((reports) => {
       const videoIds = reports.map((r) => r.videoId.toString());
 
@@ -64,7 +68,7 @@ const DashboardPage = ({ accessToken }: { accessToken: string }) => {
         overviewCardsData={overviewCardsData}
         title={recentVideosTitle}
       />
-      {videoReports ? (
+      {accessToken && videoReports ? (
         <VideoOverviewSection
           videoReports={videoReports}
           accessToken={accessToken}
