@@ -8,7 +8,7 @@ interface AuthProps {
   handleTokenChange: (token: string) => void;
 }
 
-const Auth = ({ handleTokenChange }: AuthProps) => {
+const AuthPage = ({ handleTokenChange }: AuthProps) => {
   async function handleOAuthSignIn(event: React.FormEvent) {
     event.preventDefault();
     requestGoogleAuthorization();
@@ -16,9 +16,7 @@ const Auth = ({ handleTokenChange }: AuthProps) => {
 
   const [authorizationCode] = useOAuth2();
 
-  useEffect(() => {
-    
-  }, [handleTokenChange]);
+  useEffect(() => {}, [handleTokenChange]);
 
   return (
     <div className="authentication grid place-items-center h-dvh">
@@ -43,4 +41,4 @@ const Auth = ({ handleTokenChange }: AuthProps) => {
   );
 };
 
-export default Auth;
+export default AuthPage;
