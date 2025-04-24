@@ -16,18 +16,9 @@ const Auth = ({ handleTokenChange }: AuthProps) => {
 
   const [authorizationCode] = useOAuth2();
 
-  const handleTokenExtraction = useCallback(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const authorizationCode = searchParams.get("code");
-
-    if (authorizationCode) {
-      handleTokenExchange(authorizationCode);
-    }
-  }, [handleTokenExchange]);
-
   useEffect(() => {
-    handleTokenExtraction();
-  }, [handleTokenExtraction]);
+    
+  }, [handleTokenChange]);
 
   return (
     <div className="authentication grid place-items-center h-dvh">

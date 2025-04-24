@@ -1,12 +1,12 @@
 import "./App.css";
-import Auth from "./components/Auth/Auth";
+import Auth from "@features/auth/Auth";
 import { Route, Routes, Navigate } from "react-router-dom";
 import SearchPage from "@features/search/SearchPage";
 import DetailsPage from "@/features/contentDetails/ContentDetailsPage";
 import DashboardPage from "@/features/dashboard/DashboardPage";
 import { Provider } from "react-redux";
 import { store } from "@store/index";
-import { useLocalStorageWithExpiration } from "./hooks/useLocalStorage";
+import { useLocalStorageWithExpiration } from "@hooks/useLocalStorage";
 
 function App() {
   const [accessToken, setAccessToken] = useLocalStorageWithExpiration<
@@ -15,7 +15,6 @@ function App() {
 
   const handleTokenChange = (token: string) => {
     setAccessToken(token);
-    localStorage.setItem("access_token", token);
   };
 
   //const match = useMatch("/details/:videoId");
