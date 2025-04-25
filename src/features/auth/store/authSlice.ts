@@ -1,25 +1,44 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {
+  getLocalStorageWithExpiry,
+} from "@utils/localStorage";
+import { createSlice, Middleware } from "@reduxjs/toolkit";
+import { AccessTokenData } from "@features/auth/types";
 
-interface AuthState {
-  accessToken: string | null;
-}
+const StoredAccessTokenData =
+  getLocalStorageWithExpiry<AccessTokenData>("access_token_data");
 
-const initialState: AuthState = {
-  accessToken: null,
+const initialState: AccessTokenData = {
+  accessToken: StoredAccessTokenData?.accessToken ?? null,
+  refreshToken: StoredAccessTokenData?.refreshToken ?? null,
+  expiresIn: StoredAccessTokenData?.expiresIn ?? 0,
+  scope: StoredAccessTokenData?.scope ?? "",
 };
+
+const accessTokenStorageMiddleware: Middleware = storeAPI => next => action => {
+    
+  
+}
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAccessToken: (state, action) => {
-      state.accessToken = action.payload;
+    setAccessTokenData: (state, action) => {
+      const { accessToken, refreshToken, expiresIn, scope } = action.payload;
+
+      state.accessToken = accessToken;
+      state.refreshToken = refreshToken;
+      state.expiresIn = expiresIn;
+      state.scope = scope;
     },
-    clearAccessToken: (state) => {
+    clearAccessTokenData: (state) => {
       state.accessToken = null;
+      state.refreshToken = null;
+      state.expiresIn = 0;
+      state.scope = "";
     },
   },
 });
 
-export const { setAccessToken, clearAccessToken } = authSlice.actions;
+export const { setAccessTokenData, clearAccessTokenData } = authSlice.actions;
 export default authSlice.reducer;

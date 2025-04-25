@@ -4,7 +4,7 @@ import {
   requestGoogleAuthorization,
 } from "@features/auth/services/oauth2";
 import { hasAccessTokenData } from "@features/auth/types";
-import { setAccessToken } from "../store/authSlice";
+import { setAccessTokenData } from "../store/authSlice";
 import { useDispatch } from "react-redux";
 
 const useOAuth2 = () => {
@@ -24,8 +24,7 @@ const useOAuth2 = () => {
       requestGoogleAccessToken({ authorizationCode }).then(
         (accessTokenData) => {
           if (hasAccessTokenData(accessTokenData)) {
-            const { accessToken } = accessTokenData;
-            dispatch(setAccessToken({ accessToken }));
+            dispatch(setAccessTokenData(accessTokenData));
           } else {
             console.error(accessTokenData.error);
           }

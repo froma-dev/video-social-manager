@@ -13,10 +13,10 @@ export interface RequestAccessTokenPayload {
   error?: string;
 }
 export interface AccessTokenData {
-  accessToken: string;
+  accessToken: string | null;
   expiresIn: number;
-  refreshToken: string;
-  scope: string;
+  refreshToken: string | null;
+  scope: string | null;
 }
 export interface AccessTokenDataError {
   error: string;
@@ -26,6 +26,8 @@ export interface RequestGoogleAccessTokenProps {
   authorizationCode: string;
 }
 
-export const hasAccessTokenData = (data: AccessTokenResult): data is AccessTokenData => {
-  return 'accessToken' in data;
+export const hasAccessTokenData = (
+  data: AccessTokenResult
+): data is AccessTokenData => {
+  return "accessToken" in data;
 };
