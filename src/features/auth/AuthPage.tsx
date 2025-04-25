@@ -1,22 +1,13 @@
-import { useCallback, useEffect } from "react";
 import Button from "@components/Button/Button";
 import { IconBrandGoogleFilled } from "@tabler/icons-react";
-import { requestGoogleAuthorization } from "./services/oauth2";
 import useOAuth2 from "./hooks/useOAuth2";
 
-interface AuthProps {
-  handleTokenChange: (token: string) => void;
-}
-
-const AuthPage = ({ handleTokenChange }: AuthProps) => {
-  async function handleOAuthSignIn(event: React.FormEvent) {
+const AuthPage = () => {
+  const requestAuthorization = useOAuth2();
+  const handleOAuthSignIn = async (event: React.FormEvent) => {
     event.preventDefault();
-    requestGoogleAuthorization();
-  }
-
-  const [authorizationCode] = useOAuth2();
-
-  useEffect(() => {}, [handleTokenChange]);
+    requestAuthorization();
+  };
 
   return (
     <div className="authentication grid place-items-center h-dvh">

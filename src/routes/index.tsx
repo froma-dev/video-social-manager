@@ -7,15 +7,14 @@ import { PrivateRoute, PublicRoute } from "./RouteGuards";
 
 interface AppRoutesProps {
   accessToken: string | null;
-  handleTokenChange: (token: string) => void;
 }
-const AppRoutes = ({ accessToken, handleTokenChange }: AppRoutesProps) => {
+const AppRoutes = ({ accessToken }: AppRoutesProps) => {
   return (
     <Routes>
       <Route element={<PublicRoute accessToken={accessToken} />}>
         <Route
           path="/"
-          element={<AuthPage handleTokenChange={handleTokenChange} />}
+          element={<AuthPage />}
         />
       </Route>
 

@@ -103,7 +103,7 @@ const searchSlice = createSlice({
   },
 });
 
-export const searchReducer = searchSlice.reducer;
+export default searchSlice.reducer;
 export { fetchSearch };
 export const {
   setProvider,

@@ -1,40 +1,25 @@
 import {
+  GOOGLE_OAUTH2_ENDPOINT,
+  GOOGLE_OAUTH2_TOKEN_ENDPOINT,
   YOUTUBE_DATA_API_CLIENT_ID,
   YOUTUBE_DATA_API_CLIENT_SECRET,
   YOUTUBE_DATA_API_REDIRECT_URI,
 } from "@/config";
+import { buildErrorMessage } from "@utils/utils";
+import {
+  AccessTokenResult,
+  AccessTokenData,
+  AccessTokenDataError,
+  RequestAccessTokenProps,
+  RequestAccessTokenPayload,
+  RequestGoogleAccessTokenProps,
+} from "@features/auth/types";
 
 const youtubeScopes = [
   "https://www.googleapis.com/auth/youtube.force-ssl",
   "https://www.googleapis.com/auth/yt-analytics-monetary.readonly",
   "https://www.googleapis.com/auth/yt-analytics.readonly",
 ];
-const googleOAuth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
-const googleOAuth2TokenEndpoint = "https://oauth2.googleapis.com/token";
-const clientSecret = YOUTUBE_DATA_API_CLIENT_SECRET;
-const googleOAuth2SearchParams = {
-  client_id: YOUTUBE_DATA_API_CLIENT_ID,
-  redirect_uri: YOUTUBE_DATA_API_REDIRECT_URI,
-  response_type: "code",
-  scope: youtubeScopes.join(" "),
-  include_granted_scopes: "true",
-  state: "pass-through value",
-};
-
-interface RequestAccessTokenProps {
-  authorizationCode: string;
-  clientId: string;
-  clientSecret: string;
-  redirectUri: string;
-  oauth2TokenEndpoint: string;
-}
-interface RequestAccessTokenResponse {
-  access_token: string;
-  expires_in: number;
-  refresh_token: string;
-  scope: string;
-  error?: string;
-}
 
 export const requestAccessToken = async ({
   authorizationCode,
@@ -42,7 +27,7 @@ export const requestAccessToken = async ({
   clientSecret,
   redirectUri,
   oauth2TokenEndpoint,
-}: RequestAccessTokenProps) => {
+}: RequestAccessTokenProps): Promise<AccessTokenResult> => {
   try {
     const response = await fetch(oauth2TokenEndpoint, {
       method: "POST",
@@ -58,9 +43,11 @@ export const requestAccessToken = async ({
       }),
     });
 
-    if (!response.ok) throw new Error("Failed to exchange token");
+    if (!response.ok) {
+      throw new Error(response.status.toString());
+    }
 
-    const responseData: RequestAccessTokenResponse = await response.json();
+    const responseData: RequestAccessTokenPayload = await response.json();
     const {
       access_token: accessToken,
       expires_in: expiresIn,
@@ -71,18 +58,41 @@ export const requestAccessToken = async ({
 
     if (error) throw new Error(error);
 
-    return { accessToken, expiresIn, refreshToken, scope, error };
-  } catch (error) {
-    console.error("Error exchanging token:", error);
-
-    return { error };
+    return {
+      accessToken,
+      expiresIn,
+      refreshToken,
+      scope,
+    } as AccessTokenData;
+  } catch (err) {
+    const error = buildErrorMessage("Failed to exchange token", err);
+    console.error(error);
+    return { error } as AccessTokenDataError;
   }
 };
 
+export const requestGoogleAccessToken = async ({
+  authorizationCode,
+}: RequestGoogleAccessTokenProps) => {
+  const accessTokenData = await requestAccessToken({
+    authorizationCode,
+    clientId: YOUTUBE_DATA_API_CLIENT_ID,
+    clientSecret: YOUTUBE_DATA_API_CLIENT_SECRET,
+    redirectUri: YOUTUBE_DATA_API_REDIRECT_URI,
+    oauth2TokenEndpoint: GOOGLE_OAUTH2_TOKEN_ENDPOINT,
+  });
+  return accessTokenData;
+};
+
 export const requestGoogleAuthorization = () => {
-  const oauth2AuthorizationUrl = new URL(googleOAuth2Endpoint);
-  oauth2AuthorizationUrl.search = new URLSearchParams(
-    googleOAuth2SearchParams
-  ).toString();
+  const oauth2AuthorizationUrl = new URL(GOOGLE_OAUTH2_ENDPOINT);
+  oauth2AuthorizationUrl.search = new URLSearchParams({
+    client_id: YOUTUBE_DATA_API_CLIENT_ID,
+    redirect_uri: YOUTUBE_DATA_API_REDIRECT_URI,
+    response_type: "code",
+    scope: youtubeScopes.join(" "),
+    include_granted_scopes: "true",
+    state: "pass-through value",
+  }).toString();
   window.location.href = oauth2AuthorizationUrl.toString();
 };

@@ -9,19 +9,12 @@ function App() {
     string | null
   >("access_token", null);
 
-  const handleTokenChange = (token: string) => {
-    setAccessToken(token);
-  };
-
   //const match = useMatch("/details/:videoId");
   //const matchedVideoId = match?.params.videoId ?? "";
 
   return (
     <Provider store={store}>
-      <AppRoutes
-        accessToken={accessToken}
-        handleTokenChange={handleTokenChange}
-      />
+      <AppRoutes accessToken={accessToken} />
     </Provider>
   );
 }

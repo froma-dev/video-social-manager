@@ -59,3 +59,10 @@ export const shortNumber = (num: number) => {
   if (num < 1000000) return `${Math.floor(num / 1000)}K`;
   return `${Math.floor(num / 1000000)}M`;
 };
+
+export const buildErrorMessage = (message: string, error?: Error | unknown) => {
+  if (error && error instanceof Error) {
+    return `${message}: ${error.message}`;
+  }
+  return message;
+};
