@@ -78,22 +78,26 @@ const VideoOverview = ({ video, accessToken }: VideoOverviewProps) => {
   ); */
 
   return (
-    <section className="bg-white dark:bg-gray-900">
+    <section className="bg-zinc-950 border-zinc-700 border rounded-xl">
       <div className="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
         <img
           src={video.thumbnail}
           alt={video.title}
-          className="object-cover w-full aspect-[4/3]"
+          className="object-cover w-full aspect-[4/3] rounded-xl"
         />
 
-        <div className="mt-4 md:mt-0">
-          <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+        <div className="mt-4 md:mt-0 flex flex-col gap-2">
+          <h2 className="mb-4 text-3xl tracking-tight font-extrabold text-gray-900 dark:text-white">
             {video.title}
           </h2>
+          {video.description && (
+            <div className="description-box overflow-hidden border border-zinc-700 rounded-xl">
+              <p className="font-light text-gray-500 md:text-lg p-4 overflow-y-scroll dark:text-gray-400 max-h-30">
+                {video.description}
+              </p>
+            </div>
+          )}
           <StatTagList statTagListData={statTagListData}></StatTagList>
-          <p className="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">
-            {video.description}
-          </p>
           <Link to={`/details/${video.id}`}>
             <Button>
               <IconInfoCircle />

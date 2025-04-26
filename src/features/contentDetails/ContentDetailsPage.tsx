@@ -46,13 +46,15 @@ const ContentDetailsPage = () => {
   return contentDetails !== null ? (
     <section className="flex flex-col gap-4">
       <div className="video-content flex flex-col gap-4">
-        <div className="video-player w-full grid">
-          <LiteYouTubeEmbed
-            id={contentDetails.id}
-            title={contentDetails.title}
-          />
+        <div className="video-player-container bg-neutral-950">
+          <div className="video-player rounded-xl mx-auto overflow-hidden max-w-screen-2xl">
+            <LiteYouTubeEmbed
+              id={contentDetails.id}
+              title={contentDetails.title}
+            />
+          </div>
         </div>
-        <section className="video-info flex flex-col gap-4 p-8">
+        <section className="video-info flex flex-col gap-4 p-8 mx-auto max-w-screen-xl px-4 2xl:px-0">
           <h1 className="text-2xl font-bold text-left">
             {contentDetails?.title}
           </h1>

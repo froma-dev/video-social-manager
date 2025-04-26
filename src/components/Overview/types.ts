@@ -13,4 +13,5 @@ export interface OverviewCardData {
   title: string;
   description: string;
   trend: number;
+  icon: string;
 }

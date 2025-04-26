@@ -1,4 +1,6 @@
-import OverviewCard, { type OverviewCardData } from "@components/Overview/OverviewCard";
+import OverviewCard, {
+  type OverviewCardData,
+} from "@components/Overview/OverviewCard";
 
 const CardOverviewSection = ({
   title,
@@ -10,14 +12,14 @@ const CardOverviewSection = ({
   return (
     <section className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold text-white">{title}</h1>
-      <div className="flex gap-4">
+      <div className="grid max-w-screen-md w-full gap-8 sm:grid-cols-3">
         {overviewCardsData.map((card) => (
           <OverviewCard
             key={card.id}
             title={card.title}
             description={card.description}
             trend={card.trend}
-            className={`basis-1/${overviewCardsData.length}`}
+            icon={card.icon}
           />
         ))}
       </div>

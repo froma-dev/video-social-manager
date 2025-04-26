@@ -9,30 +9,33 @@ import CardOverviewSection from "./sections/CardOverviewSection";
 import { OverviewCardData } from "@components/Overview/types";
 import useOAuth2Context from "@features/auth/hooks/useOAuth2Context";
 
-const dashboardTitle = "Channel Overview";
+const dashboardTitle = "Dashboard";
 const overviewCardsData: OverviewCardData[] = [
   {
     id: 1,
     title: shortNumber(15000),
     description: "Subscribers",
     trend: 150,
+    icon: "subscribers",
   },
   {
     id: 2,
     title: shortNumber(10000),
-    description: "Total views",
+    description: "Views",
     trend: -5.5,
+    icon: "views",
   },
   {
     id: 3,
     title: shortNumber(100000),
-    description: "Total likes",
+    description: "Likes",
     trend: 100,
+    icon: "likes",
   },
 ];
 
 const recentVideosTitle = "Recent Videos";
-const mainOverviewTitle = "Statistics";
+const mainOverviewTitle = "Channel Analytics";
 const DashboardPage = () => {
   const { accessToken } = useOAuth2Context();
   const [videoReports, setVideoReports] = useState<VideoReport[] | null>(null);

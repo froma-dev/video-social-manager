@@ -27,7 +27,7 @@ const Channel = ({
     : description;
 
   return (
-    <div className="channel-info flex gap-4">
+    <div className="channel-info flex gap-4 flex-col md:flex-row">
       <ProfilePicture
         imageUrl={imageUrl}
         alt={author}

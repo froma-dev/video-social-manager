@@ -19,12 +19,9 @@ const useOAuth2 = () => {
     const authorizationCode = searchParams.get("code");
 
     if (authorizationCode) {
-      console.log("requesting access token");
-
       requestGoogleAccessToken({ authorizationCode }).then(
         (accessTokenData) => {
           if (hasAccessTokenData(accessTokenData)) {
-            console.log("access token received", accessTokenData);
             dispatch(setAccessTokenData(accessTokenData));
           } else {
             console.error(accessTokenData.error);
