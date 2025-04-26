@@ -9,7 +9,6 @@ import {
   type ContentDetails,
 } from "@services/youtube/youtube.types";
 import { formatStringNumber } from "@utils/utils";
-import { getContentDetails, rateVideo } from "@services/youtube/youtube";
 import { useState } from "react";
 import { shortNumber } from "@utils/utils";
 

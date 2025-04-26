@@ -32,6 +32,7 @@ const overviewCardsData: OverviewCardData[] = [
 ];
 
 const recentVideosTitle = "Recent Videos";
+const mainOverviewTitle = "Statistics";
 const DashboardPage = () => {
   const { accessToken } = useOAuth2Context();
   const [videoReports, setVideoReports] = useState<VideoReport[] | null>(null);
@@ -63,10 +64,10 @@ const DashboardPage = () => {
 
   return (
     <section className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold text-white">{dashboardTitle}</h1>
+      <h1 className="text-4xl font-bold text-white">{dashboardTitle}</h1>
       <CardOverviewSection
         overviewCardsData={overviewCardsData}
-        title={recentVideosTitle}
+        title={mainOverviewTitle}
       />
       {accessToken && videoReports ? (
         <VideoOverviewSection
