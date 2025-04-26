@@ -57,25 +57,9 @@ const VideoOverview = ({ video, accessToken }: VideoOverviewProps) => {
     }
     setShowComments(!showComments);
   };
-  return (
+  /*   return (
     <div key={video.id} className="flex gap-2 max-h-52 overflow-hidden">
-      <div className="thumbnail flex-1/12 flex justify-center grow-1 h-full w-full">
-        <img
-          src={video.thumbnail}
-          alt={video.title}
-          className="object-cover h-full aspect-[4/3]"
-        />
-      </div>
       <div className="metadata flex flex-1/3 flex-col gap-2">
-        <h2 className="text-lg font-bold text-white">{video.title}</h2>
-        <StatTagList statTagListData={statTagListData}></StatTagList>
-
-        <Link to={`/details/${video.id}`}>
-          <Button>
-            <IconInfoCircle />
-            <span>More info</span>
-          </Button>
-        </Link>
 
         <div className="comments-section flex flex-col gap-2 flex-1/3 overflow-scroll">
           <Button onClick={handleShowComments}>
@@ -91,6 +75,34 @@ const VideoOverview = ({ video, accessToken }: VideoOverviewProps) => {
         </div>
       </div>
     </div>
+  ); */
+
+  return (
+    <section className="bg-white dark:bg-gray-900">
+      <div className="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
+        <img
+          src={video.thumbnail}
+          alt={video.title}
+          className="object-cover w-full aspect-[4/3]"
+        />
+
+        <div className="mt-4 md:mt-0">
+          <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+            {video.title}
+          </h2>
+          <StatTagList statTagListData={statTagListData}></StatTagList>
+          <p className="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">
+            {video.description}
+          </p>
+          <Link to={`/details/${video.id}`}>
+            <Button>
+              <IconInfoCircle />
+              <span>More info</span>
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </section>
   );
 };
 

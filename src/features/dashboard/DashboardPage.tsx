@@ -49,6 +49,7 @@ const DashboardPage = () => {
         const combined = contentDetails.map((contentDetail) => ({
           id: contentDetail.id,
           title: contentDetail.title,
+          description: contentDetail.description,
           viewCount:
             reports.find((r) => r.videoId === contentDetail.id)?.views ?? 0,
           likeCount:

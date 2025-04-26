@@ -1,6 +1,7 @@
 export interface VideoReport {
   id: string;
   title: string;
+  description: string;
   viewCount: number;
   likeCount: number;
   commentCount: number;
