@@ -2,12 +2,13 @@ import {
   getLocalStorageWithExpiry,
   LocalStorageKey,
 } from "@utils/localStorage";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AccessTokenData } from "@features/auth/types";
 
 const accessTokenKey = "access_token_data" as LocalStorageKey;
 const StoredAccessTokenData =
   getLocalStorageWithExpiry<AccessTokenData>(accessTokenKey);
+console.log("StoredAccessTokenData", StoredAccessTokenData);
 
 const initialState: AccessTokenData = {
   accessToken: StoredAccessTokenData?.accessToken ?? null,
@@ -20,7 +21,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAccessTokenData: (state, action) => {
+    setAccessTokenData: (state, action: PayloadAction<AccessTokenData>) => {
       const { accessToken, refreshToken, expiresIn, scope } = action.payload;
 
       state.accessToken = accessToken;

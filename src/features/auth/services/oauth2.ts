@@ -60,7 +60,7 @@ export const requestAccessToken = async ({
 
     return {
       accessToken,
-      expiresIn,
+      expiresIn: expiresIn * 1000, // use milliseconds
       refreshToken,
       scope,
     } as AccessTokenData;

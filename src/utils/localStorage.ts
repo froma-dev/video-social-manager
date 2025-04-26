@@ -33,6 +33,7 @@ export const getLocalStorageWithExpiry = <T>(key: LocalStorageKey) => {
 
     const { value, expiration } = storedValue;
 
+    console.log("expiration", expiration);
     if (Date.now() > expiration) {
       removeLocalStorage(key);
       return null;
@@ -50,6 +51,7 @@ export const setLocalStorageWithExpiry = <T>(
   value: T,
   ttl: number = DEFAULT_TTL_MS
 ) => {
+  console.log("this is the ttl going to be used: ", ttl);
   const expiration = Date.now() + ttl;
   const valueWithExpiration = { value, expiration };
   setLocalStorage(key, valueWithExpiration);
