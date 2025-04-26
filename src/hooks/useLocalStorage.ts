@@ -3,10 +3,12 @@ import {
   setLocalStorageWithExpiry,
   getLocalStorage,
   setLocalStorage,
+  removeLocalStorage,
+  LocalStorageKey,
 } from "@utils/localStorage";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-export const useLocalStorage = <T>(key: string, initialValue: T) => {
+export const useLocalStorage = <T>(key: LocalStorageKey, initialValue: T) => {
   const [value, setValue] = useState<T>(() => {
     try {
       const storedValue = getLocalStorage<T>(key);
@@ -19,23 +21,31 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
 
   useEffect(() => {
     setLocalStorage(key, value);
+
+    return () => {
+      removeLocalStorage(key);
+    };
   }, [key, value]);
 
   return [value, setValue] as const;
 };
 
 export const useLocalStorageWithExpiration = <T>(
-  key: string,
+  key: LocalStorageKey,
   initialValue: T
 ) => {
   const [value, setValue] = useState<T | null>(() => {
-    return getLocalStorageWithExpiry(key) ?? initialValue;
+    const storedValue = getLocalStorageWithExpiry<T>(key);
+    return storedValue ?? initialValue;
   });
 
-  const setValueWithExpiration = (newValue: T, ttl?: number) => {
-    setLocalStorageWithExpiry<T>(key, newValue, ttl);
-    setValue(newValue);
-  };
+  const setValueWithExpiration = useCallback(
+    (newValue: T, ttl?: number) => {
+      setLocalStorageWithExpiry<T>(key, newValue, ttl);
+      setValue(newValue);
+    },
+    [key]
+  );
 
   return [value, setValueWithExpiration] as const;
 };

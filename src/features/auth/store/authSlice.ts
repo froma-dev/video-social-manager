@@ -1,11 +1,13 @@
 import {
   getLocalStorageWithExpiry,
+  LocalStorageKey,
 } from "@utils/localStorage";
-import { createSlice, Middleware } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { AccessTokenData } from "@features/auth/types";
 
+const accessTokenKey = "access_token_data" as LocalStorageKey;
 const StoredAccessTokenData =
-  getLocalStorageWithExpiry<AccessTokenData>("access_token_data");
+  getLocalStorageWithExpiry<AccessTokenData>(accessTokenKey);
 
 const initialState: AccessTokenData = {
   accessToken: StoredAccessTokenData?.accessToken ?? null,
@@ -13,11 +15,6 @@ const initialState: AccessTokenData = {
   expiresIn: StoredAccessTokenData?.expiresIn ?? 0,
   scope: StoredAccessTokenData?.scope ?? "",
 };
-
-const accessTokenStorageMiddleware: Middleware = storeAPI => next => action => {
-    
-  
-}
 
 const authSlice = createSlice({
   name: "auth",

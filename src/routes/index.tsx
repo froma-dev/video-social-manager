@@ -5,20 +5,17 @@ import SearchPage from "@features/search/SearchPage";
 import DetailsPage from "@features/contentDetails/ContentDetailsPage";
 import { PrivateRoute, PublicRoute } from "./RouteGuards";
 
-interface AppRoutesProps {
-  accessToken: string | null;
-}
-const AppRoutes = ({ accessToken }: AppRoutesProps) => {
+const AppRoutes = () => {
   return (
     <Routes>
-      <Route element={<PublicRoute accessToken={accessToken} />}>
+      <Route element={<PublicRoute />}>
         <Route
           path="/"
           element={<AuthPage />}
         />
       </Route>
 
-      <Route element={<PrivateRoute accessToken={accessToken} />}>
+      <Route element={<PrivateRoute />}>
         <Route path="/search" element={<SearchPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/details/:videoId" element={<DetailsPage />} />

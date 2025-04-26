@@ -1,12 +1,9 @@
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 
-interface PrivateRouteProps {
-  accessToken: string | null;
-}
-interface PublicRouteProps {
-  accessToken: string | null;
-}
-const PrivateRoute = ({ accessToken }: PrivateRouteProps) => {
+const PrivateRoute = () => {
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const isAuthenticated = accessToken !== null;
 
   return isAuthenticated ? (
@@ -16,7 +13,8 @@ const PrivateRoute = ({ accessToken }: PrivateRouteProps) => {
   );
 };
 
-const PublicRoute = ({ accessToken }: PublicRouteProps) => {
+const PublicRoute = () => {
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const isAuthenticated = accessToken !== null;
 
   return isAuthenticated ? (
