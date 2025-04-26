@@ -51,7 +51,7 @@ const VideoOverview = ({ video, accessToken }: VideoOverviewProps) => {
         console.error("Failed to fetch comments:", error);
       }
     };
-    
+
     if (!comments) {
       fetchComments();
     }
@@ -84,8 +84,6 @@ const VideoOverview = ({ video, accessToken }: VideoOverviewProps) => {
           </Button>
           {showCommentsList && (
             <CommentList
-              id={video.id}
-              accessToken={accessToken}
               commentCount={video.commentCount.toString()}
               comments={comments}
             />

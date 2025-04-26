@@ -173,10 +173,7 @@ export const getCommentThreads = async ({
 const transformCommentThreads = (data: any) => {
   const comments = data.items.map((item: YoutubeCommentThread) => {
     const topLevelComment = item.snippet.topLevelComment;
-    const transformedTopLevelComment = transformComment(
-      topLevelComment,
-      item.id
-    );
+    const transformedTopLevelComment = transformComment(topLevelComment);
 
     return transformedTopLevelComment;
   });

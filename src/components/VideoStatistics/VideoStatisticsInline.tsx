@@ -34,7 +34,7 @@ const VideoStatisticsInline = ({
   const formattedFavoriteCount = shortNumber(Number(favoriteCount));
   const [rating, setRating] = useState<Ratings>("none");
 
-  const handleRateClick = async (rating: Ratings) => {
+  /*   const handleRateClick = async (rating: Ratings) => {
     try {
       const isVideoRated = await rateVideo({
         videoId: id,
@@ -53,7 +53,7 @@ const VideoStatisticsInline = ({
     } catch (error) {
       console.error("Failed to rate video:", error);
     }
-  };
+  }; */
 
   return (
     <div className="flex flex-col gap-[10px]">
