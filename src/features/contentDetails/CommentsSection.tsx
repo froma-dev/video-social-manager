@@ -5,6 +5,7 @@ import { CommentData } from "@services/youtube/youtube.types";
 import { getCommentThreads } from "@services/youtube/youtube";
 import Comment from "@components/Comment/Comment";
 import { formatStringNumber } from "@utils/utils";
+import CommentList from "@/components/Comment/CommentList";
 
 interface CommentsSectionProps {
   id: string;
@@ -18,8 +19,6 @@ const CommentsSection = ({
   commentCount,
 }: CommentsSectionProps) => {
   const [comments, setComments] = useState<CommentData[]>([]);
-  const [showComments, setShowComments] = useState(true);
-  const formattedCommentCount = formatStringNumber(commentCount.toString());
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -36,31 +35,7 @@ const CommentsSection = ({
     fetchComments();
   }, [id]);
 
-  return (
-    <section className="comments-section flex flex-col gap-[10px]">
-      <Button
-        className="self-start font-medium text-zinc-900 hover:bg-zinc-200 hover:scale-102 transition-transform"
-        onClick={() => setShowComments(!showComments)}
-      >
-        <IconMessage />
-        {showComments ? "Hide comments" : "Show comments"}
-      </Button>
-      {comments.length > 0 ? (
-        <div
-          className={`flex flex-col gap-[10px] px-[24px] ${
-            showComments ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <h2 className="text-2xl font-bold text-left">
-            {`${formattedCommentCount} comments`}
-          </h2>
-          {comments.map((comment) => (
-            <Comment key={comment.id} {...comment} />
-          ))}
-        </div>
-      ) : null}
-    </section>
-  );
+  return <CommentList commentCount={commentCount} comments={comments} />;
 };
 
 export default CommentsSection;

@@ -62,7 +62,7 @@ const ContentDetailsPage = () => {
             author={contentDetails?.channelTitle || ""}
             imageUrl={channelDetails?.snippet?.thumbnails?.high?.url || ""}
             subscriberCount={channelDetails?.statistics?.subscriberCount || 0}
-            description={channelDetails?.snippet?.description || ""}
+            description={contentDetails?.description || ""}
           />
           <VideoStatisticsInline
             contentDetails={contentDetails}
