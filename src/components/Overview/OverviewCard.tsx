@@ -7,6 +7,7 @@ import {
   IconUserPlus,
 } from "@tabler/icons-react";
 import { OverviewCardData } from "./types";
+import TrendingTag from "./TrendingTag";
 
 const iconMap = {
   subscribers: IconUserPlus,
@@ -43,17 +44,8 @@ const OverviewCard = ({
         <p className="text-zinc-400 text-lg">{description}</p>
       </div>
       <div className="flex items-center justify-center gap-2">
-        {trend > 0 ? (
-          <>
-            <IconTrendingUp className="text-green-400" />
-            <p className="text-green-400 text-xl font-semibold">{trend}</p>
-          </>
-        ) : (
-          <>
-            <IconTrendingDown className="text-red-400" />
-            <p className="text-red-400 text-xl font-semibold">{trend}</p>
-          </>
-        )}
+        {<TrendingTag value={trend} trend={`${trend >= 0 ? "up" : "down"}`} />}
+        <span>tag label</span>
       </div>
     </section>
   );
