@@ -38,14 +38,15 @@ const OverviewCard = ({
         className
       )}
     >
-      <h2 className="text-4xl font-bold text-zinc-50">{title}</h2>
+      <header className="flex items-center justify-center gap-2">
+        <h2 className="text-5xl font-bold text-zinc-50">{title}</h2>
+        <Icon className="text-zinc-300" size={32} />
+      </header>
       <div className="flex items-center justify-center gap-1 w-full">
-        <Icon className="text-zinc-200" size={24} />
-        <p className="text-zinc-400 text-lg">{description}</p>
+        <p className="text-zinc-400 text-lg font-medium">{description}</p>
       </div>
       <div className="flex items-center justify-center gap-2">
         {<TrendingTag value={trend} trend={`${trend >= 0 ? "up" : "down"}`} />}
-        <span>tag label</span>
       </div>
     </section>
   );
