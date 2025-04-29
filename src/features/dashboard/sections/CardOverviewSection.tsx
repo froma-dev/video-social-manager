@@ -10,9 +10,9 @@ const CardOverviewSection = ({
   overviewCardsData: OverviewCardData[];
 }) => {
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex max-w-screen-xl mx-auto flex-col gap-4">
       <h1 className="text-2xl font-bold text-white">{title}</h1>
-      <div className="grid max-w-screen-md w-full gap-8 sm:grid-cols-3">
+      <div className="grid w-full gap-8 sm:grid-cols-3">
         {overviewCardsData.map((card) => (
           <OverviewCard
             key={card.id}
