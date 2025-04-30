@@ -13,9 +13,7 @@ import {
   RequestAccessTokenProps,
   RequestAccessTokenPayload,
   RequestGoogleAccessTokenProps,
-  hasAccessTokenData,
 } from "@features/auth/types";
-import { setAccessTokenData } from "../store/authSlice";
 
 const youtubeScopes = [
   "https://www.googleapis.com/auth/youtube.force-ssl",

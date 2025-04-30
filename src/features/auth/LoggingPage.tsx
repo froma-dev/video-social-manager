@@ -3,7 +3,7 @@ import "ldrs/react/Squircle.css";
 import useOAuth2 from "@features/auth/hooks/useOAuth2";
 
 const LoggingPage = () => {
-  const requestAuthorization = useOAuth2();
+  useOAuth2();
   return (
     <div className="authentication grid place-items-center h-dvh">
       <section className="flex flex-col items-center gap-4">
