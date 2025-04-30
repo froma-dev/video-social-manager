@@ -4,15 +4,15 @@ import DashboardPage from "@features/dashboard/DashboardPage";
 import SearchPage from "@features/search/SearchPage";
 import DetailsPage from "@features/contentDetails/ContentDetailsPage";
 import { PrivateRoute, PublicRoute } from "./RouteGuards";
+import LoggingPage from "@/features/auth/LoggingPage";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route element={<PublicRoute />}>
-        <Route
-          path="/"
-          element={<AuthPage />}
-        />
+        <Route path="/" element={<AuthPage />} />
+        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/authorized" element={<LoggingPage />} />
       </Route>
 
       <Route element={<PrivateRoute />}>

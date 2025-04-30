@@ -12,7 +12,7 @@ const PrivateRoute = () => {
       <Outlet context={{ accessToken }} />
     </MainLayout>
   ) : (
-    <Navigate to="/" />
+    <Navigate to="/auth" />
   );
 };
 

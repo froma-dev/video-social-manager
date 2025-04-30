@@ -13,7 +13,9 @@ import {
   RequestAccessTokenProps,
   RequestAccessTokenPayload,
   RequestGoogleAccessTokenProps,
+  hasAccessTokenData,
 } from "@features/auth/types";
+import { setAccessTokenData } from "../store/authSlice";
 
 const youtubeScopes = [
   "https://www.googleapis.com/auth/youtube.force-ssl",
@@ -69,6 +71,16 @@ export const requestAccessToken = async ({
     console.error(error);
     return { error } as AccessTokenDataError;
   }
+};
+
+export const extractAccessToken = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+  const authorizationCode = searchParams.get("code");
+
+  if (authorizationCode) {
+    return requestGoogleAccessToken({ authorizationCode });
+  }
+  return Promise.resolve(null);
 };
 
 export const requestGoogleAccessToken = async ({

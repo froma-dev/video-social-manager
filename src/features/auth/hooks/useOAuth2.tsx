@@ -1,11 +1,11 @@
 import { useCallback, useEffect } from "react";
 import {
-  requestGoogleAccessToken,
   requestGoogleAuthorization,
+  extractAccessToken,
 } from "@features/auth/services/oauth2";
-import { hasAccessTokenData } from "@features/auth/types";
 import { setAccessTokenData } from "../store/authSlice";
 import { useDispatch } from "react-redux";
+import { hasAccessTokenData } from "../types";
 
 const useOAuth2 = () => {
   const dispatch = useDispatch();
@@ -13,23 +13,19 @@ const useOAuth2 = () => {
     () => requestGoogleAuthorization(),
     []
   );
+  const extractAccessTokenData = useCallback(async () => {
+    const accessTokenData = await extractAccessToken();
 
-  useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const authorizationCode = searchParams.get("code");
-
-    if (authorizationCode) {
-      requestGoogleAccessToken({ authorizationCode }).then(
-        (accessTokenData) => {
-          if (hasAccessTokenData(accessTokenData)) {
-            dispatch(setAccessTokenData(accessTokenData));
-          } else {
-            console.error(accessTokenData.error);
-          }
-        }
-      );
+    if (accessTokenData && hasAccessTokenData(accessTokenData)) {
+      dispatch(setAccessTokenData(accessTokenData));
+    } else {
+      console.error("Failed to extract access token");
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    extractAccessTokenData();
+  }, [extractAccessTokenData]);
 
   return requestAuthorization;
 };
