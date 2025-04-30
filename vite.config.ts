@@ -16,6 +16,7 @@ export default defineConfig({
       "@utils": path.resolve(__dirname, "./src/utils"),
       "@features": path.resolve(__dirname, "./src/features"),
       "@routes": path.resolve(__dirname, "./src/routes"),
+      "@layouts": path.resolve(__dirname, "./src/layouts"),
     },
   },
 });

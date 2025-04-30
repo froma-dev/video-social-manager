@@ -1,13 +1,16 @@
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
+import MainLayout from "@layouts/MainLayout";
 
 const PrivateRoute = () => {
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const isAuthenticated = accessToken !== null;
 
   return isAuthenticated ? (
-    <Outlet context={{ accessToken }} />
+    <MainLayout>
+      <Outlet context={{ accessToken }} />
+    </MainLayout>
   ) : (
     <Navigate to="/" />
   );
@@ -18,7 +21,9 @@ const PublicRoute = () => {
   const isAuthenticated = accessToken !== null;
 
   return isAuthenticated ? (
-    <Navigate to="/dashboard" />
+    <MainLayout>
+      <Navigate to="/dashboard" />
+    </MainLayout>
   ) : (
     <Outlet context={{ accessToken }} />
   );
