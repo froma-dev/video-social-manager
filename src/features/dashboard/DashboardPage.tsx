@@ -68,7 +68,6 @@ const DashboardPage = () => {
 
   return (
     <section className="flex flex-col gap-4">
-      <h1 className="text-4xl font-bold text-white">{dashboardTitle}</h1>
       <CardOverviewSection
         overviewCardsData={overviewCardsData}
         title={mainOverviewTitle}
