@@ -65,7 +65,7 @@ const VideoOverview = ({ video, accessToken }: VideoOverviewProps) => {
           <img
             src={video.thumbnail}
             alt={video.title}
-            className="object-cover h-full w-full aspect-video lg:w-120 transition-transform rounded-xl"
+            className="object-cover h-full w-full aspect-video transition-transform rounded-xl"
           />
           <StatTagList statTagListData={statTagListData} />
           <div className="flex flex-col gap-2 justify-center">
