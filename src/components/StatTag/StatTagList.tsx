@@ -9,11 +9,7 @@ const StatTagList = ({
   return (
     <div className="statistics flex gap-2">
       {statTagListData.map((stat) => (
-        <StatTag
-          key={stat.id}
-          labelText={stat.labelText}
-          icon={stat.icon}
-        />
+        <StatTag key={stat.id} labelText={stat.labelText} icon={stat.icon} />
       ))}
     </div>
   );
