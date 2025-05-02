@@ -2,12 +2,12 @@ import { Squircle } from "ldrs/react";
 import "ldrs/react/Squircle.css";
 
 interface SpinnerProps {
-  title: string;
-  message: string;
+  title?: string;
+  message?: string;
 }
 
 const Spinner = ({ title, message }: SpinnerProps) => (
-  <div className="authentication grid place-items-center h-dvh">
+  <div className="spinner grid place-items-center h-dvh">
     <section className="flex flex-col items-center gap-4">
       <Squircle
         size="54"
@@ -18,9 +18,9 @@ const Spinner = ({ title, message }: SpinnerProps) => (
         color="white"
       />
       {title ? (
-        <h1 className="text-4xl font-bold text-zinc-50">{title}</h1>
+        <h1 className="text-4xl font-bold text-center text-zinc-50">{title}</h1>
       ) : null}
-      {message ? <p className="text-zinc-400">{message}</p> : null}
+      {message ? <p className="text-zinc-400 text-center">{message}</p> : null}
     </section>
   </div>
 );

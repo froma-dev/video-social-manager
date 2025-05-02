@@ -59,16 +59,17 @@ const VideoOverview = ({ video, accessToken }: VideoOverviewProps) => {
   };
 
   return (
-    <section className="bg-zinc-950 hover:bg-zinc-800 p-2 transition-colors rounded-xl mx-auto w-full max-w-screen-2xl group">
+    <section className="hover:bg-zinc-800 p-2 transition-colors rounded-xl max-w-screen-2xl group">
       <Link to={`/details/${video.id}`}>
-        <div className="flex flex-col sm:items-center md:flex-row h-full gap-4">
+        <div className="flex flex-col items-center h-full gap-4">
           <img
             src={video.thumbnail}
             alt={video.title}
-            className="object-cover aspect-[16/9] transition-transform rounded-xl max-w-120 max-h-80 group-hover:scale-105"
+            className="object-cover h-full w-full aspect-video lg:w-120 transition-transform rounded-xl"
           />
-          <div className="h-full flex flex-col gap-2 justify-center p-2">
-            <h2 className="mb-4 text-xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+          <StatTagList statTagListData={statTagListData} />
+          <div className="flex flex-col gap-2 justify-center">
+            <h2 className="mb-4 h-20 text-xl sm:text-md md:text-lg lg:text-md sm:text-center md:text-left lg:text-left tracking-tight font-extrabold text-gray-900 dark:text-white overflow-hidden text-ellipsis line-clamp-3">
               {video.title}
             </h2>
             {/*video.description && (
@@ -78,7 +79,6 @@ const VideoOverview = ({ video, accessToken }: VideoOverviewProps) => {
               </p>
             </div>
           )*/}
-            <StatTagList statTagListData={statTagListData} />
           </div>
         </div>
       </Link>

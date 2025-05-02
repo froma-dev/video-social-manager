@@ -24,8 +24,8 @@ const Menu = () => {
   const location = useLocation();
 
   return (
-    <nav className="row-start-2 row-span-5 md:col-span-1 p-4">
-      <ul className="flex flex-col gap-2">
+    <nav className="row-start-1 row-span-1 md:row-start-2 md:row-span-5 md:col-span-1 p-4 border-r border-zinc-700">
+      <ul className="flex flex-col items-end sm:items-start gap-2">
         {menuItems.map((item) => (
           <li
             key={item.path}
