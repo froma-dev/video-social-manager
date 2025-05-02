@@ -55,7 +55,7 @@ const ContentDetailsPage = () => {
             />
           </div>
         </div>
-        <section className="video-info flex flex-col gap-4 p-8 mx-auto max-w-screen-xl px-4 2xl:px-0">
+        <section className="video-info flex flex-col gap-4 p-8 mx-auto max-w-screen-2xl w-full px-4 2xl:px-0">
           <h1 className="text-2xl font-bold text-left">
             {contentDetails?.title}
           </h1>

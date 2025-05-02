@@ -26,7 +26,7 @@ const StatTag = ({ icon, labelText }: StatTagProps) => {
   return (
     <div className="flex items-center gap-2">
       <IconComponent className="text-zinc-300" />
-      <p className="text-zinc-50 text-md">{labelText}</p>
+      <p className="text-zinc-50 text-md font-semibold">{labelText}</p>
     </div>
   );
 };

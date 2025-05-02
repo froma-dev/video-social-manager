@@ -1,3 +1,4 @@
+import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 import ProfilePicture from "@components/ProfilePicture/ProfilePicture";
 import { shortNumber } from "@/utils/utils";
 import Button from "../Button/Button";
@@ -39,15 +40,17 @@ const Channel = ({
           {shortNumber(subscriberCount)} subscribers
         </span>
       </section>
-      <div className="channel-info__description flex-1">
+      <div className="channel-info__description flex-1 flex flex-col gap-2">
         <p className="text-zinc-400 text-left">
           {showFullDescription ? description : truncatedDescription}
         </p>
         {isDescriptionTruncated && (
           <Button
             onClick={() => setShowFullDescription(!showFullDescription)}
-            className="text-gray-950"
+            className="text-gray-100"
+            type="transparent"
           >
+            {showFullDescription ? <IconChevronUp /> : <IconChevronDown />}
             {showFullDescription ? "Read Less" : "Read More"}
           </Button>
         )}

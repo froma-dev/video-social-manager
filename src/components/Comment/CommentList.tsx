@@ -11,9 +11,11 @@ const CommentList = ({ commentCount, comments }: CommentListProps) => {
   const formattedCommentCount = formatStringNumber(commentCount.toString());
 
   return (
-    <section className="comments-section flex flex-col gap-[10px]">
+    <section className="comments-section flex flex-col gap-[10px] w-full">
       {comments.length > 0 ? (
-        <div className={`flex flex-col gap-[10px] px-[24px]`}>
+        <div
+          className={`flex flex-col gap-[10px] max-w-screen-2xl mx-auto w-full`}
+        >
           <h2 className="text-2xl font-bold text-left">
             {`${formattedCommentCount} comments`}
           </h2>

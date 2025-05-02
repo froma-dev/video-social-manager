@@ -38,7 +38,7 @@ const Comment = ({
         className="w-[52px] h-[52px] shrink-0"
       />
       <div className="comment flex flex-col px-[10px] gap-1.5">
-        <div className="comment__header flex gap-2 text-sm">
+        <div className="comment__header flex text-sm flex-col sm:flex-row sm:gap-2">
           <h3 className="font-bold text-zinc-300">{author}</h3>
           <p className="text-zinc-400 italic">
             {formatLongDate(publishedAt).formattedDate}

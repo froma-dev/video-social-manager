@@ -56,7 +56,7 @@ const VideoStatisticsInline = ({
 
   return (
     <div className="flex flex-col gap-[10px]">
-      <div className="statistics flex flex-row justify-start gap-2">
+      <div className="statistics flex flex-row justify-center md:justify-start gap-2 flex-wrap">
         <Pill>
           <IconEye />
           <span>Views </span>
