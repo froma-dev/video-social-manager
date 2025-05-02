@@ -1,5 +1,5 @@
 import { shortNumber } from "@utils/utils";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getReports } from "@services/youtube/youtubeAnalytics";
 import { getContentDetails } from "@/services/youtube/youtube";
 import VideoOverviewSection, {
@@ -8,6 +8,8 @@ import VideoOverviewSection, {
 import CardOverviewSection from "./sections/CardOverviewSection";
 import { OverviewCardData } from "@components/Overview/types";
 import useOAuth2Context from "@features/auth/hooks/useOAuth2Context";
+import Spinner from "@/components/Spinner/Spinner";
+import GenericError from "@/components/Error/GenericError";
 
 const dashboardTitle = "Dashboard";
 const overviewCardsData: OverviewCardData[] = [
@@ -39,32 +41,40 @@ const mainOverviewTitle = "Channel Analytics";
 const DashboardPage = () => {
   const { accessToken } = useOAuth2Context();
   const [videoReports, setVideoReports] = useState<VideoReport[] | null>(null);
-  useEffect(() => {
+  const [reportError, setReportError] = useState<Error | null>(null);
+  const fetchReports = useCallback(async () => {
     if (!accessToken) return;
 
-    getReports({ accessToken, days: 7 }).then((reports) => {
+    try {
+      const reports = await getReports({ accessToken, days: 7 });
       const videoIds = reports.map((r) => r.videoId.toString());
-
-      getContentDetails({
+      const contentDetails = await getContentDetails({
         accessToken,
         videoIds,
-      }).then((contentDetails) => {
-        const combined = contentDetails.map((contentDetail) => ({
-          id: contentDetail.id,
-          title: contentDetail.title,
-          description: contentDetail.description,
-          viewCount:
-            reports.find((r) => r.videoId === contentDetail.id)?.views ?? 0,
-          likeCount:
-            reports.find((r) => r.videoId === contentDetail.id)?.likes ?? 0,
-          commentCount: Number(contentDetail.statistics.commentCount),
-          thumbnail: contentDetail.thumbnails.high.url,
-        })) as VideoReport[];
-
-        setVideoReports(combined);
       });
-    });
+
+      const combined = contentDetails.map((contentDetail) => ({
+        id: contentDetail.id,
+        title: contentDetail.title,
+        description: contentDetail.description,
+        viewCount:
+          reports.find((r) => r.videoId === contentDetail.id)?.views ?? 0,
+        likeCount:
+          reports.find((r) => r.videoId === contentDetail.id)?.likes ?? 0,
+        commentCount: Number(contentDetail.statistics.commentCount),
+        thumbnail: contentDetail.thumbnails.high.url,
+      })) as VideoReport[];
+
+      setVideoReports(combined);
+    } catch (error) {
+      console.error("Error fetching reports: ", error);
+      setReportError(error as Error);
+    }
   }, [accessToken]);
+
+  useEffect(() => {
+    fetchReports();
+  }, [fetchReports]);
 
   return (
     <section className="flex flex-col gap-4">
@@ -78,8 +88,13 @@ const DashboardPage = () => {
           accessToken={accessToken}
           title={recentVideosTitle}
         />
+      ) : reportError ? (
+        <GenericError
+          title="Error loading reports"
+          message={reportError.message}
+        />
       ) : (
-        <div>Loading Reports...</div>
+        <Spinner title="Loading Reports" message="Please wait..." />
       )}
     </section>
   );

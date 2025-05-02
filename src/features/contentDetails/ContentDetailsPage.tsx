@@ -11,6 +11,7 @@ import CommentsSection from "./CommentsSection";
 import Channel from "@components/Channel/Channel";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import useOAuth2Context from "@features/auth/hooks/useOAuth2Context";
+import Spinner from "@/components/Spinner/Spinner";
 
 const ContentDetailsPage = () => {
   const { accessToken } = useOAuth2Context();
@@ -78,7 +79,7 @@ const ContentDetailsPage = () => {
       />
     </section>
   ) : (
-    <p>Loading...</p>
+    <Spinner title="Loading content..." />
   );
 };
 

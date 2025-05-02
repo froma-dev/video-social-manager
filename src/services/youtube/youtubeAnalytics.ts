@@ -2,7 +2,17 @@ import { YOUTUBE_ANALYTICS_REPORTS } from "@/config";
 import { getPastDate, getTodayDate } from "@utils/dateTime";
 import { AnalyticsApiResponse } from "./youtubeAnalytics.types";
 
-export const getReports = async ({ accessToken, days }: { accessToken: string, days: number }) => {
+const parseGoogleErrorMessage = (errorData: any) => {
+  const { message } = errorData.error;
+  return { message };
+};
+export const getReports = async ({
+  accessToken,
+  days,
+}: {
+  accessToken: string;
+  days: number;
+}) => {
   const url = new URL(YOUTUBE_ANALYTICS_REPORTS);
   url.searchParams.append("ids", "channel==MINE");
   url.searchParams.append("dimensions", "video");
@@ -15,17 +25,24 @@ export const getReports = async ({ accessToken, days }: { accessToken: string, d
   url.searchParams.append("startDate", getPastDate(days));
   url.searchParams.append("endDate", getTodayDate());
 
-  const response = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-  if (!response.ok) throw new Error("Failed to get reports");
-  const data = await response.json();
-  const transformedData = transformReports(data);
+  try {
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    if (!response.ok) {
+      const {message} = parseGoogleErrorMessage(await response.json())
+      throw new Error(message);
+    }
+    console.log("response.ok");
+    const data = await response.json();
+    const transformedData = transformReports(data);
 
-  console.log("Reports = ", transformedData);
-  return transformedData;
+    return transformedData;
+  } catch (err) {
+    throw new Error(`Failed to get reports: ${err}`);
+  }
 };
 
 const transformReports = (data: any) => {
@@ -34,7 +51,7 @@ const transformReports = (data: any) => {
     columnHeaders,
     kind,
   }: { rows: any[]; columnHeaders: any[]; kind: AnalyticsApiResponse } = data;
-  if (kind !== "youtubeAnalytics#resultTable") throw new Error("Invalid data");
+  if (kind !== "youtubeAnalytics#resultTable") return new Error("Invalid data");
 
   return rows.map((row: any) => {
     const report: Record<string, number | string> = {};

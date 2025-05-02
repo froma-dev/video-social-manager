@@ -6,6 +6,7 @@ import { RootState, AppDispatch } from "@/store";
 import SearchResults from "@components/Search/SearchResults";
 import { setQuery, fetchSearch, setSearchResults } from "./searchSlice";
 import useOAuth2Context from "../auth/hooks/useOAuth2Context";
+import Spinner from "@/components/Spinner/Spinner";
 
 const MIN_QUERY_LENGTH = 3;
 const DEFAULT_SEARCH_DEBOUNCE = 1000;
@@ -80,7 +81,7 @@ const SearchPage = () => {
         />
       </div>
       {searchLoading ? (
-        <p>Searching...</p>
+        <Spinner title="Searching" />
       ) : (
         searchQuery.length >= MIN_QUERY_LENGTH &&
         !searchTyping && (
