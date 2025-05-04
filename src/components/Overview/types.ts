@@ -9,7 +9,7 @@ export interface VideoReport {
 }
 
 export interface OverviewCardData {
-  id: number;
+  id: string;
   title: string;
   description: string;
   trend: number;

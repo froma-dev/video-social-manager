@@ -10,9 +10,8 @@ import { getCommentThreads } from "@/services/youtube/youtube";
 
 interface VideoOverviewProps {
   video: VideoReport;
-  accessToken: string;
 }
-const VideoOverview = ({ video, accessToken }: VideoOverviewProps) => {
+const VideoOverview = ({ video }: VideoOverviewProps) => {
   const [comments, setComments] = useState<CommentData[] | null>(null);
   const [showComments, setShowComments] = useState(false);
 
@@ -42,7 +41,6 @@ const VideoOverview = ({ video, accessToken }: VideoOverviewProps) => {
       try {
         const fetchedComments = await getCommentThreads({
           videoId: video.id,
-          accessToken: accessToken,
         });
         setComments(fetchedComments);
       } catch (error) {

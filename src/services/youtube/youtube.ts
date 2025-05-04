@@ -39,7 +39,7 @@ const defaultVideoDetailsParts: YoutubeSearchPart[] = [
 ];
 const defaultVideoCommentsParts: YoutubeSearchPart[] = ["snippet"];
 
-export const buildRequestUrl = (baseUrl: string, accessToken: string) => {
+export const buildRequestUrl = (baseUrl: string) => {
   const url = new URL(baseUrl);
   url.searchParams.append("key", YOUTUBE_DATA_API_KEY);
   return url;
@@ -54,7 +54,7 @@ export const searchYoutube = async ({
     throw new Error("Query is required");
   }
 
-  const url = buildRequestUrl(YOUTUBE_DATA_API_SEARCH_BASE_URL, accessToken);
+  const url = buildRequestUrl(YOUTUBE_DATA_API_SEARCH_BASE_URL);
   url.searchParams.append("part", defaultSearchParts.join(","));
   url.searchParams.append("q", query);
   url.searchParams.append("type", YOUTUBE_SEARCH_TYPE);
@@ -90,11 +90,10 @@ const transformSearchYoutube = (data: any) => {
 
 export const getContentDetails = async ({
   videoIds,
-  accessToken,
 }: GetContentDetailsParams) => {
   if (!videoIds) throw new Error("Video ID is required");
 
-  const url = buildRequestUrl(YOUTUBE_DATA_API_DETAILS, accessToken);
+  const url = buildRequestUrl(YOUTUBE_DATA_API_DETAILS);
   url.searchParams.append("part", defaultVideoDetailsParts.join(","));
   url.searchParams.append("id", videoIds.join(","));
 
@@ -123,11 +122,10 @@ const transformContentDetails = (data: any) => {
 
 export const getComment = async ({
   parentId,
-  accessToken,
 }: GetCommentParams) => {
   if (!parentId) throw new Error("Comment parent ID is required");
 
-  const url = buildRequestUrl(YOUTUBE_DATA_API_COMMENTS, accessToken);
+  const url = buildRequestUrl(YOUTUBE_DATA_API_COMMENTS);
   url.searchParams.append("part", defaultVideoCommentsParts.join(","));
   url.searchParams.append("parentId", parentId);
 
@@ -153,11 +151,10 @@ const transformComment = ({ snippet, id }: YoutubeComment): CommentData => {
 
 export const getCommentThreads = async ({
   videoId,
-  accessToken,
 }: GetCommentThreadsParams) => {
   if (!videoId) throw new Error("videoId ID is required");
 
-  const url = buildRequestUrl(YOUTUBE_DATA_API_COMMENT_THREADS, accessToken);
+  const url = buildRequestUrl(YOUTUBE_DATA_API_COMMENT_THREADS);
   url.searchParams.append("part", "snippet");
   url.searchParams.append("videoId", videoId);
 
@@ -183,11 +180,10 @@ const transformCommentThreads = (data: any) => {
 
 export const rateComment = async ({
   parentId,
-  accessToken,
 }: GetCommentParams) => {
   if (!parentId) throw new Error("Comment parent ID is required");
 
-  const url = buildRequestUrl(YOUTUBE_DATA_API_COMMENTS, accessToken);
+  const url = buildRequestUrl(YOUTUBE_DATA_API_COMMENTS);
   url.searchParams.append("parentId", parentId);
 
   const data = await fetch(url);
@@ -201,12 +197,11 @@ export const rateComment = async ({
 
 export const rateVideo = async ({
   videoId,
-  accessToken,
   rating,
 }: RateVideoParams) => {
   if (!videoId) throw new Error("Video ID is required");
 
-  const url = buildRequestUrl(YOUTUBE_DATA_API_RATE_VIDEO, accessToken);
+  const url = buildRequestUrl(YOUTUBE_DATA_API_RATE_VIDEO);
   url.searchParams.append("id", videoId);
   url.searchParams.append("rating", rating);
 
@@ -219,11 +214,10 @@ export const rateVideo = async ({
 
 export const getVideoRating = async ({
   videoId,
-  accessToken,
 }: GetVideoRatingParams) => {
   if (!videoId) throw new Error("Video ID is required");
 
-  const url = buildRequestUrl(YOUTUBE_DATA_API_GET_RATING, accessToken);
+  const url = buildRequestUrl(YOUTUBE_DATA_API_GET_RATING);
   url.searchParams.append("id", videoId);
 
   const data = await fetch(url);
@@ -242,11 +236,10 @@ const transformVideoRating = (data: any) => {
 
 export const getChannel = async ({
   channelId,
-  accessToken,
 }: GetChannelParams) => {
   if (!channelId) throw new Error("Channel ID is required");
 
-  const url = buildRequestUrl(YOUTUBE_DATA_API_GET_CHANNEL, accessToken);
+  const url = buildRequestUrl(YOUTUBE_DATA_API_GET_CHANNEL);
   url.searchParams.append("part", ["snippet", "statistics"].join(","));
   url.searchParams.append("id", channelId);
 

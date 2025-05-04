@@ -9,38 +9,31 @@ export type YoutubeRating = "like" | "dislike" | "none" | "unspecified";
 
 export interface GetContentDetailsParams {
   videoIds: string[];
-  accessToken: string;
 }
 
 export interface RateVideoParams {
   videoId: string;
-  accessToken: string;
   rating: string;
 }
 
 export interface GetVideoRatingParams {
   videoId: string;
-  accessToken: string;
 }
 
 export interface SearchYoutubeParams {
   query: string;
-  accessToken: string;
 }
 
 export interface GetCommentParams {
   parentId: string;
-  accessToken: string;
 }
 
 export interface GetCommentThreadsParams {
   videoId: string;
-  accessToken: string;
 }
 
 export interface GetChannelParams {
   channelId: string;
-  accessToken: string;
 }
 
 export interface CommentProps {

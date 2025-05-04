@@ -4,11 +4,9 @@ import VideoOverviewList, {
 
 const VideoOverviewSection = ({
   videoReports,
-  accessToken,
   title,
 }: {
   videoReports: VideoReport[];
-  accessToken: string;
   title: string;
 }) => {
   return (
@@ -18,7 +16,6 @@ const VideoOverviewSection = ({
         (videoReports.length > 0 ? (
           <VideoOverviewList
             videoReports={videoReports}
-            accessToken={accessToken}
           />
         ) : (
           <p className="text-zinc-300">No recent videos</p>

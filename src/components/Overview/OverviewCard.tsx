@@ -1,6 +1,7 @@
 import { classNamesBuilder } from "@/utils/utils";
 import {
   IconEye,
+  IconPlayerPlay,
   IconThumbUp,
   IconTrendingDown,
   IconTrendingUp,
@@ -15,6 +16,8 @@ const iconMap = {
   trendDown: IconTrendingDown,
   views: IconEye,
   likes: IconThumbUp,
+  subscribersGained: IconUserPlus,
+  estimatedMinutesWatched: IconPlayerPlay,
 };
 const OverviewCard = ({
   title,
