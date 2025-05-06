@@ -5,6 +5,7 @@ import { OverviewCardData, VideoReport } from "@components/Overview/types";
 import { useCallback, useEffect, useState } from "react";
 import { shortNumber } from "@utils/utils";
 import { ContentDetails } from "@services/youtube/youtube.types";
+import { calculateTrend } from "../utils/utils";
 
 const reportsDescriptionMap: Record<string, string> = {
   views: "Views",
@@ -13,6 +14,8 @@ const reportsDescriptionMap: Record<string, string> = {
   subscribersGained: "Subscribers Gained",
 };
 const DEFAULT_DAYS = 7;
+const DEFAULT_ADD_START_DAYS = 2;
+
 const useReports = () => {
   const { accessToken } = useOAuth2Context();
   const [videoReports, setVideoReports] = useState<VideoReport[] | null>(null);
@@ -44,7 +47,7 @@ const useReports = () => {
         }),
         getReports({
           accessToken,
-          days: DEFAULT_DAYS * 2, // Double the days to compare and make a trend from the previous days
+          days: DEFAULT_DAYS * 2 + DEFAULT_ADD_START_DAYS, // Double the days to compare and add more days as data might not be complete up to the current day
           ids: "channel",
           dimensions: "day",
           metrics: [
@@ -62,12 +65,16 @@ const useReports = () => {
 
       console.log("channelDayReports -->> ", channelDayReports);
 
-      const reducedChannelDayReports = channelDayReports
-        .slice(0, DEFAULT_DAYS)
-        .reduce(
+      const reduceToChannelReports = (reports: any[]) => {
+        return reports.reduce(
           (acc, report) => {
-            const { views, likes, estimatedMinutesWatched, subscribersGained } =
-              report;
+            const {
+              views,
+              likes,
+              estimatedMinutesWatched,
+              subscribersGained,
+              day,
+            } = report;
 
             const newAccValue = {
               views: Number(acc.views) + Number(views),
@@ -82,24 +89,37 @@ const useReports = () => {
             return { ...acc, ...newAccValue };
           },
           {
-            id: "",
             views: 0,
             likes: 0,
             estimatedMinutesWatched: 0,
             subscribersGained: 0,
-          } as Record<string, number | string>
+          } as Record<string, number>
         );
-
+      };
+      const reducedChannelDayReports = reduceToChannelReports(
+        channelDayReports.slice(DEFAULT_DAYS)
+      );
+      const reducedTrendChannelDayReports = reduceToChannelReports(
+        channelDayReports.slice(0, DEFAULT_DAYS)
+      );
       console.log("reducedChannelDayReports -->> ", reducedChannelDayReports);
+      console.log(
+        "reducedTrendChannelDayReports -->> ",
+        reducedTrendChannelDayReports
+      );
 
       const analyticsCardsData: OverviewCardData[] = [];
       for (const key in reducedChannelDayReports) {
-        if (key === "id") continue;
+        const trend = calculateTrend(
+          reducedChannelDayReports[key],
+          reducedTrendChannelDayReports[key]
+        );
+        console.log("-------================>", trend);
         analyticsCardsData.push({
           id: key,
           title: shortNumber(reducedChannelDayReports[key]),
           description: reportsDescriptionMap[key],
-          trend: 100,
+          trend: trend,
           icon: key,
         });
       }

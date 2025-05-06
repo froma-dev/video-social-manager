@@ -23,8 +23,8 @@ const TrendingTag = ({ value, trend }: { value: number; trend: Trend }) => {
       )}
     >
       <Icon className="text-inherit" size={18} />
-      <p className="text-inherit text-sm font-semibold">{value}</p>
-      <span className="text-xs text-zinc-400">vs 7 days</span>
+      <p className="text-inherit text-sm font-semibold">{value}%</p>
+      <span className="text-xs text-zinc-400">7 days</span>
     </div>
   );
 };
