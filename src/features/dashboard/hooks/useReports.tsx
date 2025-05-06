@@ -26,6 +26,7 @@ const useReports = () => {
     null
   );
   const [reportError, setReportError] = useState<Error | null>(null);
+  const [channelDayDays, setChannelDayDays] = useState(DEFAULT_DAYS);
   const fetchReports = useCallback(async () => {
     if (!accessToken) return;
 
@@ -47,7 +48,7 @@ const useReports = () => {
         }),
         getReports({
           accessToken,
-          days: DEFAULT_DAYS * 2 + DEFAULT_ADD_START_DAYS, // Double the days to compare and add more days as data might not be complete up to the current day
+          days: channelDayDays * 2 + DEFAULT_ADD_START_DAYS, // Double the days to compare and add more days as data might not be complete up to the current day
           ids: "channel",
           dimensions: "day",
           metrics: [
@@ -59,7 +60,7 @@ const useReports = () => {
             "subscribersGained",
           ],
           sort: "day",
-          maxResults: DEFAULT_DAYS * 2,
+          maxResults: channelDayDays * 2,
         }),
       ]);
 
@@ -68,13 +69,8 @@ const useReports = () => {
       const reduceToChannelReports = (reports: any[]) => {
         return reports.reduce(
           (acc, report) => {
-            const {
-              views,
-              likes,
-              estimatedMinutesWatched,
-              subscribersGained,
-              day,
-            } = report;
+            const { views, likes, estimatedMinutesWatched, subscribersGained } =
+              report;
 
             const newAccValue = {
               views: Number(acc.views) + Number(views),
@@ -157,7 +153,7 @@ const useReports = () => {
       setChannelReportError(error as Error);
       setReportError(error as Error);
     }
-  }, [accessToken]);
+  }, [accessToken, channelDayDays]);
 
   useEffect(() => {
     fetchReports();
@@ -168,6 +164,8 @@ const useReports = () => {
     reportError,
     channelDayReports,
     channelReportError,
+    setChannelDayDays,
+    channelDayDays,
   };
 };
 

@@ -1,12 +1,20 @@
-interface PillProps {
+import { classNamesBuilder } from "@utils/utils";
+
+interface PillProps extends React.HTMLAttributes<HTMLDivElement> {
   text?: string;
-  children?: React.ReactNode;
 }
 
-const Pill = ({ text, children }: PillProps) => {
+const Pill = ({ text, children, ...props }: PillProps) => {
+  const { className = "" } = props;
+
   return (
-    <div className="flex rounded-4xl bg-zinc-800 px-[16px] py-[8px] gap-2">
-      {children && children}
+    <div
+      className={classNamesBuilder(
+        "flex rounded-4xl border-zinc-700 border px-[16px] py-[8px] gap-2",
+        className
+      )}
+    >
+      {children}
       {text}
     </div>
   );
