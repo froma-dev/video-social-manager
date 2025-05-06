@@ -1,21 +1,14 @@
 import { VideoReport } from "@components/Overview/types";
 import { StatTagProps } from "@components/StatTag/StatTag";
-import { IconPacman } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import { shortNumber } from "@utils/utils";
-import { useMemo, useState } from "react";
-import { CommentData } from "@services/youtube/youtube.types";
+import { useMemo } from "react";
 import StatTagList from "../StatTag/StatTagList";
-import { getCommentThreads } from "@/services/youtube/youtube";
 
 interface VideoOverviewProps {
   video: VideoReport;
 }
 const VideoOverview = ({ video }: VideoOverviewProps) => {
-  const [comments, setComments] = useState<CommentData[] | null>(null);
-  const [showComments, setShowComments] = useState(false);
-
-  const showCommentsList = showComments && comments;
   const statTagListData: StatTagProps[] = useMemo(
     () => [
       {
@@ -36,23 +29,6 @@ const VideoOverview = ({ video }: VideoOverviewProps) => {
     ],
     [video]
   );
-  const handleShowComments = () => {
-    const fetchComments = async () => {
-      try {
-        const fetchedComments = await getCommentThreads({
-          videoId: video.id,
-        });
-        setComments(fetchedComments);
-      } catch (error) {
-        console.error("Failed to fetch comments:", error);
-      }
-    };
-
-    if (!comments) {
-      fetchComments();
-    }
-    setShowComments(!showComments);
-  };
 
   return (
     <section className="hover:bg-zinc-900 hover:scale-101 p-2 transition-all duration-400 rounded-xl max-w-screen-2xl group">
@@ -74,13 +50,6 @@ const VideoOverview = ({ video }: VideoOverviewProps) => {
             <h2 className="flex flex-col h-20 text-xl sm:text-md md:text-lg lg:text-md sm:text-center md:text-left lg:text-left tracking-tight font-extrabold text-gray-900 dark:text-white overflow-hidden text-ellipsis line-clamp-3">
               {video.title}
             </h2>
-            {/*video.description && (
-            <div className="description-box overflow-hidden border border-zinc-700 rounded-xl">
-              <p className="font-light text-gray-500 px-5 py-4 md:text-lg overflow-y-scroll dark:text-gray-400 max-h-30">
-                {video.description}
-              </p>
-            </div>
-          )*/}
           </div>
         </div>
       </Link>

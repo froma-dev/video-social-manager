@@ -12,8 +12,6 @@ type REPORTS_METRICS =
   | "averageViewDuration"
   | "averageViewPercentage";
 type REPORTS_SORT = "-estimatedMinutesWatched" | "day";
-type REPORTS_START_DATE = string;
-type REPORTS_END_DATE = string;
 interface GetReportsProps {
   accessToken: string;
   days: number;

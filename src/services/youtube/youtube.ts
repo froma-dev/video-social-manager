@@ -120,9 +120,7 @@ const transformContentDetails = (data: any) => {
   return contentDetails as ContentDetails[];
 };
 
-export const getComment = async ({
-  parentId,
-}: GetCommentParams) => {
+export const getComment = async ({ parentId }: GetCommentParams) => {
   if (!parentId) throw new Error("Comment parent ID is required");
 
   const url = buildRequestUrl(YOUTUBE_DATA_API_COMMENTS);
@@ -178,9 +176,7 @@ const transformCommentThreads = (data: any) => {
   return comments;
 };
 
-export const rateComment = async ({
-  parentId,
-}: GetCommentParams) => {
+export const rateComment = async ({ parentId }: GetCommentParams) => {
   if (!parentId) throw new Error("Comment parent ID is required");
 
   const url = buildRequestUrl(YOUTUBE_DATA_API_COMMENTS);
@@ -195,10 +191,7 @@ export const rateComment = async ({
   return transformedData;
 };
 
-export const rateVideo = async ({
-  videoId,
-  rating,
-}: RateVideoParams) => {
+export const rateVideo = async ({ videoId, rating }: RateVideoParams) => {
   if (!videoId) throw new Error("Video ID is required");
 
   const url = buildRequestUrl(YOUTUBE_DATA_API_RATE_VIDEO);
@@ -212,9 +205,7 @@ export const rateVideo = async ({
   return data.ok;
 };
 
-export const getVideoRating = async ({
-  videoId,
-}: GetVideoRatingParams) => {
+export const getVideoRating = async ({ videoId }: GetVideoRatingParams) => {
   if (!videoId) throw new Error("Video ID is required");
 
   const url = buildRequestUrl(YOUTUBE_DATA_API_GET_RATING);
@@ -234,9 +225,7 @@ const transformVideoRating = (data: any) => {
   return rating as YoutubeRating;
 };
 
-export const getChannel = async ({
-  channelId,
-}: GetChannelParams) => {
+export const getChannel = async ({ channelId }: GetChannelParams) => {
   if (!channelId) throw new Error("Channel ID is required");
 
   const url = buildRequestUrl(YOUTUBE_DATA_API_GET_CHANNEL);
