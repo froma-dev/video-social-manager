@@ -49,7 +49,6 @@ export const searchYoutube = async ({
   query,
   accessToken,
 }: SearchYoutubeParams) => {
-  console.log("searchYoutube", query);
   if (!query) {
     throw new Error("Query is required");
   }
@@ -243,7 +242,6 @@ export const getChannel = async ({ channelId }: GetChannelParams) => {
 
 const transformChannel = (data: any) => {
   const channel = data.items[0];
-  console.log("YT CHANNEL = ", channel);
 
   return channel as YoutubeChannel;
 };

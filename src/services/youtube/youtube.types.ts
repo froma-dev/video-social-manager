@@ -22,6 +22,7 @@ export interface GetVideoRatingParams {
 
 export interface SearchYoutubeParams {
   query: string;
+  accessToken: string;
 }
 
 export interface GetCommentParams {

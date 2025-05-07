@@ -22,7 +22,6 @@ const DashboardPage = () => {
     { text: "30 days", filter: 30 },
   ];
   const onFilterChange = (filter: string | number) => {
-    console.log("filter -->--====BBYNO --> ", filter);
     setChannelDayDays(Number(filter));
   };
 

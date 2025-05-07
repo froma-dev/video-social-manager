@@ -89,7 +89,6 @@ export const getReports = async ({
       throw new Error(message);
     }
     const data = await response.json();
-    console.log("response.ok ---->>> ", data);
     const transformedData = transformReports(data, ids ?? "video");
 
     return transformedData;

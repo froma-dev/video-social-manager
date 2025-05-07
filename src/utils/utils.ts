@@ -19,7 +19,6 @@ export const debounceAsync = <T extends DebouncedAsyncFunction>(
   let timer: ReturnType<typeof setTimeout>;
 
   return (...args: Parameters<T>): Promise<T> => {
-    console.log("debouncing to new promise");
     return new Promise((resolve) => {
       clearTimeout(timer);
       timer = setTimeout(async () => {
@@ -65,4 +64,9 @@ export const buildErrorMessage = (message: string, error?: Error | unknown) => {
     return `${message}: ${error.message}`;
   }
   return message;
+};
+
+export const calculateTrend = (currentValue: number, previousValue: number) => {
+  const trend = ((currentValue - previousValue) / previousValue) * 100;
+  return Number(trend.toFixed(2));
 };

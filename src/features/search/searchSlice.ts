@@ -55,9 +55,8 @@ const searchSlice = createSlice({
     },
     setQuery: (state, action) => {
       const query = action.payload;
-      const cachedResults = state.resultsByQuery[state.query];
+      //const cachedResults = state.resultsByQuery[state.query];
 
-      console.log("setQuery::cachedResults? ", cachedResults);
       state.query = query;
       state.typing = true;
     },

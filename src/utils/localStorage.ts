@@ -13,7 +13,7 @@ export const getLocalStorage = <T>(key: LocalStorageKey) => {
 
     return JSON.parse(storedValue) as T;
   } catch (err) {
-    console.log("Error retrieving value from localStorage", err);
+    console.error("Error retrieving value from localStorage", err);
     return null;
   }
 };

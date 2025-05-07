@@ -10,7 +10,6 @@ const accessTokenKey = "access_token_data" as LocalStorageKey;
 export const authStorageMiddleware: Middleware =
   (storeAPI) => (next) => (action) => {
     const result = next(action);
-    console.log("result", result);
     if (setAccessTokenData.match(action)) {
       const { expiresIn } = action.payload;
 

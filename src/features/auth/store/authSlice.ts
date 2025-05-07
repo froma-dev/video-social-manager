@@ -8,7 +8,6 @@ import { AccessTokenData } from "@features/auth/types";
 const accessTokenKey = "access_token_data" as LocalStorageKey;
 const StoredAccessTokenData =
   getLocalStorageWithExpiry<AccessTokenData>(accessTokenKey);
-console.log("StoredAccessTokenData", StoredAccessTokenData);
 
 const initialState: AccessTokenData = {
   accessToken: StoredAccessTokenData?.accessToken ?? null,

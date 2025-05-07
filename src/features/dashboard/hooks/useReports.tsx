@@ -3,16 +3,9 @@ import { getReports } from "@services/youtube/youtubeAnalytics";
 import { getContentDetails } from "@services/youtube/youtube";
 import { OverviewCardData, VideoReport } from "@components/Overview/types";
 import { useCallback, useEffect, useState } from "react";
-import { shortNumber } from "@utils/utils";
 import { ContentDetails } from "@services/youtube/youtube.types";
-import { calculateTrend } from "../utils/utils";
+import { reportToOverviewCardData } from "@utils/formatters";
 
-const reportsDescriptionMap: Record<string, string> = {
-  views: "Views",
-  likes: "Likes",
-  estimatedMinutesWatched: "Minutes Watched",
-  subscribersGained: "Subscribers Gained",
-};
 const DEFAULT_DAYS = 7;
 const DEFAULT_ADD_START_DAYS = 2;
 
@@ -64,8 +57,6 @@ const useReports = () => {
         }),
       ]);
 
-      console.log("channelDayReports -->> ", channelDayReports);
-
       const reduceToChannelReports = (reports: any[]) => {
         return reports.reduce(
           (acc, report) => {
@@ -98,27 +89,11 @@ const useReports = () => {
       const reducedTrendChannelDayReports = reduceToChannelReports(
         channelDayReports.slice(0, DEFAULT_DAYS)
       );
-      console.log("reducedChannelDayReports -->> ", reducedChannelDayReports);
-      console.log(
-        "reducedTrendChannelDayReports -->> ",
+      const analyticsCardsData = reportToOverviewCardData(
+        reducedChannelDayReports,
         reducedTrendChannelDayReports
       );
 
-      const analyticsCardsData: OverviewCardData[] = [];
-      for (const key in reducedChannelDayReports) {
-        const trend = calculateTrend(
-          reducedChannelDayReports[key],
-          reducedTrendChannelDayReports[key]
-        );
-        console.log("-------================>", trend);
-        analyticsCardsData.push({
-          id: key,
-          title: shortNumber(reducedChannelDayReports[key]),
-          description: reportsDescriptionMap[key],
-          trend: trend,
-          icon: key,
-        });
-      }
       setChannelDayReports(analyticsCardsData);
 
       const videoIds = channelVideoReports.map((r) => r.videoId.toString());
@@ -127,7 +102,6 @@ const useReports = () => {
         contentDetails = await getContentDetails({
           videoIds,
         });
-        console.log(contentDetails);
       } catch (error) {
         console.error("Error fetching content details: ", error);
         throw new Error("Error fetching content details");

@@ -43,7 +43,6 @@ const SearchPage = () => {
     if (searchQuery.length < MIN_QUERY_LENGTH) return;
 
     if (cachedResults) {
-      console.log("from cached results", cachedResults);
       dispatch(setSearchResults(cachedResults));
       return;
     }
@@ -64,7 +63,6 @@ const SearchPage = () => {
   }, [searchResults]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("will dispatch ", e.target.value);
     dispatch(setQuery(e.target.value));
   };
 
