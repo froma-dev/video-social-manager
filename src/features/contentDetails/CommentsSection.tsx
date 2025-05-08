@@ -1,23 +1,14 @@
-import { IconMessage } from "@tabler/icons-react";
-import Button from "@components/Button/Button";
 import { useState, useEffect } from "react";
 import { CommentData } from "@services/youtube/youtube.types";
 import { getCommentThreads } from "@services/youtube/youtube";
-import Comment from "@components/Comment/Comment";
-import { formatStringNumber } from "@utils/utils";
 import CommentList from "@/components/Comment/CommentList";
 
 interface CommentsSectionProps {
   id: string;
-  accessToken: string;
   commentCount: string;
 }
 
-const CommentsSection = ({
-  id,
-  accessToken,
-  commentCount,
-}: CommentsSectionProps) => {
+const CommentsSection = ({ id, commentCount }: CommentsSectionProps) => {
   const [comments, setComments] = useState<CommentData[]>([]);
 
   useEffect(() => {
@@ -25,7 +16,6 @@ const CommentsSection = ({
       try {
         const fetchedComments = await getCommentThreads({
           videoId: id,
-          accessToken: "",
         });
         setComments(fetchedComments);
       } catch (error) {

@@ -4,36 +4,29 @@ import { IconMessage } from "@tabler/icons-react";
 import { IconHeart } from "@tabler/icons-react";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import Pill from "@components/Pill/Pill";
-import {
-  YoutubeRating,
-  type ContentDetails,
-} from "@services/youtube/youtube.types";
+import { type ContentDetails } from "@services/youtube/youtube.types";
 import { formatStringNumber } from "@utils/utils";
-import { useState } from "react";
 import { shortNumber } from "@utils/utils";
 
 interface VideoStatisticsInlineProps {
   contentDetails: ContentDetails;
   setContentDetails: (contentDetails: ContentDetails | null) => void;
-  accessToken: string;
 }
 
-type Ratings = YoutubeRating;
+//type Ratings = YoutubeRating;
 
 const VideoStatisticsInline = ({
   contentDetails,
-  setContentDetails,
-  accessToken,
 }: VideoStatisticsInlineProps) => {
-  const { id, statistics } = contentDetails;
+  const { statistics } = contentDetails;
   const { viewCount, likeCount, commentCount, favoriteCount } = statistics;
   const formattedViewCount = formatStringNumber(viewCount);
   const formattedLikeCount = shortNumber(likeCount);
   const formattedCommentCount = shortNumber(Number(commentCount));
   const formattedFavoriteCount = shortNumber(Number(favoriteCount));
-  const [rating, setRating] = useState<Ratings>("none");
+  /*const [rating, setRating] = useState<Ratings>("none");
 
-  /*   const handleRateClick = async (rating: Ratings) => {
+  const handleRateClick = async (rating: Ratings) => {
     try {
       const isVideoRated = await rateVideo({
         videoId: id,

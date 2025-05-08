@@ -25,6 +25,7 @@ import {
   GetVideoRatingParams,
   GetChannelParams,
   YoutubeChannel,
+  ContentDetails,
 } from "./youtube.types";
 
 const YOUTUBE_SEARCH_MAX_RESULTS = "25";
@@ -47,7 +48,7 @@ type SearchYoutubeResponse = {
   items: YoutubeVideo[];
 };
 type YoutubeContentDetailsResponse = {
-  items: YoutubeVideo[];
+  items: ContentDetails[];
 };
 type YoutubeCommentThreadResponse = {
   items: YoutubeCommentThread[];
@@ -119,15 +120,18 @@ export const getContentDetails = async ({
 };
 
 const transformContentDetails = (data: YoutubeContentDetailsResponse) => {
-  const contentDetails = data.items.map((item: YoutubeVideo) => ({
-    id: item.id.videoId,
-    channelTitle: item.snippet.channelTitle,
-    title: item.snippet.title,
-    description: item.snippet.description,
-    thumbnails: item.snippet.thumbnails,
-    statistics: item.statistics,
-    snippet: item.snippet,
-  }));
+  const contentDetails = data.items.map(
+    (item) =>
+      ({
+        id: item.id,
+        channelTitle: item.snippet.channelTitle,
+        title: item.snippet.title,
+        description: item.snippet.description,
+        thumbnails: item.thumbnails,
+        statistics: item.statistics,
+        snippet: item.snippet,
+      } as ContentDetails)
+  );
 
   return contentDetails;
 };

@@ -30,13 +30,11 @@ const ContentDetailsPage = () => {
     const fetchContentDetails = async () => {
       const fetchedContentDetails = await getContentDetails({
         videoIds: [videoId],
-        accessToken,
       });
       const contentDetails = fetchedContentDetails[0];
       setContentDetails(contentDetails);
       const fetchedChannelDetails = await getChannel({
         channelId: contentDetails.snippet.channelId,
-        accessToken,
       });
       setChannelDetails(fetchedChannelDetails);
     };
@@ -68,13 +66,11 @@ const ContentDetailsPage = () => {
           <VideoStatisticsInline
             contentDetails={contentDetails}
             setContentDetails={setContentDetails}
-            accessToken={accessToken}
           />
         </section>
       </div>
       <CommentsSection
         id={videoId}
-        accessToken={accessToken}
         commentCount={contentDetails?.statistics.commentCount || "0"}
       />
     </section>
