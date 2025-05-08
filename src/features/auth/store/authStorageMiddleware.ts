@@ -7,21 +7,20 @@ import { AccessTokenData } from "@features/auth/types";
 
 const accessTokenKey = "access_token_data" as LocalStorageKey;
 
-export const authStorageMiddleware: Middleware =
-  (storeAPI) => (next) => (action) => {
-    const result = next(action);
-    if (setAccessTokenData.match(action)) {
-      const { expiresIn } = action.payload;
+export const authStorageMiddleware: Middleware = () => (next) => (action) => {
+  const result = next(action);
+  if (setAccessTokenData.match(action)) {
+    const { expiresIn } = action.payload;
 
-      setLocalStorageWithExpiry<AccessTokenData>(
-        accessTokenKey,
-        { ...action.payload },
-        expiresIn
-      );
-    }
+    setLocalStorageWithExpiry<AccessTokenData>(
+      accessTokenKey,
+      { ...action.payload },
+      expiresIn
+    );
+  }
 
-    if (clearAccessTokenData.match(action)) {
-      removeLocalStorage(accessTokenKey);
-    }
-    return result;
-  };
+  if (clearAccessTokenData.match(action)) {
+    removeLocalStorage(accessTokenKey);
+  }
+  return result;
+};

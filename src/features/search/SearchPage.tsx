@@ -28,6 +28,7 @@ const SearchPage = () => {
 
   const debouncedSearch = useMemo(() => {
     return debounceAsync(async (query: string) => {
+      if (!accessToken) return;
       dispatch(
         fetchSearch({
           query,

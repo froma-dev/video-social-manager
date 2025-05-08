@@ -1,5 +1,7 @@
 import { type OverviewCardData } from "@components/Overview/types";
 import { calculateTrend, shortNumber } from "./utils";
+import { VideoAsset } from "@services/youtube/youtube.types";
+import { type AssetProps } from "@components/Asset/Asset";
 
 const reportsDescriptionMap: Record<string, string> = {
   views: "Views",
@@ -26,4 +28,13 @@ export const reportToOverviewCardData = (
   }
 
   return analyticsCardsData;
+};
+
+export const searchResultToAsset = (result: VideoAsset) => {
+  return {
+    id: result.id,
+    title: result.title,
+    subtitle: result.channelTitle,
+    image: result.thumbnails.high.url,
+  } as AssetProps;
 };

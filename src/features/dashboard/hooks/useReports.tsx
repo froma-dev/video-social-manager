@@ -1,5 +1,9 @@
 import useOAuth2Context from "@features/auth/hooks/useOAuth2Context";
-import { getReports } from "@services/youtube/youtubeAnalytics";
+import {
+  getReports,
+  ReportsDayData,
+  ReportsVideoData,
+} from "@services/youtube/youtubeAnalytics";
 import { getContentDetails } from "@services/youtube/youtube";
 import { OverviewCardData, VideoReport } from "@components/Overview/types";
 import { useCallback, useEffect, useState } from "react";
@@ -8,13 +12,14 @@ import { reportToOverviewCardData } from "@utils/formatters";
 
 const DEFAULT_DAYS = 7;
 const DEFAULT_ADD_START_DAYS = 2;
+type VideoReportsData = VideoReport[];
+type ChannelDayReportsData = OverviewCardData[];
 
 const useReports = () => {
   const { accessToken } = useOAuth2Context();
-  const [videoReports, setVideoReports] = useState<VideoReport[] | null>(null);
-  const [channelDayReports, setChannelDayReports] = useState<
-    OverviewCardData[] | null
-  >(null);
+  const [videoReports, setVideoReports] = useState<VideoReportsData>([]);
+  const [channelDayReports, setChannelDayReports] =
+    useState<ChannelDayReportsData>([]);
   const [channelReportError, setChannelReportError] = useState<Error | null>(
     null
   );
@@ -24,7 +29,7 @@ const useReports = () => {
     if (!accessToken) return;
 
     try {
-      const [channelVideoReports, channelDayReports] = await Promise.all([
+      const [channelVideoReports, channelDayReports] = (await Promise.all([
         getReports({
           accessToken,
           days: DEFAULT_DAYS,
@@ -55,9 +60,11 @@ const useReports = () => {
           sort: "day",
           maxResults: channelDayDays * 2,
         }),
-      ]);
+      ])) as [ReportsVideoData[], ReportsDayData[]];
 
-      const reduceToChannelReports = (reports: any[]) => {
+      const reduceToChannelReports = (
+        reports: (ReportsVideoData | ReportsDayData)[]
+      ) => {
         return reports.reduce(
           (acc, report) => {
             const { views, likes, estimatedMinutesWatched, subscribersGained } =

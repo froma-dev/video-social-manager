@@ -75,7 +75,7 @@ export const searchYoutube = async ({
   return transformedData;
 };
 
-const transformSearchYoutube = (data: any) => {
+const transformSearchYoutube = (data: any): VideoAsset[] => {
   const videos = data.items.map((item: YoutubeVideo) => ({
     id: item.id.videoId,
     title: item.snippet.title,
@@ -84,7 +84,7 @@ const transformSearchYoutube = (data: any) => {
     thumbnails: item.snippet.thumbnails,
   }));
 
-  return videos as VideoAsset[];
+  return videos;
 };
 
 export const getContentDetails = async ({
@@ -105,7 +105,7 @@ export const getContentDetails = async ({
   return transformedData;
 };
 
-const transformContentDetails = (data: any) => {
+const transformContentDetails = (data: any): ContentDetails[] => {
   const contentDetails = data.items.map((item: YoutubeVideo) => ({
     id: item.id,
     channelTitle: item.snippet.channelTitle,
@@ -116,7 +116,7 @@ const transformContentDetails = (data: any) => {
     snippet: item.snippet,
   }));
 
-  return contentDetails as ContentDetails[];
+  return contentDetails;
 };
 
 export const getComment = async ({ parentId }: GetCommentParams) => {
@@ -164,7 +164,7 @@ export const getCommentThreads = async ({
   return transformedData;
 };
 
-const transformCommentThreads = (data: any) => {
+const transformCommentThreads = (data: any): CommentData[] => {
   const comments = data.items.map((item: YoutubeCommentThread) => {
     const topLevelComment = item.snippet.topLevelComment;
     const transformedTopLevelComment = transformComment(topLevelComment);
@@ -219,7 +219,7 @@ export const getVideoRating = async ({ videoId }: GetVideoRatingParams) => {
   return transformedData;
 };
 
-const transformVideoRating = (data: any) => {
+const transformVideoRating = (data: any): YoutubeRating => {
   const rating = data.items[0].rating;
   return rating as YoutubeRating;
 };
@@ -240,10 +240,10 @@ export const getChannel = async ({ channelId }: GetChannelParams) => {
   return transformedData;
 };
 
-const transformChannel = (data: any) => {
+const transformChannel = (data: any): YoutubeChannel => {
   const channel = data.items[0];
 
-  return channel as YoutubeChannel;
+  return channel;
 };
 
 export const editComment = () => {};

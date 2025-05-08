@@ -1,10 +1,10 @@
 import { YOUTUBE_ANALYTICS_REPORTS } from "@/config";
 import { getPastDate, getTodayDate } from "@utils/dateTime";
-import { AnalyticsApiResponse } from "./youtubeAnalytics.types";
+import { ReportsData } from "./youtubeAnalytics.types";
 
 type REPORTS_ID = "channel==MINE";
 type REPORTS_DIMENSIONS = "video" | "day";
-type REPORTS_METRICS =
+type REPORT_METRIC =
   | "estimatedMinutesWatched"
   | "views"
   | "likes"
@@ -21,6 +21,11 @@ interface GetReportsProps {
   sort?: keyof typeof REPORTS_SORT;
   maxResults?: number;
 }
+interface ErrorReportData {
+  error: {
+    message: string;
+  };
+}
 const REPORTS_IDS: Record<string, REPORTS_ID> = {
   channel: "channel==MINE",
 };
@@ -28,19 +33,11 @@ const REPORTS_DIMENSIONS: Record<string, REPORTS_DIMENSIONS> = {
   video: "video",
   day: "day",
 };
-const REPORTS_METRICS: Record<string, REPORTS_METRICS> = {
-  estimatedMinutesWatched: "estimatedMinutesWatched",
-  views: "views",
-  likes: "likes",
-  subscribersGained: "subscribersGained",
-  averageViewDuration: "averageViewDuration",
-  averageViewPercentage: "averageViewPercentage",
-};
 const REPORTS_SORT: Record<string, REPORTS_SORT> = {
   estimatedMinutesWatched: "-estimatedMinutesWatched",
   day: "day",
 };
-const parseGoogleErrorMessage = (errorData: any) => {
+const parseGoogleErrorMessage = (errorData: ErrorReportData) => {
   const { message } = errorData.error;
   return { message };
 };
@@ -89,31 +86,50 @@ export const getReports = async ({
       throw new Error(message);
     }
     const data = await response.json();
-    const transformedData = transformReports(data, ids ?? "video");
+    const transformedData = transformReports(
+      data,
+      dimensions && REPORTS_DIMENSIONS[dimensions]
+        ? REPORTS_DIMENSIONS[dimensions]
+        : REPORTS_DIMENSIONS.video
+    );
 
     return transformedData;
   } catch (err) {
-    throw new Error(`Failed to get reports: ${err}`);
+    return new Error(`Failed to get reports: ${err}`);
   }
 };
 
-const transformReports = (data: any, keyId: string) => {
-  const {
-    rows,
-    columnHeaders,
-    kind,
-  }: { rows: any[]; columnHeaders: any[]; kind: AnalyticsApiResponse } = data;
+interface ReportData {
+  views: number;
+  likes: number;
+  estimatedMinutesWatched: number;
+  subscribersGained: number;
+}
+
+export interface ReportsVideoData extends ReportData {
+  videoId: string;
+}
+
+export interface ReportsDayData extends ReportData {
+  day: string;
+}
+
+export const transformReports = (data: ReportsData, dimension: REPORTS_DIMENSIONS) => {
+  const { rows, kind }: ReportsData = data;
   if (kind !== "youtubeAnalytics#resultTable") return new Error("Invalid data");
 
-  return rows.map((row: any) => {
-    const report: Record<string, number | string> = {};
-
-    columnHeaders.forEach((header, index) => {
-      let key: string = header.name;
-      if (key === "video") key = "videoId";
-      const value: number | string = row[index];
-      report[key] = value;
-    });
+  return rows.map((row) => {
+    const [id, views, likes, estimatedMinutesWatched, subscribersGained] = row;
+    const commonReportData = {
+      views: Number(views),
+      likes: Number(likes),
+      estimatedMinutesWatched: Number(estimatedMinutesWatched),
+      subscribersGained: Number(subscribersGained),
+    };
+    const report: ReportsVideoData | ReportsDayData =
+      dimension === REPORTS_DIMENSIONS.video
+        ? { videoId: id, ...commonReportData }
+        : { day: id, ...commonReportData };
 
     return report;
   });
