@@ -11,7 +11,6 @@ import {
 
 import {
   type VideoAsset,
-  type ContentDetails,
   type YoutubeVideo,
   type YoutubeSearchType,
   type YoutubeSearchPart,
@@ -24,7 +23,6 @@ import {
   type YoutubeComment,
   RateVideoParams,
   GetVideoRatingParams,
-  YoutubeRating,
   GetChannelParams,
   YoutubeChannel,
 } from "./youtube.types";
@@ -45,6 +43,21 @@ export const buildRequestUrl = (baseUrl: string) => {
   return url;
 };
 
+type SearchYoutubeResponse = {
+  items: YoutubeVideo[];
+};
+type YoutubeContentDetailsResponse = {
+  items: YoutubeVideo[];
+};
+type YoutubeCommentThreadResponse = {
+  items: YoutubeCommentThread[];
+};
+/*type YoutubeRatingResponse = {
+  items: YoutubeRating[];
+};*/
+type YoutubeChannelResponse = {
+  items: YoutubeChannel[];
+};
 export const searchYoutube = async ({
   query,
   accessToken,
@@ -75,7 +88,7 @@ export const searchYoutube = async ({
   return transformedData;
 };
 
-const transformSearchYoutube = (data: any): VideoAsset[] => {
+const transformSearchYoutube = (data: SearchYoutubeResponse): VideoAsset[] => {
   const videos = data.items.map((item: YoutubeVideo) => ({
     id: item.id.videoId,
     title: item.snippet.title,
@@ -105,9 +118,9 @@ export const getContentDetails = async ({
   return transformedData;
 };
 
-const transformContentDetails = (data: any): ContentDetails[] => {
+const transformContentDetails = (data: YoutubeContentDetailsResponse) => {
   const contentDetails = data.items.map((item: YoutubeVideo) => ({
-    id: item.id,
+    id: item.id.videoId,
     channelTitle: item.snippet.channelTitle,
     title: item.snippet.title,
     description: item.snippet.description,
@@ -164,7 +177,9 @@ export const getCommentThreads = async ({
   return transformedData;
 };
 
-const transformCommentThreads = (data: any): CommentData[] => {
+const transformCommentThreads = (
+  data: YoutubeCommentThreadResponse
+): CommentData[] => {
   const comments = data.items.map((item: YoutubeCommentThread) => {
     const topLevelComment = item.snippet.topLevelComment;
     const transformedTopLevelComment = transformComment(topLevelComment);
@@ -214,15 +229,15 @@ export const getVideoRating = async ({ videoId }: GetVideoRatingParams) => {
   if (!data.ok) throw new Error("Failed to get video rating");
 
   const ratingData = await data.json();
-  const transformedData = transformVideoRating(ratingData);
+  //const transformedData = transformVideoRating(ratingData);
 
-  return transformedData;
+  return ratingData;
 };
 
-const transformVideoRating = (data: any): YoutubeRating => {
+/*const transformVideoRating = (data: YoutubeRatingResponse): YoutubeRating => {
   const rating = data.items[0].rating;
   return rating as YoutubeRating;
-};
+};*/
 
 export const getChannel = async ({ channelId }: GetChannelParams) => {
   if (!channelId) throw new Error("Channel ID is required");
@@ -240,7 +255,7 @@ export const getChannel = async ({ channelId }: GetChannelParams) => {
   return transformedData;
 };
 
-const transformChannel = (data: any): YoutubeChannel => {
+const transformChannel = (data: YoutubeChannelResponse): YoutubeChannel => {
   const channel = data.items[0];
 
   return channel;

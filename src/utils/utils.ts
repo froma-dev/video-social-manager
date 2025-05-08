@@ -1,8 +1,10 @@
 export const delay = async (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
-type DebouncedFunction = (...args: any[]) => void;
-type DebouncedAsyncFunction = (...args: any[]) => Promise<any>;
+type DebouncedFunction = (...args: unknown[]) => void;
+type DebouncedAsyncFunction =
+  | ((...args: unknown[]) => Promise<unknown>)
+  | ((...args: unknown[]) => Promise<void>);
 
 export const debounce = <T extends DebouncedFunction>(fn: T, ms: number) => {
   let timer: ReturnType<typeof setTimeout>;
@@ -18,11 +20,11 @@ export const debounceAsync = <T extends DebouncedAsyncFunction>(
 ) => {
   let timer: ReturnType<typeof setTimeout>;
 
-  return (...args: Parameters<T>): Promise<T> => {
+  return (...args: Parameters<T>): Promise<ReturnType<T>> => {
     return new Promise((resolve) => {
       clearTimeout(timer);
       timer = setTimeout(async () => {
-        const resolvedResult = await fn(...args);
+        const resolvedResult = (await fn(...args)) as ReturnType<T>;
         resolve(resolvedResult);
       }, ms);
     });
