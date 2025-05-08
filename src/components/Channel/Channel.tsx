@@ -48,7 +48,7 @@ const Channel = ({
           <Button
             onClick={() => setShowFullDescription(!showFullDescription)}
             className="text-gray-100"
-            type="transparent"
+            styled="transparent"
           >
             {showFullDescription ? <IconChevronUp /> : <IconChevronDown />}
             {showFullDescription ? "Read Less" : "Read More"}

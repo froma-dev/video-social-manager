@@ -2,12 +2,12 @@ import { classNamesBuilder } from "@utils/utils";
 import "./Button.css";
 
 type ButtonType = "primary" | "rate" | "transparent" | "filter";
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   onClick?: () => void;
   onKeyDown?: (event: React.KeyboardEvent) => void;
   className?: string;
-  type?: ButtonType;
+  styled?: ButtonType;
 }
 const ButtonClassNames = {
   primary:
@@ -24,16 +24,24 @@ const Button = ({
   onClick,
   onKeyDown,
   className = "",
-  type = "primary",
+  styled = "primary",
+  disabled,
+  ...props
 }: ButtonProps) => {
   const classNames = classNamesBuilder(
     "button",
-    ButtonClassNames[type],
+    ButtonClassNames[styled],
     className
   );
 
   return (
-    <button className={classNames} onClick={onClick} onKeyDown={onKeyDown}>
+    <button
+      className={classNames}
+      onClick={onClick}
+      onKeyDown={onKeyDown}
+      disabled={disabled}
+      {...props}
+    >
       {children}
     </button>
   );

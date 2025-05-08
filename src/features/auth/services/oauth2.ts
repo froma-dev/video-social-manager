@@ -1,6 +1,7 @@
 import {
   GOOGLE_OAUTH2_ENDPOINT,
   GOOGLE_OAUTH2_TOKEN_ENDPOINT,
+  GOOGLE_OAUTH2_TOKEN_REVOKE_ENDPOINT,
   YOUTUBE_DATA_API_CLIENT_ID,
   YOUTUBE_DATA_API_CLIENT_SECRET,
   YOUTUBE_DATA_API_REDIRECT_URI,
@@ -71,6 +72,31 @@ export const requestAccessToken = async ({
   }
 };
 
+export const revokeAccessToken = async () => {
+  try {
+    const response = await fetch(GOOGLE_OAUTH2_TOKEN_REVOKE_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        token: YOUTUBE_DATA_API_CLIENT_ID,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(response.status.toString());
+    }
+
+    const responseData: RequestAccessTokenPayload = await response.json();
+    return responseData;
+  } catch (err) {
+    const error = buildErrorMessage("Failed to revoke token", err);
+    console.error(error);
+    return { error } as AccessTokenDataError;
+  }
+};
+
 export const extractAccessToken = () => {
   const searchParams = new URLSearchParams(window.location.search);
   const authorizationCode = searchParams.get("code");
@@ -105,4 +131,8 @@ export const requestGoogleAuthorization = () => {
     state: "pass-through value",
   }).toString();
   window.location.href = oauth2AuthorizationUrl.toString();
+};
+
+export const revokeGoogleAuthorization = () => {
+  revokeAccessToken()
 };

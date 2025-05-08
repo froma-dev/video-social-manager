@@ -9,6 +9,7 @@ export const YOUTUBE_DATA_API_REDIRECT_URI: string = import.meta.env
 
 export const GOOGLE_OAUTH2_ENDPOINT = "https://accounts.google.com/o/oauth2/v2/auth";
 export const GOOGLE_OAUTH2_TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token";
+export const GOOGLE_OAUTH2_TOKEN_REVOKE_ENDPOINT = "https://oauth2.googleapis.com/revoke";
 export const YOUTUBE_DATA_API_BASE_URL =
   "https://www.googleapis.com/youtube/v3";
 export const YOUTUBE_ANALYTICS_BASE_URL =

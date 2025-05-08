@@ -2,6 +2,7 @@ import { useCallback, useEffect } from "react";
 import {
   requestGoogleAuthorization,
   extractAccessToken,
+  revokeGoogleAuthorization,
 } from "@features/auth/services/oauth2";
 import { setAccessTokenData } from "../store/authSlice";
 import { useDispatch } from "react-redux";
@@ -11,6 +12,10 @@ const useOAuth2 = () => {
   const dispatch = useDispatch();
   const requestAuthorization = useCallback(
     () => requestGoogleAuthorization(),
+    []
+  );
+  const revokeAuthorization = useCallback(
+    () => revokeGoogleAuthorization(),
     []
   );
   const extractAccessTokenData = useCallback(async () => {
@@ -27,7 +32,7 @@ const useOAuth2 = () => {
     extractAccessTokenData();
   }, [extractAccessTokenData]);
 
-  return requestAuthorization;
+  return { requestAuthorization, revokeAuthorization };
 };
 
 export default useOAuth2;

@@ -3,7 +3,7 @@ import { IconBrandGoogleFilled } from "@tabler/icons-react";
 import useOAuth2 from "./hooks/useOAuth2";
 
 const AuthPage = () => {
-  const requestAuthorization = useOAuth2();
+  const { requestAuthorization } = useOAuth2();
   const handleOAuthSignIn = async (event: React.FormEvent) => {
     event.preventDefault();
     requestAuthorization();

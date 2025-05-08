@@ -21,7 +21,7 @@ const Filter = ({ filterData, onFilterChange, isSelected }: FilterProps) => {
   const Icon = iconMap[icon as keyof typeof iconMap];
   return (
     <Button
-      type="filter"
+      styled="filter"
       onClick={() => onFilterChange(filter)}
       className={isSelected ? "bg-zinc-800" : ""}
     >
