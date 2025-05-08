@@ -72,9 +72,11 @@ export const requestAccessToken = async ({
   }
 };
 
-export const revokeAccessToken = async () => {
+export const revokeAccessToken = async ({
+  oauth2TokenRevokeEndpoint,
+}) => {
   try {
-    const response = await fetch(GOOGLE_OAUTH2_TOKEN_REVOKE_ENDPOINT, {
+    const response = await fetch(oauth2TokenRevokeEndpoint, {
       method: "POST",
       headers: {
         "Content-type": "application/x-www-form-urlencoded",
@@ -134,5 +136,8 @@ export const requestGoogleAuthorization = () => {
 };
 
 export const revokeGoogleAuthorization = () => {
-  revokeAccessToken()
+  revokeAccessToken({
+    oauth2TokenRevokeEndpoint: GOOGLE_OAUTH2_TOKEN_REVOKE_ENDPOINT,
+    accessToken: YOUTUBE_DATA_API_CLIENT_ID,
+  })
 };

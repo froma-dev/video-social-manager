@@ -4,7 +4,7 @@ import {
   extractAccessToken,
   revokeGoogleAuthorization,
 } from "@features/auth/services/oauth2";
-import { setAccessTokenData } from "../store/authSlice";
+import { clearAccessTokenData, setAccessTokenData } from "../store/authSlice";
 import { useDispatch } from "react-redux";
 import { hasAccessTokenData } from "../types";
 
@@ -15,8 +15,15 @@ const useOAuth2 = () => {
     []
   );
   const revokeAuthorization = useCallback(
-    () => revokeGoogleAuthorization(),
-    []
+    async () => {
+      const revokeResult = await revokeGoogleAuthorization();
+      if (revokeResult.error) {
+        console.error("Failed to revoke authorization", revokeResult.error);
+      } else {
+        dispatch(clearAccessTokenData());
+      }
+    },
+    [dispatch]
   );
   const extractAccessTokenData = useCallback(async () => {
     const accessTokenData = await extractAccessToken();
