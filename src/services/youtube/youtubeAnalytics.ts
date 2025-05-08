@@ -4,13 +4,6 @@ import { ReportsData } from "./youtubeAnalytics.types";
 
 type REPORTS_ID = "channel==MINE";
 type REPORTS_DIMENSIONS = "video" | "day";
-type REPORT_METRIC =
-  | "estimatedMinutesWatched"
-  | "views"
-  | "likes"
-  | "subscribersGained"
-  | "averageViewDuration"
-  | "averageViewPercentage";
 type REPORTS_SORT = "-estimatedMinutesWatched" | "day";
 interface GetReportsProps {
   accessToken: string;
@@ -114,7 +107,10 @@ export interface ReportsDayData extends ReportData {
   day: string;
 }
 
-export const transformReports = (data: ReportsData, dimension: REPORTS_DIMENSIONS) => {
+export const transformReports = (
+  data: ReportsData,
+  dimension: REPORTS_DIMENSIONS
+) => {
   const { rows, kind }: ReportsData = data;
   if (kind !== "youtubeAnalytics#resultTable") return new Error("Invalid data");
 
