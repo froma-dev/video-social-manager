@@ -88,7 +88,7 @@ export const getReports = async ({
 
     return transformedData;
   } catch (err) {
-    return new Error(`Failed to get reports: ${err}`);
+    throw new Error(`Failed to get reports: ${err}`);
   }
 };
 

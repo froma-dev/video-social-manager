@@ -12,6 +12,7 @@ import {
 import {
   type VideoAsset,
   type YoutubeVideo,
+  type YoutubeSearchResult,
   type YoutubeSearchType,
   type YoutubeSearchPart,
   type GetContentDetailsParams,
@@ -25,6 +26,7 @@ import {
   GetVideoRatingParams,
   GetChannelParams,
   YoutubeChannel,
+  YoutubeContentDetails,
   ContentDetails,
 } from "./youtube.types";
 
@@ -45,10 +47,10 @@ export const buildRequestUrl = (baseUrl: string) => {
 };
 
 type SearchYoutubeResponse = {
-  items: YoutubeVideo[];
+  items: YoutubeSearchResult[];
 };
 type YoutubeContentDetailsResponse = {
-  items: ContentDetails[];
+  items: YoutubeContentDetails[];
 };
 type YoutubeCommentThreadResponse = {
   items: YoutubeCommentThread[];
@@ -90,7 +92,7 @@ export const searchYoutube = async ({
 };
 
 const transformSearchYoutube = (data: SearchYoutubeResponse): VideoAsset[] => {
-  const videos = data.items.map((item: YoutubeVideo) => ({
+  const videos = data.items.map((item) => ({
     id: item.id.videoId,
     title: item.snippet.title,
     channelTitle: item.snippet.channelTitle,
@@ -124,12 +126,14 @@ const transformContentDetails = (data: YoutubeContentDetailsResponse) => {
     (item) =>
       ({
         id: item.id,
-        channelTitle: item.snippet.channelTitle,
-        title: item.snippet.title,
-        description: item.snippet.description,
-        thumbnails: item.snippet.thumbnails,
+        channelTitle: item.snippet?.channelTitle,
+        title: item.snippet?.title,
+        description: item.snippet?.description,
+        thumbnails: item.snippet?.thumbnails,
         statistics: item.statistics,
         snippet: item.snippet,
+        contentDetails: item.contentDetails,
+        duration: item.contentDetails?.duration,
       } as ContentDetails)
   );
 

@@ -61,6 +61,18 @@ export const shortNumber = (num: number) => {
   return `${Math.floor(num / 1000000)}M`;
 };
 
+export const formatIso8601Duration = (duration: string) => {
+  const isoDurationRegex = /^P(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?$/;
+
+  const match = duration.match(isoDurationRegex);
+
+  if (!match) return { hours: "00", minutes: "00", seconds: "00" };
+
+  const [_, hours = "00", minutes = "00", seconds = "00"] = match;
+  
+  return { hours, minutes, seconds };
+};
+
 export const buildErrorMessage = (message: string, error?: Error | unknown) => {
   if (error && error instanceof Error) {
     return `${message}: ${error.message}`;

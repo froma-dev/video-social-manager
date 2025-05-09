@@ -9,6 +9,7 @@ import { OverviewCardData, VideoReport } from "@components/Overview/types";
 import { useCallback, useEffect, useState } from "react";
 import { ContentDetails } from "@services/youtube/youtube.types";
 import { reportToOverviewCardData } from "@utils/formatters";
+import { formatIso8601Duration } from "@/utils/utils";
 
 const DEFAULT_DAYS = 7;
 const DEFAULT_ADD_START_DAYS = 2;
@@ -126,6 +127,7 @@ const useReports = () => {
             ?.likes ?? 0,
         commentCount: Number(contentDetail.statistics.commentCount),
         thumbnail: contentDetail.thumbnails.high.url,
+        duration: formatIso8601Duration(contentDetail.duration),
       })) as VideoReport[];
 
       setVideoReports(combined);

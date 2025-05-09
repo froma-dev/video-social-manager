@@ -6,7 +6,41 @@ export interface SearchVideosParams {
 export type YoutubeSearchType = "video" | "channel" | "playlist";
 export type YoutubeSearchPart = "snippet" | "contentDetails" | "statistics";
 export type YoutubeRating = "like" | "dislike" | "none" | "unspecified";
+export type YoutubeResponseKind =
+  | "youtube#videoListResponse"
+  | "youtube#commentThreadListResponse"
+  | "youtube#video"
+  | "youtube#commentThread"
+  | "youtube#comment"
+  | "youtube#channel"
+  | "youtube#searchResult"
+  | "youtube#searchListResponse";
+export type YoutubeVideoUploadStatus =
+  | "deleted"
+  | "failed"
+  | "processed"
+  | "rejected"
+  | "uploaded";
+export type YoutubeVideoFailureReason =
+  | "codec"
+  | "conversion"
+  | "emptyFile"
+  | "invalidFile"
+  | "tooSmall"
+  | "uploadAborted";
+export type YoutubeVideoRejectionReason =
+  | "claim"
+  | "copyright"
+  | "duplicate"
+  | "inappropriate"
+  | "legal"
+  | "length"
+  | "termsOfUse"
+  | "trademark"
+  | "uploaderAccountClosed"
+  | "uploaderAccountSuspended";
 
+export type YoutubePrivacyStatus = "public" | "private" | "unlisted";
 export interface GetContentDetailsParams {
   videoIds: string[];
 }
@@ -73,6 +107,21 @@ export interface ContentDetails {
   snippet: Snippet;
 }
 
+export interface YoutubeContentDetails {
+  id: string;
+  title: string;
+  channelTitle: string;
+  description: string;
+  thumbnails: Thumbnails;
+  statistics?: Statistics;
+  snippet?: Snippet;
+  contentDetails?: ContentDetails;
+}
+
+export interface ContentDetails {
+  duration: string;
+}
+
 export interface YoutubeContentDetailsSnippet {
   publishedAt: string;
   channelId: string;
@@ -88,22 +137,30 @@ export interface YoutubeContentDetailsSnippet {
 }
 
 export interface YoutubeVideo {
-  kind: string;
+  kind: YoutubeResponseKind;
   etag: string;
-  id: Id;
+  id: string;
   snippet: Snippet;
+  contentDetails: YoutubeContentDetails;
   statistics?: Statistics;
 }
 
+export interface YoutubeSearchResult {
+  kind: YoutubeResponseKind;
+  etag: string;
+  id: YoutubeSearchResultId;
+  snippet: Snippet;
+}
+
 export interface YoutubeComment {
-  kind: string;
+  kind: YoutubeResponseKind;
   etag: string;
   id: string;
   snippet: YoutubeCommentSnippet;
 }
 
 export interface YoutubeCommentThread {
-  kind: string;
+  kind: YoutubeResponseKind;
   etag: string;
   id: string;
   snippet: YoutubeCommentThreadSnippet;
@@ -121,8 +178,8 @@ export interface YoutubeCommentThreadSnippet {
   isPublic: boolean;
 }
 
-export interface Id {
-  kind: string;
+export interface YoutubeSearchResultId {
+  kind: YoutubeResponseKind;
   videoId: string;
 }
 
@@ -135,7 +192,6 @@ export interface Snippet {
   thumbnails: Thumbnails;
   channelTitle: string;
   liveBroadcastContent: string;
-  publishTime: string;
 }
 
 export interface YoutubeCommentSnippet {

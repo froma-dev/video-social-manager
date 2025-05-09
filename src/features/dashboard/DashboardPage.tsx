@@ -27,7 +27,12 @@ const DashboardPage = () => {
 
   return (
     <section className="flex flex-col gap-4">
-      {channelDayReports ? (
+      {channelReportError ? (
+        <GenericError
+          title="Error loading reports"
+          message={channelReportError.message}
+        />
+      ) : channelDayReports ? (
         <CardOverviewSection
           onFilterChange={onFilterChange}
           overviewCardsData={channelDayReports}
@@ -35,23 +40,18 @@ const DashboardPage = () => {
           filterList={filters}
           selectedFilter={channelDayDays}
         />
-      ) : channelReportError ? (
-        <GenericError
-          title="Error loading reports"
-          message={channelReportError.message}
-        />
       ) : (
         <Spinner title="Loading Reports" message="Please wait..." />
       )}
-      {videoReports ? (
+      {reportError ? (
+        <GenericError
+          title="Error loading videos"
+          message={reportError.message}
+        />
+      ) : videoReports ? (
         <VideoOverviewSection
           videoReports={videoReports}
           title={recentVideosTitle}
-        />
-      ) : reportError ? (
-        <GenericError
-          title="Error loading reports"
-          message={reportError.message}
         />
       ) : (
         <Spinner title="Loading Reports" message="Please wait..." />

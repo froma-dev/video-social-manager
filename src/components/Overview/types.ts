@@ -6,6 +6,11 @@ export interface VideoReport {
   likeCount: number;
   commentCount: number;
   thumbnail: string;
+  duration?: {
+    hours: string;
+    minutes: string;
+    seconds: string;
+  };
 }
 
 export interface OverviewCardData {
