@@ -1,5 +1,10 @@
 import { Link } from "react-router-dom";
-import { IconGraph, IconHome, IconSearch } from "@tabler/icons-react";
+import {
+  IconGraph,
+  IconHome,
+  IconSearch,
+  IconSettings,
+} from "@tabler/icons-react";
 import { useLocation } from "react-router-dom";
 
 const menuItems = [
@@ -18,13 +23,18 @@ const menuItems = [
     icon: <IconSearch size={40} stroke={1} className="text-inherit" />,
     label: "Search",
   },
+  {
+    path: "/settings",
+    icon: <IconSettings size={40} stroke={1} className="text-inherit" />,
+    label: "Settings",
+  },
 ];
 
 const Menu = () => {
   const location = useLocation();
 
   return (
-    <nav className="row-start-1 row-span-1 md:row-start-2 md:row-span-5 md:col-span-1 p-4 border-r border-zinc-700">
+    <nav className="row-start-1 row-span-1 md:row-start-2 md:row-span-5 md:col-span-1 p-4 border-r border-zinc-700 h-dvh">
       <ul className="flex flex-col items-end sm:items-start gap-2">
         {menuItems.map((item) => (
           <li

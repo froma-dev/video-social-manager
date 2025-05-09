@@ -5,6 +5,7 @@ import SearchPage from "@features/search/SearchPage";
 import DetailsPage from "@features/contentDetails/ContentDetailsPage";
 import { PrivateRoute, PublicRoute } from "./RouteGuards";
 import LoggingPage from "@/features/auth/LoggingPage";
+import SettingsPage from "@features/settings/SettingsPage";
 
 const AppRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const AppRoutes = () => {
         <Route path="/search" element={<SearchPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/details/:videoId" element={<DetailsPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" />} />
