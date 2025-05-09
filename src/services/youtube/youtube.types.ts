@@ -97,7 +97,7 @@ export interface VideoAsset {
   thumbnails: Thumbnails;
 }
 
-export interface ContentDetails {
+/*export interface ContentDetails {
   id: string;
   title: string;
   channelTitle: string;
@@ -105,7 +105,7 @@ export interface ContentDetails {
   thumbnails: Thumbnails;
   statistics: Statistics;
   snippet: Snippet;
-}
+}*/
 
 export interface YoutubeContentDetails {
   id: string;

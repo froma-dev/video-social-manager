@@ -27,7 +27,6 @@ import {
   GetChannelParams,
   YoutubeChannel,
   YoutubeContentDetails,
-  ContentDetails,
 } from "./youtube.types";
 
 const YOUTUBE_SEARCH_MAX_RESULTS = "25";
@@ -134,7 +133,7 @@ const transformContentDetails = (data: YoutubeContentDetailsResponse) => {
         snippet: item.snippet,
         contentDetails: item.contentDetails,
         duration: item.contentDetails?.duration,
-      } as ContentDetails)
+      } as YoutubeContentDetails)
   );
 
   return contentDetails;

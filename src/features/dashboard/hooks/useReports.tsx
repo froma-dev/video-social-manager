@@ -7,9 +7,8 @@ import {
 import { getContentDetails } from "@services/youtube/youtube";
 import { OverviewCardData, VideoReport } from "@components/Overview/types";
 import { useCallback, useEffect, useState } from "react";
-import { ContentDetails } from "@services/youtube/youtube.types";
 import { reportToOverviewCardData } from "@utils/formatters";
-import { formatIso8601Duration } from "@/utils/utils";
+import { buildErrorMessage, formatIso8601Duration } from "@/utils/utils";
 
 const DEFAULT_DAYS = 7;
 const DEFAULT_ADD_START_DAYS = 2;
@@ -105,16 +104,28 @@ const useReports = () => {
       setChannelDayReports(analyticsCardsData);
 
       const videoIds = channelVideoReports.map((r) => r.videoId.toString());
-      let contentDetails: ContentDetails[] = [];
+      let contentDetails = [];
       try {
         contentDetails = await getContentDetails({
           videoIds,
         });
       } catch (error) {
-        console.error("Error fetching content details: ", error);
-        throw new Error("Error fetching content details");
+        const message = buildErrorMessage(
+          "Error fetching content details",
+          error
+        );
+        throw new Error(message);
       }
 
+      /*id: item.id,
+      channelTitle: item.snippet?.channelTitle,
+      title: item.snippet?.title,
+      description: item.snippet?.description,
+      thumbnails: item.snippet?.thumbnails,
+      statistics: item.statistics,
+      snippet: item.snippet,
+      contentDetails: item.contentDetails,
+      duration: item.contentDetails?.duration,*/
       const combined = contentDetails.map((contentDetail) => ({
         id: contentDetail.id,
         title: contentDetail.title,
@@ -125,9 +136,11 @@ const useReports = () => {
         likeCount:
           channelVideoReports.find((r) => r.videoId === contentDetail.id)
             ?.likes ?? 0,
-        commentCount: Number(contentDetail.statistics.commentCount),
+        commentCount: Number(contentDetail.statistics?.commentCount ?? 0),
         thumbnail: contentDetail.thumbnails.high.url,
-        duration: formatIso8601Duration(contentDetail.duration),
+        duration: formatIso8601Duration(
+          contentDetail.contentDetails?.duration ?? "PT0S"
+        ),
       })) as VideoReport[];
 
       setVideoReports(combined);
