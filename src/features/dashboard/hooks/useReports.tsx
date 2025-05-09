@@ -9,6 +9,7 @@ import { OverviewCardData, VideoReport } from "@components/Overview/types";
 import { useCallback, useEffect, useState } from "react";
 import { reportToOverviewCardData } from "@utils/formatters";
 import { buildErrorMessage, formatIso8601Duration } from "@/utils/utils";
+import { YoutubeContentDetails } from "@/services/youtube/youtube.types";
 
 const DEFAULT_DAYS = 7;
 const DEFAULT_ADD_START_DAYS = 2;
@@ -103,7 +104,7 @@ const useReports = () => {
       setChannelDayReports(analyticsCardsData);
 
       const videoIds = channelVideoReports.map((r) => r.videoId.toString());
-      let contentDetails = [];
+      let contentDetails: YoutubeContentDetails[] = [];
       try {
         contentDetails = await getContentDetails({
           videoIds,

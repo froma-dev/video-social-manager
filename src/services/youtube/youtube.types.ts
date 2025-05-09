@@ -115,7 +115,9 @@ export interface YoutubeContentDetails {
   thumbnails: Thumbnails;
   statistics?: Statistics;
   snippet?: Snippet;
-  contentDetails?: ContentDetails;
+  contentDetails?: {
+    duration: string;
+  };
 }
 
 export interface ContentDetails {

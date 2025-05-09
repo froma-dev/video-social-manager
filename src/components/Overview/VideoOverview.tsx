@@ -44,7 +44,15 @@ const VideoOverview = ({ video }: VideoOverviewProps) => {
             <div className="absolute inset-0 transition-all duration-500 group-hover:bg-gray-950/20 bg-[linear-gradient(to_right_top,rgba(0,0,0,0.8),rgba(0,0,0,0.3),transparent)] flex items-end p-4 rounded-xl">
               <div className="">
                 <StatTagList statTagListData={statTagListData} />
-                <DurationTag duration={video.duration ?? "00:00"} />
+                <DurationTag
+                  duration={
+                    video.duration ?? {
+                      hours: "00",
+                      minutes: "00",
+                      seconds: "00",
+                    }
+                  }
+                />
               </div>
             </div>
           </div>
