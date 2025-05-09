@@ -70,7 +70,7 @@ export interface ContentDetails {
   description: string;
   thumbnails: Thumbnails;
   statistics: Statistics;
-  snippet: YoutubeContentDetailsSnippet;
+  snippet: Snippet;
 }
 
 export interface YoutubeContentDetailsSnippet {

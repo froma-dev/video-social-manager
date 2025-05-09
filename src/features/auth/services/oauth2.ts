@@ -74,8 +74,10 @@ export const requestAccessToken = async ({
 
 export const revokeAccessToken = async ({
   oauth2TokenRevokeEndpoint,
+  accessToken,
 }: {
   oauth2TokenRevokeEndpoint: string;
+  accessToken: string;
 }) => {
   try {
     const response = await fetch(oauth2TokenRevokeEndpoint, {
@@ -84,7 +86,7 @@ export const revokeAccessToken = async ({
         "Content-type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams({
-        token: YOUTUBE_DATA_API_CLIENT_ID,
+        token: accessToken,
       }),
     });
 
@@ -139,8 +141,13 @@ export const requestGoogleAuthorization = () => {
   window.location.href = oauth2AuthorizationUrl.toString();
 };
 
-export const revokeGoogleAuthorization = () => {
+export const revokeGoogleAuthorization = ({
+  accessToken,
+}: {
+  accessToken: string;
+}) => {
   return revokeAccessToken({
     oauth2TokenRevokeEndpoint: GOOGLE_OAUTH2_TOKEN_REVOKE_ENDPOINT,
+    accessToken,
   });
 };

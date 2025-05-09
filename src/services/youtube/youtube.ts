@@ -127,7 +127,7 @@ const transformContentDetails = (data: YoutubeContentDetailsResponse) => {
         channelTitle: item.snippet.channelTitle,
         title: item.snippet.title,
         description: item.snippet.description,
-        thumbnails: item.thumbnails,
+        thumbnails: item.snippet.thumbnails,
         statistics: item.statistics,
         snippet: item.snippet,
       } as ContentDetails)

@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   requestGoogleAuthorization,
   extractAccessToken,
@@ -14,15 +14,24 @@ const useOAuth2 = () => {
     () => requestGoogleAuthorization(),
     []
   );
-  const revokeAuthorization = useCallback(async () => {
-    try {
-      const revokeResult = await revokeGoogleAuthorization();
+  const [isRevoking, setIsRevoking] = useState(false);
+  const revokeAuthorization = useCallback(
+    async (accessToken: string) => {
+      try {
+        setIsRevoking(true);
+        const revokeResult = await revokeGoogleAuthorization({
+          accessToken,
+        });
 
-      if (revokeResult) dispatch(clearAccessTokenData());
-    } catch (error) {
-      console.error("Failed to revoke authorization", error);
-    }
-  }, [dispatch]);
+        if (revokeResult) dispatch(clearAccessTokenData());
+      } catch (error) {
+        console.error("Failed to revoke authorization", error);
+      } finally {
+        setIsRevoking(false);
+      }
+    },
+    [dispatch]
+  );
   const extractAccessTokenData = useCallback(async () => {
     const accessTokenData = await extractAccessToken();
 
@@ -37,7 +46,7 @@ const useOAuth2 = () => {
     extractAccessTokenData();
   }, [extractAccessTokenData]);
 
-  return { requestAuthorization, revokeAuthorization };
+  return { requestAuthorization, revokeAuthorization, isRevoking };
 };
 
 export default useOAuth2;
