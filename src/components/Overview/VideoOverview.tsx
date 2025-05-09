@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { shortNumber } from "@utils/utils";
 import { useMemo } from "react";
 import StatTagList from "../StatTag/StatTagList";
+import DurationTag from "../StatTag/DurationTag";
 
 interface VideoOverviewProps {
   video: VideoReport;
@@ -43,6 +44,7 @@ const VideoOverview = ({ video }: VideoOverviewProps) => {
             <div className="absolute inset-0 transition-all duration-500 group-hover:bg-gray-950/20 bg-[linear-gradient(to_right_top,rgba(0,0,0,0.8),rgba(0,0,0,0.3),transparent)] flex items-end p-4 rounded-xl">
               <div className="">
                 <StatTagList statTagListData={statTagListData} />
+                <DurationTag duration={video.duration ?? "00:00"} />
               </div>
             </div>
           </div>

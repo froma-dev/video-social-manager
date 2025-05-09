@@ -14,9 +14,7 @@ const VideoOverviewSection = ({
       <h1 className="text-2xl font-bold text-white">{title}</h1>
       {videoReports &&
         (videoReports.length > 0 ? (
-          <VideoOverviewList
-            videoReports={videoReports}
-          />
+          <VideoOverviewList videoReports={videoReports} />
         ) : (
           <p className="text-zinc-300">No recent videos</p>
         ))}

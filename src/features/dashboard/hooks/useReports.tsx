@@ -12,12 +12,11 @@ import { buildErrorMessage, formatIso8601Duration } from "@/utils/utils";
 
 const DEFAULT_DAYS = 7;
 const DEFAULT_ADD_START_DAYS = 2;
-type VideoReportsData = VideoReport[];
 type ChannelDayReportsData = OverviewCardData[];
 
 const useReports = () => {
   const { accessToken } = useOAuth2Context();
-  const [videoReports, setVideoReports] = useState<VideoReportsData>([]);
+  const [videoReports, setVideoReports] = useState<VideoReport[]>([]);
   const [channelDayReports, setChannelDayReports] =
     useState<ChannelDayReportsData>([]);
   const [channelReportError, setChannelReportError] = useState<Error | null>(
@@ -117,15 +116,6 @@ const useReports = () => {
         throw new Error(message);
       }
 
-      /*id: item.id,
-      channelTitle: item.snippet?.channelTitle,
-      title: item.snippet?.title,
-      description: item.snippet?.description,
-      thumbnails: item.snippet?.thumbnails,
-      statistics: item.statistics,
-      snippet: item.snippet,
-      contentDetails: item.contentDetails,
-      duration: item.contentDetails?.duration,*/
       const combined = contentDetails.map((contentDetail) => ({
         id: contentDetail.id,
         title: contentDetail.title,
