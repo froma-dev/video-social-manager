@@ -14,17 +14,15 @@ const useOAuth2 = () => {
     () => requestGoogleAuthorization(),
     []
   );
-  const revokeAuthorization = useCallback(
-    async () => {
+  const revokeAuthorization = useCallback(async () => {
+    try {
       const revokeResult = await revokeGoogleAuthorization();
-      if (revokeResult.error) {
-        console.error("Failed to revoke authorization", revokeResult.error);
-      } else {
-        dispatch(clearAccessTokenData());
-      }
-    },
-    [dispatch]
-  );
+
+      if (revokeResult) dispatch(clearAccessTokenData());
+    } catch (error) {
+      console.error("Failed to revoke authorization", error);
+    }
+  }, [dispatch]);
   const extractAccessTokenData = useCallback(async () => {
     const accessTokenData = await extractAccessToken();
 

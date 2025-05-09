@@ -74,6 +74,8 @@ export const requestAccessToken = async ({
 
 export const revokeAccessToken = async ({
   oauth2TokenRevokeEndpoint,
+}: {
+  oauth2TokenRevokeEndpoint: string;
 }) => {
   try {
     const response = await fetch(oauth2TokenRevokeEndpoint, {
@@ -86,16 +88,18 @@ export const revokeAccessToken = async ({
       }),
     });
 
+    console.log("REVOKE RESPONSE = ", response);
+
     if (!response.ok) {
       throw new Error(response.status.toString());
     }
 
     const responseData: RequestAccessTokenPayload = await response.json();
+    console.log("REVOKE RESPONSE DATA = ", responseData);
     return responseData;
   } catch (err) {
     const error = buildErrorMessage("Failed to revoke token", err);
-    console.error(error);
-    return { error } as AccessTokenDataError;
+    throw new Error(error);
   }
 };
 
@@ -136,8 +140,7 @@ export const requestGoogleAuthorization = () => {
 };
 
 export const revokeGoogleAuthorization = () => {
-  revokeAccessToken({
+  return revokeAccessToken({
     oauth2TokenRevokeEndpoint: GOOGLE_OAUTH2_TOKEN_REVOKE_ENDPOINT,
-    accessToken: YOUTUBE_DATA_API_CLIENT_ID,
-  })
+  });
 };
