@@ -11,7 +11,7 @@ const VideoOverviewSection = ({
 }) => {
   return (
     <section className="flex gap-4 flex-col">
-      <h1 className="text-2xl font-bold text-white">{title}</h1>
+      <h1 className="text-3xl font-bold text-white">{title}</h1>
       {videoReports &&
         (videoReports.length > 0 ? (
           <VideoOverviewList videoReports={videoReports} />
