@@ -1,30 +1,31 @@
 export const delay = async (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
-type DebouncedFunction = (...args: unknown[]) => void;
-type DebouncedAsyncFunction =
-  | ((...args: unknown[]) => Promise<unknown>)
-  | ((...args: unknown[]) => Promise<void>);
-
-export const debounce = <T extends DebouncedFunction>(fn: T, ms: number) => {
-  let timer: ReturnType<typeof setTimeout>;
-
-  return (...args: Parameters<T>) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn(...args), ms);
-  };
-};
-export const debounceAsync = <T extends DebouncedAsyncFunction>(
-  fn: T,
+export const debounce = <Args extends unknown[], Return>(
+  fn: (...args: Args) => Return,
   ms: number
 ) => {
   let timer: ReturnType<typeof setTimeout>;
 
-  return (...args: Parameters<T>): Promise<ReturnType<T>> => {
+  return (...args: Args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), ms);
+  };
+};
+export const debounceAsync = <
+  Args extends unknown[],
+  Return extends Promise<unknown | void>
+>(
+  fn: (...args: Args) => Return,
+  ms: number
+) => {
+  let timer: ReturnType<typeof setTimeout>;
+
+  return (...args: Args): Promise<Return> => {
     return new Promise((resolve) => {
       clearTimeout(timer);
       timer = setTimeout(async () => {
-        const resolvedResult = (await fn(...args)) as ReturnType<T>;
+        const resolvedResult = await fn(...args);
         resolve(resolvedResult);
       }, ms);
     });
@@ -69,7 +70,7 @@ export const formatIso8601Duration = (duration: string) => {
   if (!match) return { hours: "00", minutes: "00", seconds: "00" };
 
   const [_, hours = "00", minutes = "00", seconds = "00"] = match;
-  
+
   return { hours, minutes, seconds };
 };
 

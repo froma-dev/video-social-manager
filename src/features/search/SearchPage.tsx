@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useCallback } from "react";
+import { useEffect, useMemo } from "react";
 import { debounce } from "@utils/utils";
 import { AssetProps } from "@components/Asset/Asset";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,22 +26,20 @@ const SearchPage = () => {
   const searchTyping = useSelector((state: RootState) => state.search.typing);
   const searchError = useSelector((state: RootState) => state.search.error);
 
-  const debouncedSearch = useCallback(
-    (query: string) => {
-      return debounce(() => {
-        if (!accessToken) return;
+  const debouncedSearch = useMemo(() => {
+    console.log("debounced search");
+    return debounce((query: string) => {
+      if (!accessToken) return;
 
-        dispatch(
-          fetchSearch({
-            query,
-            provider: searchProvider,
-            accessToken,
-          })
-        );
-      }, DEFAULT_SEARCH_DEBOUNCE);
-    },
-    [accessToken, dispatch, searchProvider]
-  );
+      dispatch(
+        fetchSearch({
+          query,
+          provider: searchProvider,
+          accessToken,
+        })
+      );
+    }, DEFAULT_SEARCH_DEBOUNCE);
+  }, [accessToken, dispatch, searchProvider]);
 
   // Search
   useEffect(() => {
@@ -52,6 +50,7 @@ const SearchPage = () => {
       return;
     }
 
+    console.log("triggering debounced search");
     debouncedSearch(searchQuery);
   }, [searchQuery, debouncedSearch, cachedResults, dispatch, accessToken]);
 
