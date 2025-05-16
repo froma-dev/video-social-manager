@@ -27,7 +27,6 @@ const SearchPage = () => {
   const searchError = useSelector((state: RootState) => state.search.error);
 
   const debouncedSearch = useMemo(() => {
-    console.log("debounced search");
     return debounce((query: string) => {
       if (!accessToken) return;
 
@@ -50,7 +49,6 @@ const SearchPage = () => {
       return;
     }
 
-    console.log("triggering debounced search");
     debouncedSearch(searchQuery);
   }, [searchQuery, debouncedSearch, cachedResults, dispatch, accessToken]);
 
