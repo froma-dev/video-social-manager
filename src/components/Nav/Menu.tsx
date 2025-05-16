@@ -1,18 +1,8 @@
 import { Link } from "react-router-dom";
-import {
-  IconGraph,
-  IconHome,
-  IconSearch,
-  IconSettings,
-} from "@tabler/icons-react";
+import { IconGraph, IconSearch, IconSettings } from "@tabler/icons-react";
 import { useLocation } from "react-router-dom";
 
 const menuItems = [
-  {
-    path: "/",
-    icon: <IconHome size={40} stroke={1} className="text-zinc-300" />,
-    label: "Home",
-  },
   {
     path: "/dashboard",
     icon: <IconGraph size={40} stroke={1} className="text-inherit" />,
