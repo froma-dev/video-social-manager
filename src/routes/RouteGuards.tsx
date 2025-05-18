@@ -12,7 +12,9 @@ const PrivateRoute = () => {
       <Outlet context={{ accessToken }} />
     </MainLayout>
   ) : (
-    <Navigate to="/auth" />
+    <MainLayout>
+      <Navigate to="/auth" />
+    </MainLayout>
   );
 };
 
@@ -25,7 +27,9 @@ const PublicRoute = () => {
       <Navigate to="/dashboard" />
     </MainLayout>
   ) : (
-    <Outlet context={{ accessToken }} />
+    <MainLayout>
+      <Outlet context={{ accessToken }} />
+    </MainLayout>
   );
 };
 
